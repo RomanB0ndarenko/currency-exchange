@@ -3,29 +3,38 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>kur$valut</title>
+    <title>Обмін валют | Kyiv Exchange</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #0f2f1f;
+            background-color: #0b2e1d;
             color: white;
         }
         
         header {
-            background-color: #134d32;
+            background-color: #124d32;
             padding: 20px;
             text-align: center;
         }
         
         .logo {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: bold;
         }
         
         .contact {
             margin-top: 10px;
-            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .contact a {
+            color: #2ecc71;
+            text-decoration: none;
+        }
+        
+        .contact a:hover {
+            text-decoration: underline;
         }
         
         .container {
@@ -34,36 +43,39 @@
         }
         
         .rates {
-            background: #1e5c3a;
-            padding: 20px;
+            background: #1f5e3c;
+            padding: 25px;
             border-radius: 10px;
             display: inline-block;
+            min-width: 300px;
         }
         
         .rate-item {
             font-size: 20px;
-            margin: 10px 0;
+            margin: 12px 0;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #27ae60;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #219150;
         }
         
         footer {
             margin-top: 40px;
             padding: 20px;
-            background: #134d32;
+            background: #124d32;
             text-align: center;
             font-size: 14px;
-        }
-        
-        button {
-            margin-top: 15px;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            background: #2ecc71;
-            cursor: pointer;
-        }
-        
-        button:hover {
-            background: #27ae60;
         }
     </style>
 </head>
@@ -71,14 +83,15 @@
 <body>
 
     <header>
-        <div class="logo">💱 kur$valut</div>
+        <div class="logo">💱 KYIV EXCHANGE</div>
         <div class="contact">
-            м. Київ, вул. Велика Васильківська, 45<br> +38 (097) 000-00-00<br> +38 (095) 000-00-00
+            <strong>Замовити / Забронювати</strong><br><br> 📲 Telegram: <a href="https://t.me/kursvalutobmin" target="_blank">@kursvalutobmin</a><br> Viber / WhatsApp: +380770700745<br> ☎ +380770700745<br><br> 🏦 Велика Васильківська, 45<br> пн-пт 9:00-19:00<br>            сб 10:00-18:00<br> нд — вихідний
         </div>
     </header>
 
     <div class="container">
         <h2>Курси валют</h2>
+
         <div class="rates">
             <div class="rate-item" id="usd">USD: завантаження...</div>
             <div class="rate-item" id="eur">EUR: завантаження...</div>
@@ -88,7 +101,7 @@
     </div>
 
     <footer>
-        © 2026 Green Exchange | Обмін валют Україна
+        © 2026 Kyiv Exchange | Обмін валют Україна
     </footer>
 
     <script>
