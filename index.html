@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Green Exchange</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0f2f1f;
+            color: white;
+        }
+        
+        header {
+            background-color: #134d32;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .contact {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .container {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .rates {
+            background: #1e5c3a;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .rate-item {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #134d32;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        button {
+            margin-top: 15px;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #2ecc71;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">💱 Green Exchange</div>
+        <div class="contact">
+            м. Київ, вул. Центральна 10<br> +38 (097) 000-00-00<br> +38 (095) 000-00-00
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Курси валют</h2>
+        <div class="rates">
+            <div class="rate-item" id="usd">USD: завантаження...</div>
+            <div class="rate-item" id="eur">EUR: завантаження...</div>
+            <div class="rate-item" id="pln">PLN: завантаження...</div>
+            <button onclick="loadRates()">Оновити</button>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Green Exchange | Обмін валют Україна
+    </footer>
+
+    <script>
+        async function loadRates() {
+            let response = await fetch("rates.json");
+            let data = await response.json();
+
+            document.getElementById("usd").innerText =
+                "USD: Купівля " + data.USD.buy + " / Продаж " + data.USD.sell;
+
+            document.getElementById("eur").innerText =
+                "EUR: Купівля " + data.EUR.buy + " / Продаж " + data.EUR.sell;
+
+            document.getElementById("pln").innerText =
+                "PLN: Купівля " + data.PLN.buy + " / Продаж " + data.PLN.sell;
+        }
+
+        loadRates();
+    </script>
+
+</body>
+
+</html>
