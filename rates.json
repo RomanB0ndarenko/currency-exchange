@@ -1,0 +1,10 @@
+{
+  "USD": { "buy": 0, "sell": 0 },
+  "EUR": { "buy": 0, "sell": 0 },
+  "PLN": { "buy": 0, "sell": 0 },
+  "GBP": { "buy": 0, "sell": 0 },
+  "CHF": { "buy": 0, "sell": 0 },
+  "CAD": { "buy": 0, "sell": 0 },
+  "CZK": { "buy": 0, "sell": 0 },
+  "TRY": { "buy": 0, "sell": 0 }
+}
