@@ -31,12 +31,12 @@
       color: var(--text);
       min-height:100vh;
       background:
-        radial-gradient(1200px 700px at 75% -10%, rgba(51,209,122,.22), transparent 60%),
-        radial-gradient(900px 600px at 10% 20%, rgba(167,243,208,.10), transparent 55%),
+        radial-gradient(1400px 850px at 75% -10%, rgba(51,209,122,.22), transparent 60%),
+        radial-gradient(900px 650px at 10% 20%, rgba(167,243,208,.10), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
-    /* FULL WIDTH LAYOUT */
+    /* FULL WIDTH */
     .wrap{
       width: 100%;
       margin: 0;
@@ -62,13 +62,13 @@
       display:flex;
       gap:14px;
       align-items:center;
-      min-width: 340px;
+      min-width: 360px;
     }
 
     /* BIG LOGO TOP-LEFT */
     .logo{
-      width: 92px;
-      height: 92px;
+      width: 96px;
+      height: 96px;
       border-radius: 22px;
       object-fit: cover;
       border: 1px solid rgba(255,255,255,.18);
@@ -127,7 +127,7 @@
 
     .infoText{
       color: var(--text);
-      font-weight: 700;
+      font-weight: 800;
       line-height: 1.45;
       font-size: 14px;
     }
@@ -136,13 +136,13 @@
       color: var(--muted);
       font-weight: 700;
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .contacts{
       display:flex;
       flex-wrap:wrap;
-      gap:10px;
+      gap:12px;
       align-items:center;
     }
 
@@ -168,11 +168,18 @@
       border-color: rgba(51,209,122,.35);
     }
 
+    .tgIcon svg{
+      width:18px;
+      height:18px;
+      fill: var(--accent2);
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,.35));
+    }
+
     .phoneBig{
       font-variant-numeric: tabular-nums;
       letter-spacing: .2px;
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     /* MAIN GRID */
@@ -220,7 +227,7 @@
       background: rgba(51,209,122,.10);
       color: var(--accent2);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
     }
 
@@ -228,18 +235,18 @@
       padding: 14px 16px 18px;
     }
 
-    /* BIG RATES TABLE */
+    /* BIG RATES TABLE (less cramped) */
     .ratesTable{
       width:100%;
       border-collapse: separate;
-      border-spacing: 0 10px;
+      border-spacing: 0 14px; /* больше расстояния */
     }
 
     .ratesTable th{
       text-align:left;
       font-size: 12px;
       color: var(--muted);
-      font-weight: 800;
+      font-weight: 900;
       padding: 0 10px;
       letter-spacing: .2px;
     }
@@ -252,8 +259,8 @@
     }
 
     .row td{
-      padding: 16px 12px;
-      font-size: 20px; /* крупнее */
+      padding: 18px 14px;   /* больше воздуха */
+      font-size: 20px;
       font-weight: 900;
       color: var(--text);
     }
@@ -261,7 +268,7 @@
     .row td small{
       display:block;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--muted);
       margin-top: 3px;
     }
@@ -269,12 +276,14 @@
     .curCell{
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:14px; /* не сжато */
     }
 
     .flag{
-      font-size: 20px;
+      font-size: 22px;
       opacity: .95;
+      width: 28px;
+      text-align:center;
     }
 
     .curCode{
@@ -300,8 +309,8 @@
     .ctaText{
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.55;
-      font-weight: 700;
+      line-height: 1.65;
+      font-weight: 800;
     }
 
     .btn{
@@ -326,7 +335,7 @@
     }
     .btn span{
       color: var(--muted);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 12px;
     }
 
@@ -342,15 +351,17 @@
       .headerRight{ grid-template-columns: 1fr; }
       .grid{ grid-template-columns: 1fr; }
       .brand{ min-width: unset; }
-      .logo{ width: 84px; height: 84px; }
+      .logo{ width: 86px; height: 86px; }
       .row td{ font-size: 18px; }
     }
 
     @media (max-width: 520px){
       .wrap{ padding: 14px 12px 24px; }
       .topbar{ padding: 12px; }
-      .logo{ width: 74px; height: 74px; border-radius: 18px; }
+      .logo{ width: 76px; height: 76px; border-radius: 18px; }
       .brandTitle h1{ font-size: 20px; }
+      .ratesTable{ border-spacing: 0 12px; }
+      .row td{ padding: 16px 12px; }
     }
   </style>
 </head>
@@ -368,10 +379,10 @@
       </div>
 
       <div class="headerRight">
-        <!-- Адрес + график: красиво, укр, с большой буквы -->
         <div class="infoCard">
           <div class="infoTitle">📍 Адреса</div>
           <div class="infoText">м. Київ, вул. Велика Васильківська, 45</div>
+
           <div class="infoTitle" style="margin-top:2px;">⏰ Графік роботи</div>
           <div class="muted">
             Понеділок – П’ятниця: 09:00 – 19:00<br>
@@ -380,27 +391,32 @@
           </div>
         </div>
 
-        <!-- Телефон + Telegram (без нижних кнопок “Дзвінок/Viber/WhatsApp”) -->
         <div class="infoCard">
           <div class="infoTitle">📞 Контакти</div>
           <div class="infoText phoneBig">+380 77 070 0745</div>
 
           <div class="contacts">
             <a class="chip" href="https://t.me/kursvalutobmin" target="_blank" rel="noreferrer">
-              📲 Telegram <span style="color:var(--muted);font-weight:800;">@kursvalutobmin</span>
+              📲 Telegram <span style="color:var(--muted);font-weight:900;">@kursvalutobmin</span>
             </a>
+
+            <!-- Иконка вашего канала -->
+            <a class="chip tgIcon" href="https://t.me/kursobmin" target="_blank" rel="noreferrer" title="Наш Telegram-канал">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.8L3.2 9.3c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.2c.4 1.2 1.9 1.5 2.7.6l2.6-2.8 4.7 3.4c1 .7 2.4.2 2.6-1.1L21.9 4.6ZM8.5 12.7l9.9-6.1-7.9 7.4-.3 3.4-1.3-3.9-3.1-1Z"/>
+              </svg>
+              <span>Канал</span>
+            </a>
+
             <a class="chip" href="tel:+380770700745">📞 Подзвонити</a>
           </div>
 
-          <div class="muted">
-            Viber / WhatsApp — за цим номером
-          </div>
+          <div class="muted">Viber / WhatsApp — за цим номером</div>
         </div>
       </div>
     </header>
 
     <main class="grid">
-      <!-- Курсы -->
       <section class="panel">
         <div class="panelHeader">
           <h2>Курси валют</h2>
@@ -421,7 +437,6 @@
         </div>
       </section>
 
-      <!-- Правая колонка: бронь/заказ + маркетинг вместо “Підказка” -->
       <aside class="sideBlock">
         <section class="panel">
           <div class="panelHeader">
@@ -432,15 +447,17 @@
             <a class="btn" href="https://t.me/kursvalutobmin" target="_blank" rel="noreferrer">
               📲 Telegram <span>@kursvalutobmin</span>
             </a>
+
             <div style="height:10px;"></div>
+
             <a class="btn" href="tel:+380770700745">
               📞 Телефон <span>+380 77 070 0745</span>
             </a>
 
             <div style="height:14px;"></div>
             <div class="ctaText">
-              ✅ Вигідні умови та швидке обслуговування.<br>
-              ✅ Стараємось тримати один із найкращих курсів обміну у місті.<br>
+              ✅ Вигідний курс та швидке обслуговування.<br>
+              ✅ Ми стараємось тримати один із найкращих курсів обміну у місті.<br>
               ✅ Пишіть у Telegram — відповідаємо швидко.
             </div>
           </div>
