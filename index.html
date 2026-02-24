@@ -5,24 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kur$valut — Обмін валют Київ</title>
 
-  <!-- Шрифт -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg-0:#061a12;
-      --bg-1:#0b2e1d;
-      --card:rgba(255,255,255,.06);
-      --card-2:rgba(255,255,255,.08);
-      --stroke:rgba(255,255,255,.12);
-      --text:#e9fff3;
-      --muted:rgba(233,255,243,.72);
-      --accent:#33d17a;
-      --accent-2:#a7f3d0;
-      --warn:#ffcc66;
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --bg0:#05160f;
+      --bg1:#072016;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.12);
+      --text: #eafff3;
+      --muted: rgba(234,255,243,.72);
+      --accent: #33d17a;
+      --accent2:#a7f3d0;
+      --shadow: 0 18px 60px rgba(0,0,0,.40);
       --radius: 18px;
     }
 
@@ -30,21 +28,22 @@
     body{
       margin:0;
       font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 70% -10%, rgba(51,209,122,.25), transparent 60%),
-        radial-gradient(900px 600px at 10% 20%, rgba(167,243,208,.12), transparent 55%),
-        linear-gradient(180deg, var(--bg-0), var(--bg-1));
+      color: var(--text);
       min-height:100vh;
+      background:
+        radial-gradient(1200px 700px at 75% -10%, rgba(51,209,122,.22), transparent 60%),
+        radial-gradient(900px 600px at 10% 20%, rgba(167,243,208,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
+    /* FULL WIDTH LAYOUT */
     .wrap{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 18px 16px 36px;
+      width: 100%;
+      margin: 0;
+      padding: 18px 22px 34px;
     }
 
-    /* HEADER */
+    /* TOPBAR */
     .topbar{
       display:flex;
       align-items:stretch;
@@ -56,41 +55,51 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
+      width: 100%;
     }
 
     .brand{
       display:flex;
-      gap:12px;
+      gap:14px;
       align-items:center;
-      min-width: 260px;
+      min-width: 340px;
     }
 
+    /* BIG LOGO TOP-LEFT */
     .logo{
-      width:56px;
-      height:56px;
-      border-radius: 16px;
+      width: 92px;
+      height: 92px;
+      border-radius: 22px;
       object-fit: cover;
       border: 1px solid rgba(255,255,255,.18);
-      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      box-shadow: 0 16px 30px rgba(0,0,0,.40);
       background: rgba(0,0,0,.25);
+      flex: 0 0 auto;
     }
 
-    .brand h1{
+    .brandTitle{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .brandTitle h1{
       margin:0;
-      font-size: 18px;
-      line-height: 1.1;
+      font-size: 22px;
+      line-height: 1.05;
       letter-spacing: .2px;
       font-weight: 800;
     }
-    .brand .sub{
-      margin-top:4px;
-      font-size: 12px;
+
+    .brandTitle .sub{
+      font-size: 13px;
       color: var(--muted);
+      font-weight: 700;
     }
 
     .headerRight{
       display:grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.35fr 1fr;
       gap:12px;
       width: 100%;
     }
@@ -99,32 +108,42 @@
       border: 1px solid var(--stroke);
       background: var(--card);
       border-radius: 16px;
-      padding: 12px 12px;
+      padding: 12px 14px;
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
       justify-content:center;
     }
 
-    .infoRow{
+    .infoTitle{
       display:flex;
-      justify-content:space-between;
+      align-items:center;
       gap:10px;
-      align-items:flex-start;
+      font-weight: 800;
+      letter-spacing: .2px;
       font-size: 13px;
-      color: var(--muted);
+      color: var(--accent2);
     }
 
-    .infoRow b{
+    .infoText{
       color: var(--text);
       font-weight: 700;
-      white-space:nowrap;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .muted{
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.5;
     }
 
     .contacts{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
+      align-items:center;
     }
 
     .chip{
@@ -137,10 +156,11 @@
       background: rgba(0,0,0,.18);
       color: var(--text);
       text-decoration:none;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 13px;
       transition: transform .08s ease, background .2s ease, border-color .2s ease;
       user-select:none;
+      white-space:nowrap;
     }
     .chip:hover{
       transform: translateY(-1px);
@@ -148,13 +168,21 @@
       border-color: rgba(51,209,122,.35);
     }
 
-    /* MAIN */
+    .phoneBig{
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .2px;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    /* MAIN GRID */
     .grid{
       margin-top: 14px;
       display:grid;
-      grid-template-columns: 1.3fr .7fr;
+      grid-template-columns: 1.35fr .65fr;
       gap:14px;
       align-items:start;
+      width: 100%;
     }
 
     .panel{
@@ -172,13 +200,13 @@
       gap:12px;
       padding: 14px 16px;
       border-bottom: 1px solid var(--stroke);
-      background: rgba(0,0,0,.15);
+      background: rgba(0,0,0,.14);
     }
 
     .panelHeader h2{
       margin:0;
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: .2px;
     }
 
@@ -190,9 +218,9 @@
       border-radius: 999px;
       border: 1px solid rgba(51,209,122,.35);
       background: rgba(51,209,122,.10);
-      color: var(--accent-2);
+      color: var(--accent2);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
     }
 
@@ -200,7 +228,7 @@
       padding: 14px 16px 18px;
     }
 
-    /* Rates table big */
+    /* BIG RATES TABLE */
     .ratesTable{
       width:100%;
       border-collapse: separate;
@@ -211,45 +239,46 @@
       text-align:left;
       font-size: 12px;
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 800;
       padding: 0 10px;
+      letter-spacing: .2px;
     }
 
     .row{
       background: var(--card);
       border: 1px solid var(--stroke);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow:hidden;
     }
 
     .row td{
-      padding: 14px 12px;
-      font-size: 18px; /* крупно */
-      font-weight: 800;
+      padding: 16px 12px;
+      font-size: 20px; /* крупнее */
+      font-weight: 900;
       color: var(--text);
     }
 
     .row td small{
       display:block;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--muted);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .curCell{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
     }
 
     .flag{
-      font-size: 18px;
+      font-size: 20px;
       opacity: .95;
     }
 
     .curCode{
-      font-size: 18px;
+      font-size: 20px;
       letter-spacing: .3px;
     }
 
@@ -261,30 +290,18 @@
     .colBuy{ color: #b7ffd8; }
     .colSell{ color: #ffe8b3; }
 
-    .note{
-      margin-top:10px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    /* Sidebar */
+    /* Right side */
     .sideBlock{
       display:flex;
       flex-direction:column;
       gap:14px;
     }
 
-    .cta{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .ctaTitle{
+    .ctaText{
+      color: var(--muted);
       font-size: 13px;
-      font-weight: 800;
-      color: var(--text);
+      line-height: 1.55;
+      font-weight: 700;
     }
 
     .btn{
@@ -299,7 +316,7 @@
       background: rgba(0,0,0,.18);
       color: var(--text);
       text-decoration:none;
-      font-weight: 800;
+      font-weight: 900;
       transition: transform .08s ease, background .2s ease, border-color .2s ease;
     }
     .btn:hover{
@@ -307,22 +324,33 @@
       background: rgba(51,209,122,.10);
       border-color: rgba(51,209,122,.35);
     }
-    .btn span{ color: var(--muted); font-weight: 700; font-size: 12px; }
+    .btn span{
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+    }
 
     footer{
       margin-top: 16px;
-      color: rgba(233,255,243,.55);
+      color: rgba(234,255,243,.55);
       font-size: 12px;
       text-align:center;
       padding: 10px 0 0;
     }
 
-    /* Responsive */
-    @media (max-width: 880px){
+    @media (max-width: 980px){
       .headerRight{ grid-template-columns: 1fr; }
       .grid{ grid-template-columns: 1fr; }
       .brand{ min-width: unset; }
-      .row td{ font-size: 16px; }
+      .logo{ width: 84px; height: 84px; }
+      .row td{ font-size: 18px; }
+    }
+
+    @media (max-width: 520px){
+      .wrap{ padding: 14px 12px 24px; }
+      .topbar{ padding: 12px; }
+      .logo{ width: 74px; height: 74px; border-radius: 18px; }
+      .brandTitle h1{ font-size: 20px; }
     }
   </style>
 </head>
@@ -331,43 +359,41 @@
   <div class="wrap">
     <header class="topbar">
       <div class="brand">
-        <!-- Поменяйте имя файла, если нужно -->
+        <!-- ВАЖНО: загрузи логотип в репозиторий и назови logo.jpg -->
         <img class="logo" src="logo.jpg" alt="Kur$valut logo">
-        <div>
+        <div class="brandTitle">
           <h1>Kur$valut</h1>
-          <div class="sub">Обмін валют • Київ</div>
+          <div class="sub">Обмін валют • м. Київ</div>
         </div>
       </div>
 
       <div class="headerRight">
-        <!-- Адрес в одном углу -->
+        <!-- Адрес + график: красиво, укр, с большой буквы -->
         <div class="infoCard">
-          <div class="infoRow">
-            <b>🏦 Адреса</b>
-            <div>Велика Васильківська, 45</div>
-          </div>
-          <div class="infoRow">
-            <b>⏰ Графік</b>
-            <div>
-              пн–пт 9:00–19:00<br>
-              сб 10:00–18:00<br>
-              нд — вихідний
-            </div>
+          <div class="infoTitle">📍 Адреса</div>
+          <div class="infoText">м. Київ, вул. Велика Васильківська, 45</div>
+          <div class="infoTitle" style="margin-top:2px;">⏰ Графік роботи</div>
+          <div class="muted">
+            Понеділок – П’ятниця: 09:00 – 19:00<br>
+            Субота: 10:00 – 18:00<br>
+            Неділя: Вихідний
           </div>
         </div>
 
-        <!-- Телефоны чуть дальше -->
+        <!-- Телефон + Telegram (без нижних кнопок “Дзвінок/Viber/WhatsApp”) -->
         <div class="infoCard">
-          <div class="infoRow">
-            <b>📞 Телефон</b>
-            <div class="num">+380 77 070 0745</div>
-          </div>
+          <div class="infoTitle">📞 Контакти</div>
+          <div class="infoText phoneBig">+380 77 070 0745</div>
+
           <div class="contacts">
-            <a class="chip" href="https://t.me/kursvalutobmin" target="_blank" rel="noreferrer">📲 Telegram <span style="color:var(--muted);font-weight:700;">@kursvalutobmin</span></a>
-            <a class="chip" href="tel:+380770700745">📞 Дзвінок</a>
-            <!-- Если хотите прям ссылки Viber/WhatsApp — скажите, сделаю под ваш номер -->
-            <span class="chip" style="opacity:.85;">Viber</span>
-            <span class="chip" style="opacity:.85;">WhatsApp</span>
+            <a class="chip" href="https://t.me/kursvalutobmin" target="_blank" rel="noreferrer">
+              📲 Telegram <span style="color:var(--muted);font-weight:800;">@kursvalutobmin</span>
+            </a>
+            <a class="chip" href="tel:+380770700745">📞 Подзвонити</a>
+          </div>
+
+          <div class="muted">
+            Viber / WhatsApp — за цим номером
           </div>
         </div>
       </div>
@@ -380,61 +406,50 @@
           <h2>Курси валют</h2>
           <div class="badge">🟢 Оновлено: <span id="updatedAt">—</span></div>
         </div>
+
         <div class="panelBody">
           <table class="ratesTable" aria-label="Курси валют">
             <thead>
               <tr>
-                <th style="width:40%;">Валюта</th>
-                <th style="width:30%;">Купівля</th>
-                <th style="width:30%;">Продаж</th>
+                <th style="width:42%;">Валюта</th>
+                <th style="width:29%;">Купівля</th>
+                <th style="width:29%;">Продаж</th>
               </tr>
             </thead>
-            <tbody id="ratesTbody">
-              <!-- rows here -->
-            </tbody>
+            <tbody id="ratesTbody"></tbody>
           </table>
-
-          <div class="note">
-            Курси автоматично підтягуються з вашого Telegram-каналу та оновлюються без ручної роботи.
-          </div>
         </div>
       </section>
 
-      <!-- Правая колонка: можно держать “заказ/бронь” отдельным блоком -->
+      <!-- Правая колонка: бронь/заказ + маркетинг вместо “Підказка” -->
       <aside class="sideBlock">
         <section class="panel">
           <div class="panelHeader">
             <h2>Замовити / забронювати</h2>
             <div class="badge">⚡ Швидко</div>
           </div>
-          <div class="panelBody cta">
-            <div class="ctaTitle">Напишіть або зателефонуйте:</div>
+          <div class="panelBody">
             <a class="btn" href="https://t.me/kursvalutobmin" target="_blank" rel="noreferrer">
               📲 Telegram <span>@kursvalutobmin</span>
             </a>
+            <div style="height:10px;"></div>
             <a class="btn" href="tel:+380770700745">
               📞 Телефон <span>+380 77 070 0745</span>
             </a>
-            <div class="btn" style="opacity:.75; cursor:default;">
-              💬 Viber / WhatsApp <span>за цим номером</span>
-            </div>
-          </div>
-        </section>
 
-        <section class="panel">
-          <div class="panelHeader">
-            <h2>Підказка</h2>
-            <div class="badge">ℹ️</div>
-          </div>
-          <div class="panelBody" style="color:var(--muted); font-size:13px; line-height:1.5;">
-            Якщо ви оновили тільки USD/EUR — інші валюти залишаться як були (часткове оновлення).
+            <div style="height:14px;"></div>
+            <div class="ctaText">
+              ✅ Вигідні умови та швидке обслуговування.<br>
+              ✅ Стараємось тримати один із найкращих курсів обміну у місті.<br>
+              ✅ Пишіть у Telegram — відповідаємо швидко.
+            </div>
           </div>
         </section>
       </aside>
     </main>
 
     <footer>
-      © <span id="year"></span> Kur$valut • Київ
+      © <span id="year"></span> Kur$valut • м. Київ
     </footer>
   </div>
 
@@ -443,11 +458,9 @@
       USD: "🇺🇸", EUR: "🇪🇺", PLN: "🇵🇱", GBP: "🇬🇧",
       CHF: "🇨🇭", CAD: "🇨🇦", CZK: "🇨🇿", TRY: "🇹🇷"
     };
-
     const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
 
     function fmt(n){
-      // красиво: 43.1 -> 43.10
       const x = Number(n);
       if (Number.isFinite(x)) return x.toFixed(2);
       return String(n);
@@ -469,7 +482,6 @@
 
         const tr = document.createElement("tr");
         tr.className = "row";
-
         tr.innerHTML = `
           <td>
             <div class="curCell">
@@ -483,7 +495,6 @@
           <td class="num colBuy">${fmt(buy)}</td>
           <td class="num colSell">${fmt(sell)}</td>
         `;
-
         tbody.appendChild(tr);
       }
 
@@ -494,7 +505,7 @@
 
     document.getElementById("year").textContent = new Date().getFullYear();
     loadRates();
-    setInterval(loadRates, 60_000); // обновление на странице раз в минуту
+    setInterval(loadRates, 60_000);
   </script>
 </body>
 </html>
