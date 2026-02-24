@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Kur$valut</title>
+    <title>KursValut Обмін валют Київ</title>
+
     <style>
         body {
             margin: 0;
@@ -19,22 +20,13 @@
         }
         
         .logo {
-            font-size: 30px;
+            font-size: 28px;
             font-weight: bold;
         }
         
         .contact {
             margin-top: 10px;
             line-height: 1.6;
-        }
-        
-        .contact a {
-            color: #2ecc71;
-            text-decoration: none;
-        }
-        
-        .contact a:hover {
-            text-decoration: underline;
         }
         
         .container {
@@ -47,27 +39,14 @@
             padding: 25px;
             border-radius: 10px;
             display: inline-block;
-            min-width: 300px;
+            min-width: 320px;
         }
         
         .rate-item {
-            font-size: 20px;
-            margin: 12px 0;
-        }
-        
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            background: #27ae60;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        button:hover {
-            background: #219150;
+            font-size: 18px;
+            margin: 8px 0;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         footer {
@@ -83,26 +62,22 @@
 <body>
 
     <header>
-        <div class="logo">💱 Kur$valut</div>
+        <div class="logo">💱 KursValut Обмін валют Київ</div>
         <div class="contact">
-            <strong>Замовити / Забронювати</strong><br><br> 📲 Telegram: <a href="https://t.me/kursvalutobmin" target="_blank">@kursvalutobmin</a><br> Viber / WhatsApp: +380770700745<br> ☎ +380770700745<br><br> 🏦 м. Київ, вул. Велика Васильківська, 45<br>            Понеділок - П'ятниця 9:00 - 19:00
-            <br> Субота 10:00 - 18:00<br> Неділя — вихідний
+            ✍🏻 Замовити / забронювати<br> 📲 Telegram: @kursvalutobmin<br> 📞 +380770700745<br><br> 🏦 Велика Васильківська, 45<br> пн-пт 9:00-19:00<br> сб 10:00-18:00<br> нд — вихідний
         </div>
     </header>
 
     <div class="container">
         <h2>Курси валют</h2>
 
-        <div class="rates">
-            <div class="rate-item" id="usd">USD: завантаження...</div>
-            <div class="rate-item" id="eur">EUR: завантаження...</div>
-            <div class="rate-item" id="pln">PLN: завантаження...</div>
-            <button onclick="loadRates()">Оновити</button>
+        <div class="rates" id="ratesContainer">
+            Завантаження курсів...
         </div>
     </div>
 
     <footer>
-        © 2026 Kur$valut | Обмін валют Україна
+        © 2026 KursValut | Обмін валют Україна
     </footer>
 
     <script>
@@ -110,17 +85,23 @@
             let response = await fetch("rates.json");
             let data = await response.json();
 
-            document.getElementById("usd").innerText =
-                "USD: Купівля " + data.USD.buy + " / Продаж " + data.USD.sell;
+            let container = document.getElementById("ratesContainer");
+            container.innerHTML = "";
 
-            document.getElementById("eur").innerText =
-                "EUR: Купівля " + data.EUR.buy + " / Продаж " + data.EUR.sell;
-
-            document.getElementById("pln").innerText =
-                "PLN: Купівля " + data.PLN.buy + " / Продаж " + data.PLN.sell;
+            for (let currency in data) {
+                let item = document.createElement("div");
+                item.className = "rate-item";
+                item.innerText =
+                    currency + " | Купівля: " +
+                    data[currency].buy +
+                    " | Продаж: " +
+                    data[currency].sell;
+                container.appendChild(item);
+            }
         }
 
         loadRates();
+        setInterval(loadRates, 60000);
     </script>
 
 </body>
