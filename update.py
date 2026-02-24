@@ -4,11 +4,13 @@ import json
 import requests
 
 TOKEN = os.getenv("TELEGRAM_TOKEN")
-CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")  # -1003420069182
+CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")  # например: -1003420069182
 
 CODES = ["USD", "EUR", "PLN", "GBP", "CHF", "CAD", "CZK", "TRY"]
 
 LAST_FILE = "last_update_id.txt"
+RATES_FILE = "rates.json"
+
 
 def load_last_update_id():
     try:
@@ -17,20 +19,33 @@ def load_last_update_id():
     except Exception:
         return None
 
+
 def save_last_update_id(update_id: int):
     with open(LAST_FILE, "w", encoding="utf-8") as f:
         f.write(str(update_id))
 
+
+def load_existing_rates() -> dict:
+    try:
+        with open(RATES_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
 def extract_rates(text: str) -> dict:
-    rates = {}
+    # Понимает:
+    # USD🇺🇸/🇺🇦43.10/43.40
+    # EUR 🇪🇺 51.10/51.50
+    # и т.п. (флаги/эмодзи/пробелы не мешают)
+    found = {}
     for cur in CODES:
-        # ловит:
-        # USD🇺🇸/🇺🇦43.10/43.40
-        # USD 🇺🇸 43.10/43.40
         m = re.search(rf"{cur}.*?([0-9]+(?:\.[0-9]+)?)/([0-9]+(?:\.[0-9]+)?)", text)
         if m:
-            rates[cur] = {"buy": float(m.group(1)), "sell": float(m.group(2))}
-    return rates
+            found[cur] = {"buy": float(m.group(1)), "sell": float(m.group(2))}
+    return found
+
 
 def main():
     if not TOKEN:
@@ -53,11 +68,10 @@ def main():
         print("No updates yet.")
         return
 
-    # сохраняем newest update_id, чтобы не парсить одно и то же
     newest_update_id = updates[-1]["update_id"]
     save_last_update_id(newest_update_id)
 
-    # ищем самый свежий пост из нужного канала, где есть курсы
+    # Ищем самый свежий пост из нужного канала
     for u in reversed(updates):
         msg = u.get("channel_post") or u.get("message")
         if not msg:
@@ -68,14 +82,31 @@ def main():
             continue
 
         text = msg.get("text") or ""
-        rates = extract_rates(text)
-        if rates:
-            with open("rates.json", "w", encoding="utf-8") as f:
-                json.dump(rates, f, ensure_ascii=False, indent=2)
-            print("Rates updated.")
+        new_rates = extract_rates(text)
+
+        # Если в посте нет ни одной валюты — ничего не меняем
+        if not new_rates:
+            print("No parsable rates in latest channel post.")
             return
 
-    print("Updates received, but no parsable rates found.")
+        # ✅ Главное: частичное обновление (merge)
+        existing = load_existing_rates()
+        existing.update(new_rates)
+
+        # (необязательно) гарантируем порядок/наличие ключей
+        merged = {}
+        for cur in CODES:
+            if cur in existing:
+                merged[cur] = existing[cur]
+
+        with open(RATES_FILE, "w", encoding="utf-8") as f:
+            json.dump(merged, f, ensure_ascii=False, indent=2)
+
+        print("Rates merged (partial update).")
+        return
+
+    print("No channel posts found in updates.")
+
 
 if __name__ == "__main__":
     main()
