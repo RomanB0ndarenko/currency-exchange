@@ -5,18 +5,33 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kur$valut — Обмін валют Київ</title>
 
-  <link rel="icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <!-- ✅ favicon без файлов: inline SVG -->
+  <link rel="icon" type="image/svg+xml"
+        href='data:image/svg+xml;utf8,
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+          <defs>
+            <radialGradient id="g" cx="30%" cy="30%" r="80%">
+              <stop offset="0" stop-color="%2333d17a"/>
+              <stop offset="1" stop-color="%23072016"/>
+            </radialGradient>
+          </defs>
+          <rect width="64" height="64" rx="16" fill="url(%23g)"/>
+          <text x="50%" y="58%" text-anchor="middle"
+                font-family="Arial, sans-serif" font-size="28" font-weight="700"
+                fill="%23ffd36a">K$</text>
+        </svg>' />
   <meta name="theme-color" content="#072016">
+
+  <!-- Шрифт -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg0:#05160f;
       --bg1:#072016;
       --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
       --stroke: rgba(255,255,255,.12);
       --text: #eafff3;
       --muted: rgba(234,255,243,.72);
@@ -237,11 +252,11 @@
       padding: 14px 16px 18px;
     }
 
-    /* BIG RATES TABLE (less cramped) */
+    /* RATES TABLE (more space) */
     .ratesTable{
       width:100%;
       border-collapse: separate;
-      border-spacing: 0 14px; /* больше расстояния */
+      border-spacing: 0 14px; /* больше расстояния между строками */
     }
 
     .ratesTable th{
@@ -278,7 +293,7 @@
     .curCell{
       display:flex;
       align-items:center;
-      gap:14px; /* не сжато */
+      gap:14px;
     }
 
     .flag{
@@ -286,6 +301,7 @@
       opacity: .95;
       width: 28px;
       text-align:center;
+      flex: 0 0 auto;
     }
 
     .curCode{
@@ -349,6 +365,9 @@
       padding: 10px 0 0;
     }
 
+    /* ===== Responsive (без дублирования, правильный порядок) ===== */
+
+    /* до 980px: в одну колонку блоки справа/слева */
     @media (max-width: 980px){
       .headerRight{ grid-template-columns: 1fr; }
       .grid{ grid-template-columns: 1fr; }
@@ -357,13 +376,31 @@
       .row td{ font-size: 18px; }
     }
 
+    /* до 640px: шапка в столбик + курсы карточками */
+    @media (max-width: 640px){
+      .topbar{ flex-direction: column; }
+      .contacts{ gap:10px; }
+
+      /* Курсы — карточками, удобнее на телефоне */
+      .ratesTable thead{ display:none; }
+      .ratesTable, .ratesTable tbody, .ratesTable tr, .ratesTable td{
+        display:block;
+        width:100%;
+      }
+      .row td{ padding: 14px 12px; }
+      .row td:nth-child(2)::before{ content:"Купівля: "; color: var(--muted); font-weight:900; }
+      .row td:nth-child(3)::before{ content:"Продаж: "; color: var(--muted); font-weight:900; }
+      .row td:nth-child(2),
+      .row td:nth-child(3){ font-size: 18px; }
+    }
+
+    /* до 520px: компактнее отступы */
     @media (max-width: 520px){
       .wrap{ padding: 14px 12px 24px; }
       .topbar{ padding: 12px; }
       .logo{ width: 76px; height: 76px; border-radius: 18px; }
       .brandTitle h1{ font-size: 20px; }
       .ratesTable{ border-spacing: 0 12px; }
-      .row td{ padding: 16px 12px; }
     }
   </style>
 </head>
@@ -402,7 +439,6 @@
               📲 Telegram <span style="color:var(--muted);font-weight:900;">@kursvalutobmin</span>
             </a>
 
-            <!-- Иконка вашего канала -->
             <a class="chip tgIcon" href="https://t.me/kursobmin" target="_blank" rel="noreferrer" title="Наш Telegram-канал">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.8L3.2 9.3c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.2c.4 1.2 1.9 1.5 2.7.6l2.6-2.8 4.7 3.4c1 .7 2.4.2 2.6-1.1L21.9 4.6ZM8.5 12.7l9.9-6.1-7.9 7.4-.3 3.4-1.3-3.9-3.1-1Z"/>
