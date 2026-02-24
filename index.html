@@ -1,109 +1,500 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Kur$valut - Обмін валют Київ</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kur$valut — Обмін валют Київ</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0b2e1d;
-            color: white;
-        }
-        
-        header {
-            background-color: #124d32;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .contact {
-            margin-top: 10px;
-            line-height: 1.6;
-        }
-        
-        .container {
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .rates {
-            background: #1f5e3c;
-            padding: 25px;
-            border-radius: 10px;
-            display: inline-block;
-            min-width: 320px;
-        }
-        
-        .rate-item {
-            font-size: 18px;
-            margin: 8px 0;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        footer {
-            margin-top: 40px;
-            padding: 20px;
-            background: #124d32;
-            text-align: center;
-            font-size: 14px;
-        }
-    </style>
+  <!-- Шрифт -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-0:#061a12;
+      --bg-1:#0b2e1d;
+      --card:rgba(255,255,255,.06);
+      --card-2:rgba(255,255,255,.08);
+      --stroke:rgba(255,255,255,.12);
+      --text:#e9fff3;
+      --muted:rgba(233,255,243,.72);
+      --accent:#33d17a;
+      --accent-2:#a7f3d0;
+      --warn:#ffcc66;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 70% -10%, rgba(51,209,122,.25), transparent 60%),
+        radial-gradient(900px 600px at 10% 20%, rgba(167,243,208,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1));
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+
+    /* HEADER */
+    .topbar{
+      display:flex;
+      align-items:stretch;
+      justify-content:space-between;
+      gap:14px;
+      padding: 14px;
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width: 260px;
+    }
+
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      background: rgba(0,0,0,.25);
+    }
+
+    .brand h1{
+      margin:0;
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: .2px;
+      font-weight: 800;
+    }
+    .brand .sub{
+      margin-top:4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .headerRight{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap:12px;
+      width: 100%;
+    }
+
+    .infoCard{
+      border: 1px solid var(--stroke);
+      background: var(--card);
+      border-radius: 16px;
+      padding: 12px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      justify-content:center;
+    }
+
+    .infoRow{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .infoRow b{
+      color: var(--text);
+      font-weight: 700;
+      white-space:nowrap;
+    }
+
+    .contacts{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      text-decoration:none;
+      font-weight: 700;
+      font-size: 13px;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      background: rgba(51,209,122,.10);
+      border-color: rgba(51,209,122,.35);
+    }
+
+    /* MAIN */
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .panel{
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panelHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(0,0,0,.15);
+    }
+
+    .panelHeader h2{
+      margin:0;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(51,209,122,.35);
+      background: rgba(51,209,122,.10);
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .panelBody{
+      padding: 14px 16px 18px;
+    }
+
+    /* Rates table big */
+    .ratesTable{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+
+    .ratesTable th{
+      text-align:left;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 0 10px;
+    }
+
+    .row{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      overflow:hidden;
+    }
+
+    .row td{
+      padding: 14px 12px;
+      font-size: 18px; /* крупно */
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .row td small{
+      display:block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .curCell{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .flag{
+      font-size: 18px;
+      opacity: .95;
+    }
+
+    .curCode{
+      font-size: 18px;
+      letter-spacing: .3px;
+    }
+
+    .num{
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .2px;
+    }
+
+    .colBuy{ color: #b7ffd8; }
+    .colSell{ color: #ffe8b3; }
+
+    .note{
+      margin-top:10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    /* Sidebar */
+    .sideBlock{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .cta{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .ctaTitle{
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .btn{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      text-decoration:none;
+      font-weight: 800;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(51,209,122,.10);
+      border-color: rgba(51,209,122,.35);
+    }
+    .btn span{ color: var(--muted); font-weight: 700; font-size: 12px; }
+
+    footer{
+      margin-top: 16px;
+      color: rgba(233,255,243,.55);
+      font-size: 12px;
+      text-align:center;
+      padding: 10px 0 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 880px){
+      .headerRight{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .brand{ min-width: unset; }
+      .row td{ font-size: 16px; }
+    }
+  </style>
 </head>
 
 <body>
-
-    <header>
-        <div class="logo">💱 Kur$valut</div>
-        <div class="contact">
-            ✍🏻 Замовити / забронювати<br> 📲 Telegram: @kursvalutobmin<br> 📞 Viber | WhatsApp: +380770700745<br><br>м. Київ, вул. Велика Васильківська, 45<br> Понеділок - П'ятниця 9:00 - 19:00<br> Субота 10:00 - 18:00<br> Неділя — Вихідний
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <!-- Поменяйте имя файла, если нужно -->
+        <img class="logo" src="logo.jpg" alt="Kur$valut logo">
+        <div>
+          <h1>Kur$valut</h1>
+          <div class="sub">Обмін валют • Київ</div>
         </div>
+      </div>
+
+      <div class="headerRight">
+        <!-- Адрес в одном углу -->
+        <div class="infoCard">
+          <div class="infoRow">
+            <b>🏦 Адреса</b>
+            <div>Велика Васильківська, 45</div>
+          </div>
+          <div class="infoRow">
+            <b>⏰ Графік</b>
+            <div>
+              пн–пт 9:00–19:00<br>
+              сб 10:00–18:00<br>
+              нд — вихідний
+            </div>
+          </div>
+        </div>
+
+        <!-- Телефоны чуть дальше -->
+        <div class="infoCard">
+          <div class="infoRow">
+            <b>📞 Телефон</b>
+            <div class="num">+380 77 070 0745</div>
+          </div>
+          <div class="contacts">
+            <a class="chip" href="https://t.me/kursvalutobmin" target="_blank" rel="noreferrer">📲 Telegram <span style="color:var(--muted);font-weight:700;">@kursvalutobmin</span></a>
+            <a class="chip" href="tel:+380770700745">📞 Дзвінок</a>
+            <!-- Если хотите прям ссылки Viber/WhatsApp — скажите, сделаю под ваш номер -->
+            <span class="chip" style="opacity:.85;">Viber</span>
+            <span class="chip" style="opacity:.85;">WhatsApp</span>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <div class="container">
-        <h2>Курси валют</h2>
-
-        <div class="rates" id="ratesContainer">
-            Завантаження курсів...
+    <main class="grid">
+      <!-- Курсы -->
+      <section class="panel">
+        <div class="panelHeader">
+          <h2>Курси валют</h2>
+          <div class="badge">🟢 Оновлено: <span id="updatedAt">—</span></div>
         </div>
-    </div>
+        <div class="panelBody">
+          <table class="ratesTable" aria-label="Курси валют">
+            <thead>
+              <tr>
+                <th style="width:40%;">Валюта</th>
+                <th style="width:30%;">Купівля</th>
+                <th style="width:30%;">Продаж</th>
+              </tr>
+            </thead>
+            <tbody id="ratesTbody">
+              <!-- rows here -->
+            </tbody>
+          </table>
+
+          <div class="note">
+            Курси автоматично підтягуються з вашого Telegram-каналу та оновлюються без ручної роботи.
+          </div>
+        </div>
+      </section>
+
+      <!-- Правая колонка: можно держать “заказ/бронь” отдельным блоком -->
+      <aside class="sideBlock">
+        <section class="panel">
+          <div class="panelHeader">
+            <h2>Замовити / забронювати</h2>
+            <div class="badge">⚡ Швидко</div>
+          </div>
+          <div class="panelBody cta">
+            <div class="ctaTitle">Напишіть або зателефонуйте:</div>
+            <a class="btn" href="https://t.me/kursvalutobmin" target="_blank" rel="noreferrer">
+              📲 Telegram <span>@kursvalutobmin</span>
+            </a>
+            <a class="btn" href="tel:+380770700745">
+              📞 Телефон <span>+380 77 070 0745</span>
+            </a>
+            <div class="btn" style="opacity:.75; cursor:default;">
+              💬 Viber / WhatsApp <span>за цим номером</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panelHeader">
+            <h2>Підказка</h2>
+            <div class="badge">ℹ️</div>
+          </div>
+          <div class="panelBody" style="color:var(--muted); font-size:13px; line-height:1.5;">
+            Якщо ви оновили тільки USD/EUR — інші валюти залишаться як були (часткове оновлення).
+          </div>
+        </section>
+      </aside>
+    </main>
 
     <footer>
-        © 2026 Kur$valut | Обмін валют Україна
+      © <span id="year"></span> Kur$valut • Київ
     </footer>
+  </div>
 
-    <script>
-        async function loadRates() {
-            let response = await fetch("rates.json");
-            let data = await response.json();
+  <script>
+    const FLAG = {
+      USD: "🇺🇸", EUR: "🇪🇺", PLN: "🇵🇱", GBP: "🇬🇧",
+      CHF: "🇨🇭", CAD: "🇨🇦", CZK: "🇨🇿", TRY: "🇹🇷"
+    };
 
-            let container = document.getElementById("ratesContainer");
-            container.innerHTML = "";
+    const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
 
-            for (let currency in data) {
-                let item = document.createElement("div");
-                item.className = "rate-item";
-                item.innerText =
-                    currency + " | Купівля: " +
-                    data[currency].buy +
-                    " | Продаж: " +
-                    data[currency].sell;
-                container.appendChild(item);
-            }
-        }
+    function fmt(n){
+      // красиво: 43.1 -> 43.10
+      const x = Number(n);
+      if (Number.isFinite(x)) return x.toFixed(2);
+      return String(n);
+    }
 
-        loadRates();
-        setInterval(loadRates, 60000);
-    </script>
+    async function loadRates(){
+      const res = await fetch("rates.json", { cache: "no-store" });
+      const data = await res.json();
 
+      const tbody = document.getElementById("ratesTbody");
+      tbody.innerHTML = "";
+
+      const keys = ORDER.filter(k => data[k]).concat(Object.keys(data).filter(k => !ORDER.includes(k)));
+
+      for (const cur of keys){
+        const buy = data[cur]?.buy;
+        const sell = data[cur]?.sell;
+        if (buy == null || sell == null) continue;
+
+        const tr = document.createElement("tr");
+        tr.className = "row";
+
+        tr.innerHTML = `
+          <td>
+            <div class="curCell">
+              <span class="flag">${FLAG[cur] ?? "💱"}</span>
+              <div>
+                <div class="curCode">${cur}</div>
+                <small>UAH</small>
+              </div>
+            </div>
+          </td>
+          <td class="num colBuy">${fmt(buy)}</td>
+          <td class="num colSell">${fmt(sell)}</td>
+        `;
+
+        tbody.appendChild(tr);
+      }
+
+      const now = new Date();
+      document.getElementById("updatedAt").textContent =
+        now.toLocaleString("uk-UA", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    loadRates();
+    setInterval(loadRates, 60_000); // обновление на странице раз в минуту
+  </script>
 </body>
-
 </html>
