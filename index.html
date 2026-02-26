@@ -13,20 +13,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
-    /*
-      Полный код страницы с "безшовным" фоном:
-      - убран body::before / body::after
-      - добавлен единый фиксированный слой .bg (один элемент, без стыков)
-      - поменяй цвета переменных ниже (--bgBase и т.д.) под цвет логотипа для полного "слияния"
-    */
-
     :root{
-      /* Подбери эти значения под цвет логотипа.
-         Примерные оттенки оставлены из предыдущей версии.
-         Совет: pipette ваш logo.jpg -> hex -> вставь в --bgBase */
-      --bgBase: #06160f;   /* основной фон (рекомендуется цвет из логотипа) */
-      --bgDeep: #04110b;   /* чуть темнее */
-      --bgSoft: #0a2218;   /* чуть светлее */
+      /* Подбери эти значения под цвет логотипа */
+      --bgBase: #06160f;
+      --bgDeep: #04110b;
+      --bgSoft: #0a2218;
 
       --card: rgba(12, 44, 31, .52);
       --stroke: rgba(255,255,255,.12);
@@ -46,7 +37,6 @@
     *{box-sizing:border-box}
     html, body { height: 100%; margin: 0; }
 
-    /* БАЗОВЫЙ body без фона (фон рисуется одним элементом .bg) */
     body{
       margin:0;
       font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -60,35 +50,14 @@
       position: fixed;
       inset: 0;
       z-index: -1;
-      /* композиция: крупные нежные споты + плавный градиент */
       background:
         radial-gradient(900px 650px at 70% 25%, rgba(30,227,138,.12), transparent 60%),
         radial-gradient(950px 700px at 15% 15%, rgba(255,212,74,.06), transparent 58%),
         radial-gradient(1000px 800px at 50% 110%, rgba(30,227,138,.08), transparent 62%),
         linear-gradient(180deg, var(--bgSoft) 0%, var(--bgBase) 55%, var(--bgDeep) 100%);
-      /* очень лёгкая текстура (опционально, едва заметно) */
-      /* remove the following two lines if you want zero texture */
       background-size: cover;
       will-change: transform;
     }
-
-    /* ОПЦИЯ: тонкая анимация "свееп" — раскомментируй, если хочешь бликов */
-    /*
-    .bg::after{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0) 65%);
-      transform: translateX(-110%);
-      filter: blur(18px);
-      animation: sweep 9s linear infinite;
-      opacity: .65;
-      pointer-events: none;
-    }
-    @keyframes sweep{
-      to { transform: translateX(110%); }
-    }
-    */
 
     .wrap{
       width:100%;
@@ -124,7 +93,6 @@
       position: relative;
     }
 
-    /* мягкое свечение под логотипом — оно на .hero, не на body */
     .hero::before{
       content:"";
       position:absolute;
@@ -141,7 +109,6 @@
       pointer-events: none;
     }
 
-    /* логотип: овальный, без рамки (логотип должен иметь прозрачный фон или фон совпадающий с --bgBase) */
     .logoBig{
       width: min(980px, 78vw);
       height: auto;
@@ -203,6 +170,7 @@
       font-weight: 900;
       letter-spacing:.3px;
       margin: 2px 0 16px;
+      word-break: break-word;
     }
 
     .socialRow{
@@ -263,6 +231,7 @@
     .advItem .t{font-weight: 900; color: var(--text);}
     .advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
 
+    /* RATES */
     .ratesCard{ padding:0; }
     .ratesHead{
       display:flex;
@@ -358,50 +327,140 @@
       padding-top: 6px;
     }
 
-    /* Responsive */
+    /* ====== МОБИЛЬНАЯ КРАСИВАЯ ВЕРСИЯ ====== */
+
+    /* Планшет/малые ноуты */
     @media (max-width: 1200px){
+      :root{ --gap: 22px; }
       .wrap{padding: 22px 16px 28px;}
       .container{width: min(1100px, calc(100vw - 32px));}
       .topGrid{grid-template-columns: 1fr;}
       .logoBig{width: min(860px, 92vw);}
       .hero::before{width: min(860px, 92vw);}
     }
+
+    /* Телефон: делаем всё компактно и красиво */
     @media (max-width: 560px){
-      .wrap{padding: 16px 12px 20px;}
-      .logoBig{width: 94vw; aspect-ratio: 2.05 / 1;}
-      .hero::before{width: 94vw; aspect-ratio: 2.05 / 1;}
-      .subtitle{font-size: 22px;}
+      :root{ --gap: 16px; --r: 22px; }
+
+      .wrap{padding: 14px 12px 18px;}
+      .container{width: calc(100vw - 24px); gap: var(--gap);}
+
+      .hero{gap: 10px; padding: 6px 0 0;}
+      .logoBig{
+        width: 94vw;
+        aspect-ratio: 2.05 / 1;
+        border-radius: 26px;            /* чуть “премиальнее” на телефоне */
+      }
+      .hero::before{
+        width: 94vw;
+        aspect-ratio: 2.05 / 1;
+        border-radius: 30px;
+        filter: blur(16px);
+      }
+
+      .subtitle{
+        font-size: 22px;
+        letter-spacing:.2px;
+      }
+
+      .card{padding: 18px 16px; border-radius: var(--r);}
+      .phoneBig{font-size: 24px; margin-bottom: 12px;}
+
+      /* Соц. кнопки сеткой 2x2 */
+      .socialRow{
+        display:grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .iconBtn{
+        width: 100%;
+        height: 54px;
+        border-radius: 16px;
+      }
+      .iconBtn i{font-size: 22px}
+
+      /* Таблица -> карточки */
       thead{display:none;}
-      table, tbody, tr, td{display:block; width:100%;}
       table{padding: 10px 12px 16px; border-spacing: 0;}
-      tbody tr{ border-radius: 18px; overflow:hidden; margin-bottom: 12px;}
-      tbody td{ border:none; border-bottom: 1px solid rgba(255,255,255,.06); padding: 14px 12px; font-size: 18px;}
-      tbody tr td:last-child{ border-bottom:none;}
-      .buy::before{content:"Купівля: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
-      .sell::before{content:"Продаж: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
+      tbody, tr, td{display:block; width:100%;}
+      tbody tr{
+        border-radius: 18px;
+        overflow:hidden;
+        margin-bottom: 12px;
+        box-shadow: 0 16px 30px rgba(0,0,0,.26);
+      }
+      tbody td{
+        border:none;
+        padding: 12px 12px;
+        font-size: 18px;
+      }
+
+      /* 1-я строка (валюта) — красиво и компактно */
+      tbody tr td:first-child{
+        width:auto;
+        border-left:none;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+      .curMeta .code{font-size: 18px;}
+      .curMeta .pair{font-size: 12px;}
+
+      /* Купівля/Продаж — две колонки */
+      tbody tr td.buy, tbody tr td.sell{
+        display:inline-block;
+        width: 50%;
+        vertical-align: top;
+        padding-top: 12px;
+        padding-bottom: 14px;
+      }
+      tbody tr td.buy{border-right: 1px solid rgba(255,255,255,.06);}
+      tbody tr td.sell{text-align:right;}
+
+      .buy::before{
+        content:"Купівля";
+        display:block;
+        color: var(--muted2);
+        font-weight: 900;
+        font-size: 12px;
+        margin-bottom: 4px;
+        letter-spacing:.2px;
+      }
+      .sell::before{
+        content:"Продаж";
+        display:block;
+        color: var(--muted2);
+        font-weight: 900;
+        font-size: 12px;
+        margin-bottom: 4px;
+        letter-spacing:.2px;
+      }
     }
 
+    /* Очень маленькие телефоны */
+    @media (max-width: 380px){
+      .subtitle{font-size: 20px;}
+      .phoneBig{font-size: 22px;}
+      .logoBig{border-radius: 22px;}
+    }
   </style>
 </head>
 
 <body>
-  <!-- единый фон-слой: без швов -->
   <div class="bg" aria-hidden="true"></div>
 
   <div class="wrap">
     <div class="container">
 
-      <!-- HERO -->
       <div class="hero">
-        <!-- логотип: желательно PNG с прозрачным фоном или JPG с тем же цветом фона -->
         <img class="logoBig" src="logo.jpg" alt="Kur$valut">
         <p class="subtitle">Обмін валют</p>
       </div>
 
-      <!-- TOP GRID -->
       <div class="topGrid">
 
-        <!-- ADDRESS + WORK -->
         <div class="card">
           <div class="cardTitle">
             <a target="_blank" rel="noopener"
@@ -425,10 +484,8 @@
           </div>
         </div>
 
-        <!-- CONTACTS -->
         <div class="card">
           <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
-
           <div class="phoneBig">+380 77 070 0745</div>
 
           <div class="socialRow">
@@ -453,7 +510,6 @@
           </div>
         </div>
 
-        <!-- ADV -->
         <div class="card">
           <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
           <div class="advList">
@@ -483,7 +539,6 @@
 
       </div>
 
-      <!-- RATES -->
       <div class="card ratesCard">
         <div class="ratesHead">
           <span class="pill" id="updatedPill"><span class="dot" aria-hidden="true"></span> Оновлено: —</span>
