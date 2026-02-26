@@ -327,71 +327,139 @@ footer{
   .hero::before{width: min(860px, 92vw);}
 }
 
-/* ✅ МОБИЛКА: курсы “в строчку”, красиво */
 @media (max-width: 600px){
+
   :root{ --gap: 16px; }
 
-  .wrap{padding: 14px 12px 18px;}
-  .container{width: calc(100vw - 24px); gap: var(--gap);}
+  .wrap{
+    padding: 14px 12px 18px;
+  }
 
-  .hero{gap: 10px; padding: 6px 0 0;}
-  .logoBig{width: 94vw; aspect-ratio: 2.05 / 1; border-radius: 22px;}
-  .hero::before{width: 94vw; aspect-ratio: 2.05 / 1; border-radius: 24px; filter: blur(16px);}
-  .subtitle{font-size: 22px;}
+  .container{
+    width: calc(100vw - 24px);
+    gap: var(--gap);
+  }
 
-  .card{padding: 18px 16px; border-radius: 20px;}
-  .phoneBig{font-size: 24px; margin-bottom: 12px;}
+  .hero{
+    gap: 10px;
+    padding: 6px 0 0;
+  }
 
-  /* соцкнопки 2x2 */
+  .logoBig{
+    width: 94vw;
+    aspect-ratio: 2.05 / 1;
+    border-radius: 22px;
+  }
+
+  .hero::before{
+    width: 94vw;
+    aspect-ratio: 2.05 / 1;
+    border-radius: 24px;
+    filter: blur(16px);
+  }
+
+  .subtitle{
+    font-size: 22px;
+  }
+
+  .card{
+    padding: 18px 16px;
+    border-radius: 20px;
+  }
+
+  .phoneBig{
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  /* Соц кнопки 2х2 */
   .socialRow{
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
-  .iconBtn{width: 100%; height: 54px; border-radius: 16px;}
-  .iconBtn i{font-size: 22px;}
 
-  /* Таблица -> карточка, но цифры в ОДНУ СТРОКУ */
-  thead{display:none;}
-  table{padding: 10px 12px 16px; border-spacing: 0;}
-  table, tbody, tr, td{display:block; width:100%;}
-  tbody tr{ border-radius: 18px; overflow:hidden; margin-bottom: 12px; }
+  .iconBtn{
+    width: 100%;
+    height: 54px;
+    border-radius: 16px;
+  }
+
+  .iconBtn i{
+    font-size: 22px;
+  }
+
+  /* ===== КУРСЫ РОВНО ===== */
+
+  thead{
+    display:none;
+  }
+
+  table{
+    padding: 10px 12px 16px;
+    border-spacing: 0;
+  }
+
+  table, tbody{
+    display:block;
+    width:100%;
+  }
+
+  tbody tr{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    background: rgba(0,0,0,.18);
+    border-radius: 18px;
+    overflow:hidden;
+    margin-bottom: 12px;
+    box-shadow: 0 16px 30px rgba(0,0,0,.26);
+  }
 
   tbody td{
-    border:none !important;          /* убираем те линии, что ты видишь */
-    padding: 12px 12px;
+    border: none !important;
+    padding: 12px;
     font-size: 18px;
+    font-weight: 900;
   }
 
-  /* валюта сверху */
+  /* Валюта сверху */
   tbody tr td:first-child{
+    grid-column: 1 / -1;
     padding: 14px 12px;
     border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    width: auto !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 0 !important;
   }
 
-  /* Купівля | Продаж в одну строку */
-  tbody tr td.buy,
+  /* Купівля слева / Продаж справа */
+  tbody tr td.buy{
+    grid-column: 1;
+    text-align:left;
+  }
+
   tbody tr td.sell{
-    display:inline-block;
-    width: 50%;
-    vertical-align: top;
-    padding: 12px 12px 14px;
+    grid-column: 2;
+    text-align:right;
   }
-
-  tbody tr td.buy{ border-right: 1px solid rgba(255,255,255,.06) !important; }
-  tbody tr td.sell{ text-align:right; }
 
   .buy::before,
   .sell::before{
     display:block;
+    font-size:12px;
+    font-weight:900;
     color: var(--muted2);
-    font-weight: 900;
-    font-size: 12px;
-    margin-bottom: 4px;
-    letter-spacing:.2px;
+    margin-bottom:4px;
   }
-  .buy::before{ content:"Купівля"; }
-  .sell::before{ content:"Продаж"; }
+
+  .buy::before{
+    content:"Купівля";
+  }
+
+  .sell::before{
+    content:"Продаж";
+  }
 }
 </style>
 </head>
