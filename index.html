@@ -4,336 +4,582 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Kur$valut — Обмін валют Київ</title>
-
+<meta name="theme-color" content="#071a12" />
 <link rel="icon" href="/favicon.ico">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
 :root{
-  --bg1:#05140e;
-  --bg2:#082217;
-  --card: rgba(15,55,38,.45);
+  --bg0:#05140e;
+  --bg1:#081f15;
+
+  --card: rgba(12, 44, 31, .50);
   --stroke: rgba(255,255,255,.12);
+  --stroke2: rgba(255,255,255,.16);
+
   --text:#eafff3;
-  --muted:rgba(255,255,255,.65);
-  --gold:#d4af37;
+  --muted: rgba(234,255,243,.72);
+  --muted2: rgba(234,255,243,.55);
+
   --accent:#1ee38a;
-  --shadow:0 40px 90px rgba(0,0,0,.55);
+  --gold:#d8b45a;
+
+  --shadow: 0 34px 90px rgba(0,0,0,.55);
+
+  --r: 28px;
+  --gap: 40px; /* ДАЛЬШЕ ДРУГ ОТ ДРУГА */
 }
 
 *{box-sizing:border-box}
+html,body{height:100%}
 body{
   margin:0;
-  font-family:Manrope,sans-serif;
-  color:var(--text);
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
   background:
-  radial-gradient(1200px 900px at 10% 20%, rgba(30,227,138,.18), transparent 60%),
-  radial-gradient(1400px 900px at 90% 10%, rgba(42,168,255,.15), transparent 60%),
-  linear-gradient(180deg,var(--bg2),var(--bg1));
-  min-height:100vh;
+    radial-gradient(1200px 900px at 12% 18%, rgba(30,227,138,.18), transparent 60%),
+    radial-gradient(1300px 900px at 88% 10%, rgba(42,168,255,.14), transparent 60%),
+    radial-gradient(1300px 1100px at 55% 96%, rgba(30,227,138,.10), transparent 65%),
+    linear-gradient(180deg, var(--bg1), var(--bg0) 72%);
+  overflow-x:hidden;
 }
 
-/* FULL WIDTH */
-.container{
+/* FULL WIDTH, но аккуратно */
+.wrap{
   width:100%;
-  padding:40px 60px;
+  min-height:100vh;
+  padding: 38px 52px 50px;
+}
+.container{
+  width: min(1920px, calc(100vw - 104px));
+  margin:0 auto;
   display:flex;
   flex-direction:column;
-  gap:40px;
+  gap: var(--gap);
 }
 
-/* LOGO В УГЛУ */
-.hero{
+/* CARDS */
+.card{
+  padding: 26px 28px;
+  border-radius: var(--r);
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";
   position:absolute;
-  top:30px;
-  left:40px;
+  inset:-2px;
+  background:
+    radial-gradient(560px 300px at 22% 0%, rgba(30,227,138,.14), transparent 62%),
+    radial-gradient(520px 280px at 86% 10%, rgba(42,168,255,.10), transparent 64%);
+  pointer-events:none;
+  opacity:.95;
+}
+.card > *{position:relative; z-index:1}
+
+/* HERO: логотип по центру (большой) */
+.hero{
   display:flex;
   flex-direction:column;
-  align-items:flex-start;
-  gap:10px;
+  align-items:center;
+  justify-content:center;
+  gap: 18px;
+  padding: 26px 0 6px;
 }
-
-.hero img{
-  width:180px;
-  height:auto;
-  filter:drop-shadow(0 25px 45px rgba(0,0,0,.6));
+.logoWrap{
+  width: min(720px, 70vw);       /* “пол сайта” */
+  aspect-ratio: 2.2 / 1;         /* овальная форма */
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.16);
+  box-shadow: 0 36px 110px rgba(0,0,0,.60);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
 }
-
-.hero .subtitle{
-  font-size:22px;
-  font-weight:900;
-  color:var(--gold);
-  letter-spacing:.5px;
+.logoWrap::after{
+  content:"";
+  position:absolute;
+  inset:-20px;
+  background:
+    radial-gradient(520px 220px at 30% 20%, rgba(30,227,138,.16), transparent 65%),
+    radial-gradient(520px 220px at 80% 30%, rgba(42,168,255,.10), transparent 65%);
+  pointer-events:none;
+}
+.logoBig{
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+  filter: drop-shadow(0 26px 40px rgba(0,0,0,.65));
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.subtitle{
+  margin:0;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing:.4px;
+  color: var(--gold);
+  text-align:center;
 }
 
 /* GRID */
 .topGrid{
-  margin-top:200px;
   display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:40px;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: var(--gap);
+  align-items:stretch;
 }
-
-.card{
-  padding:30px;
-  border-radius:28px;
-  background:var(--card);
-  border:1px solid var(--stroke);
-  backdrop-filter:blur(14px);
-  box-shadow:var(--shadow);
+.mainGrid{
+  display:grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: var(--gap);
+  align-items:start;
 }
 
 .cardTitle{
-  font-weight:900;
-  margin-bottom:18px;
-  font-size:18px;
-  letter-spacing:.4px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing:.2px;
+  margin-bottom: 14px;
 }
-
-.cardTitle a{
-  color:var(--text);
-  text-decoration:none;
-}
-
-.cardTitle a:hover{
-  text-decoration:underline;
-}
+.cardTitle i{color: var(--muted)}
 
 .kv{
   display:grid;
-  gap:12px;
-  font-weight:700;
-  color:var(--muted);
-  font-size:16px;
+  gap:10px;
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 15px;
+  line-height:1.45;
+}
+.kv strong{color:var(--text); font-weight: 900}
+
+.cardTitle a{
+  color: var(--text);
+  text-decoration:none;
+}
+.cardTitle a:hover{ text-decoration:underline; }
+
+/* Contacts: крупный номер + кнопки-иконки */
+.phoneBig{
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing:.3px;
+  margin: 2px 0 10px;
+}
+.userTag{
+  color: var(--muted);
+  font-weight: 800;
+  margin-bottom: 16px;
 }
 
 .socialRow{
-  margin-top:20px;
   display:flex;
-  gap:20px;
+  gap:16px;
+  flex-wrap:wrap;
 }
-
 .iconBtn{
-  width:65px;
-  height:65px;
+  width: 64px;
+  height: 64px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:20px;
-  border:1px solid var(--stroke);
-  background:rgba(0,0,0,.2);
-  font-size:24px;
-  color:white;
-  transition:.2s;
+  border-radius: 22px;
+  border: 1px solid var(--stroke2);
+  background: rgba(0,0,0,.18);
+  box-shadow: 0 18px 34px rgba(0,0,0,.34);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  text-decoration:none;
+  color: var(--text);
 }
+.iconBtn i{font-size: 24px}
 .iconBtn:hover{
-  transform:translateY(-4px);
-  border-color:var(--accent);
+  transform: translateY(-3px);
+  border-color: rgba(30,227,138,.42);
+  box-shadow: 0 26px 46px rgba(0,0,0,.48);
 }
+.iconBtn.wa{outline: 2px solid rgba(37,211,102,.28)}
+.iconBtn.viber{outline: 2px solid rgba(115,96,242,.28)}
+.iconBtn.tg{outline: 2px solid rgba(42,171,238,.26)}
+.iconBtn.phone{outline: 2px solid rgba(30,227,138,.22)}
 
-/* MAIN GRID */
-.mainGrid{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:50px;
-}
-
-.ratesCard{
-  padding:0;
-}
-
+/* Rates */
+.ratesCard{ padding:0; }
 .ratesHead{
   display:flex;
+  align-items:center;
   justify-content:flex-end;
-  padding:20px 30px;
-  border-bottom:1px solid rgba(255,255,255,.1);
+  gap:12px;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.pill{
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.16);
+  color: var(--muted);
+  font-weight: 900;
+  font-size: 13px;
+}
+.dot{
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 8px rgba(30,227,138,.12);
 }
 
 table{
   width:100%;
   border-collapse:separate;
-  border-spacing:0 18px;
-  padding:20px 30px 30px;
+  border-spacing: 0 16px;
+  padding: 16px 20px 22px;
 }
-
 thead th{
-  color:var(--muted);
   text-align:left;
-  font-size:14px;
+  color: var(--muted2);
+  font-size: 12.5px;
+  font-weight: 900;
+  padding: 0 14px;
+  letter-spacing:.2px;
 }
-
-tbody tr{
-  background:rgba(0,0,0,.2);
-  border-radius:18px;
-}
-
+tbody tr{ background: rgba(0,0,0,.18); box-shadow: 0 16px 30px rgba(0,0,0,.26); }
 tbody td{
-  padding:22px 16px;
-  font-weight:900;
-  font-size:20px;
+  padding: 20px 14px;
+  font-weight: 900;
+  font-size: 20px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
-
+tbody tr td:first-child{
+  border-left: 1px solid rgba(255,255,255,.06);
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+  width: 44%;
+}
+tbody tr td:last-child{
+  border-right: 1px solid rgba(255,255,255,.06);
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  width: 28%;
+}
+.curCell{ display:flex; align-items:center; gap:14px; }
 .flagImg{
-  width:32px;
-  border-radius:6px;
-  margin-right:14px;
+  width: 32px; height: 22px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 12px 20px rgba(0,0,0,.25);
+  background: rgba(0,0,0,.15);
+  flex:0 0 auto;
 }
+.curMeta{ display:flex; flex-direction:column; gap:3px; line-height:1.1; }
+.curMeta .code{ font-size: 18px; letter-spacing:.2px; }
+.curMeta .pair{ font-size: 12px; color: var(--muted2); font-weight: 900; letter-spacing:.3px; }
+.num{ font-variant-numeric: tabular-nums; letter-spacing:.2px; }
 
-.curCell{
+/* Advantages: красиво */
+.advHead{
   display:flex;
   align-items:center;
+  gap:10px;
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+.advHead i{ color: var(--gold); }
+.advList{
+  display:grid;
+  gap: 14px;
+  margin-top: 6px;
+}
+.advItem{
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+  padding: 14px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.14);
+}
+.advItem i{
+  color: var(--accent);
+  margin-top: 2px;
+  font-size: 18px;
+}
+.advItem .t{
+  font-weight: 900;
+  color: var(--text);
+}
+.advItem .s{
+  color: var(--muted);
+  font-weight: 800;
+  margin-top: 2px;
+  font-size: 14px;
 }
 
-.footer{
+footer{
   text-align:center;
-  opacity:.6;
-  font-weight:700;
+  color: rgba(234,255,243,.55);
+  font-weight: 800;
+  font-size: 12.5px;
+  padding-top: 6px;
 }
 
-/* MOBILE */
-@media(max-width:1200px){
-  .topGrid{grid-template-columns:1fr;}
-  .mainGrid{grid-template-columns:1fr;}
-  .hero{position:static;margin-bottom:40px;}
+/* Responsive */
+@media (max-width: 1200px){
+  .wrap{padding: 22px 16px 28px;}
+  .container{width: min(1100px, calc(100vw - 32px));}
+  .topGrid{grid-template-columns: 1fr; }
+  .mainGrid{grid-template-columns: 1fr;}
+  .logoWrap{width: min(640px, 92vw);}
+}
+@media (max-width: 560px){
+  .wrap{padding: 16px 12px 20px;}
+  .logoWrap{width: 94vw; aspect-ratio: 2 / 1;}
+  .subtitle{font-size: 22px;}
+  thead{display:none;}
+  table, tbody, tr, td{display:block; width:100%;}
+  table{padding: 10px 12px 16px; border-spacing: 0; }
+  tbody tr{ border-radius: 18px; overflow:hidden; margin-bottom: 12px; }
+  tbody td{
+    border:none;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 14px 12px;
+    font-size: 18px;
+  }
+  tbody tr td:last-child{ border-bottom:none; }
+  .buy::before{content:"Купівля: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
+  .sell::before{content:"Продаж: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
 }
 </style>
 </head>
 
 <body>
+  <div class="wrap">
+    <div class="container">
 
-<div class="hero">
-  <img src="logo.jpg" alt="Kur$valut">
-  <div class="subtitle">Обмін валют</div>
-</div>
-
-<div class="container">
-
-  <div class="topGrid">
-
-    <div class="card">
-      <div class="cardTitle">
-        <a target="_blank"
-        href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
-        <i class="fa-solid fa-location-dot"></i> Адреса
-        </a>
-      </div>
-      <div class="kv">
-        <div>м. Київ, вул. Велика Васильківська, 45</div>
+      <!-- HERO: по центру большой овальный логотип -->
+      <div class="hero">
+        <div class="logoWrap">
+          <img class="logoBig" src="logo.jpg" alt="Kur$valut">
+        </div>
+        <p class="subtitle">Обмін валют</p>
       </div>
 
-      <div style="margin-top:30px" class="cardTitle">
-        <i class="fa-solid fa-clock"></i> Режим роботи
+      <!-- TOP GRID -->
+      <div class="topGrid">
+
+        <!-- ADDRESS + WORK MODE -->
+        <div class="card">
+          <div class="cardTitle">
+            <a target="_blank" rel="noopener"
+              href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
+              <i class="fa-solid fa-location-dot"></i> Адреса
+            </a>
+          </div>
+          <div class="kv">
+            <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
+          </div>
+
+          <div style="height:18px"></div>
+
+          <div class="cardTitle">
+            <i class="fa-solid fa-clock"></i> Режим роботи
+          </div>
+          <div class="kv">
+            <div><strong>Понеділок – П’ятниця:</strong> 09:00 – 19:00</div>
+            <div><strong>Субота:</strong> 10:00 – 18:00</div>
+            <div><strong>Неділя:</strong> Вихідний</div>
+          </div>
+        </div>
+
+        <!-- CONTACTS (без канала, TG только в личку) -->
+        <div class="card">
+          <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
+
+          <div class="phoneBig">+380 77 070 0745</div>
+          <div class="userTag">@kursvalutobmin</div>
+
+          <div class="socialRow">
+            <!-- Telegram: личка -->
+            <a class="iconBtn tg" href="https://t.me/kursvalutobmin" target="_blank" rel="noopener" title="Telegram (особисті повідомлення)">
+              <i class="fa-brands fa-telegram"></i>
+            </a>
+
+            <a class="iconBtn wa" href="https://wa.me/380770700745" target="_blank" rel="noopener" title="WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+
+            <a class="iconBtn viber" href="viber://chat?number=%2B380770700745" title="Viber">
+              <i class="fa-brands fa-viber"></i>
+            </a>
+
+            <a class="iconBtn phone" href="tel:+380770700745" title="Подзвонити">
+              <i class="fa-solid fa-phone"></i>
+            </a>
+          </div>
+
+          <div class="kv" style="margin-top:12px">
+            <div style="color:var(--muted2); font-weight:900; font-size:12.5px;">
+              Натисніть іконку — відкриється месенджер або дзвінок.
+            </div>
+          </div>
+        </div>
+
+        <!-- ADVANTAGES (красиво) -->
+        <div class="card">
+          <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
+
+          <div class="advList">
+            <div class="advItem">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <div class="t">Кращий курс</div>
+                <div class="s">Тримаємо вигідні умови обміну.</div>
+              </div>
+            </div>
+
+            <div class="advItem">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <div class="t">Вигідно та швидко</div>
+                <div class="s">Швидка відповідь та обслуговування.</div>
+              </div>
+            </div>
+
+            <div class="advItem">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <div class="t">Індивідуальний підхід</div>
+                <div class="s">Підбираємо оптимальний варіант під вас.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="kv">
-        <div>Пн – Пт: 09:00 – 19:00</div>
-        <div>Сб: 10:00 – 18:00</div>
-        <div>Нд: Вихідний</div>
+
+      <!-- MAIN GRID -->
+      <div class="mainGrid">
+
+        <!-- RATES -->
+        <div class="card ratesCard">
+          <div class="ratesHead">
+            <span class="pill" id="updatedPill"><span class="dot" aria-hidden="true"></span> Оновлено: —</span>
+          </div>
+
+          <table aria-label="Курси валют">
+            <thead>
+              <tr>
+                <th>Валюта</th>
+                <th>Купівля</th>
+                <th>Продаж</th>
+              </tr>
+            </thead>
+            <tbody id="ratesBody"></tbody>
+          </table>
+        </div>
+
       </div>
+
+      <footer>© 2026 Kur$valut • Київ</footer>
     </div>
-
-    <div class="card">
-      <div class="cardTitle">
-        <i class="fa-solid fa-phone"></i> Контакти
-      </div>
-
-      <div class="kv">
-        <div><strong>+380 77 070 0745</strong></div>
-        <div>@kursvalutobmin</div>
-      </div>
-
-      <div class="socialRow">
-        <a class="iconBtn" href="https://wa.me/380770700745" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-        <a class="iconBtn" href="viber://chat?number=%2B380770700745"><i class="fa-brands fa-viber"></i></a>
-        <a class="iconBtn" href="https://t.me/kursvalutobmin" target="_blank"><i class="fa-brands fa-telegram"></i></a>
-        <a class="iconBtn" href="tel:+380770700745"><i class="fa-solid fa-phone"></i></a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="cardTitle">
-        <i class="fa-solid fa-star"></i> Переваги
-      </div>
-      <div class="kv">
-        <div>кращий курс</div>
-        <div>вигідно та швидко</div>
-        <div>індивідуальний підхід</div>
-      </div>
-    </div>
-
   </div>
-
-  <div class="mainGrid">
-
-    <div class="card ratesCard">
-      <div class="ratesHead">Оновлено: <span id="time"></span></div>
-      <table>
-        <thead>
-          <tr>
-            <th>Валюта</th>
-            <th>Купівля</th>
-            <th>Продаж</th>
-          </tr>
-        </thead>
-        <tbody id="ratesBody"></tbody>
-      </table>
-    </div>
-
-  </div>
-
-  <div class="footer">© 2026 Kur$valut • Київ</div>
-
-</div>
 
 <script>
-const ORDER=["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
-const FLAGS={
-USD:"https://flagcdn.com/us.svg",
-EUR:"https://flagcdn.com/eu.svg",
-PLN:"https://flagcdn.com/pl.svg",
-GBP:"https://flagcdn.com/gb.svg",
-CHF:"https://flagcdn.com/ch.svg",
-CAD:"https://flagcdn.com/ca.svg",
-CZK:"https://flagcdn.com/cz.svg",
-TRY:"https://flagcdn.com/tr.svg",
+const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
+
+// чтобы флаги были и на ПК, и на телефоне одинаково
+const FLAG_IMG = {
+  USD: "https://flagcdn.com/us.svg",
+  EUR: "https://flagcdn.com/eu.svg",
+  PLN: "https://flagcdn.com/pl.svg",
+  GBP: "https://flagcdn.com/gb.svg",
+  CHF: "https://flagcdn.com/ch.svg",
+  CAD: "https://flagcdn.com/ca.svg",
+  CZK: "https://flagcdn.com/cz.svg",
+  TRY: "https://flagcdn.com/tr.svg",
 };
 
 function fmt(n){
-const num=Number(n);
-if(!Number.isFinite(num))return"—";
-return num.toFixed(2);
+  const num = Number(n);
+  if (!Number.isFinite(num)) return "—";
+  // оставим красиво: 2 знака, но без лишних нулей можно — если хочешь, скажи
+  return (Math.round(num * 100) / 100).toFixed(2).replace(/\.00$/, "");
 }
 
 async function loadRates(){
-const res=await fetch("rates.json?"+Date.now());
-const data=await res.json();
-const tbody=document.getElementById("ratesBody");
-tbody.innerHTML="";
-for(const cur of ORDER){
-if(!data[cur])continue;
-const r=data[cur];
-const tr=document.createElement("tr");
-tr.innerHTML=`
-<td>
-<div class="curCell">
-<img class="flagImg" src="${FLAGS[cur]}">
-<strong>${cur}</strong>
-</div>
-</td>
-<td>${fmt(r.buy)}</td>
-<td>${fmt(r.sell)}</td>
-`;
-tbody.appendChild(tr);
-}
-const now=new Date();
-document.getElementById("time").innerText=
-now.getHours().toString().padStart(2,"0")+":"+
-now.getMinutes().toString().padStart(2,"0");
-}
-loadRates();
-setInterval(loadRates,30000);
-</script>
+  try{
+    const res = await fetch("rates.json?ts=" + Date.now(), { cache: "no-store" });
+    const data = await res.json();
 
+    const tbody = document.getElementById("ratesBody");
+    tbody.innerHTML = "";
+
+    const keys = ORDER.filter(k => data[k]).concat(
+      Object.keys(data).filter(k => !ORDER.includes(k))
+    );
+
+    for (const cur of keys){
+      const r = data[cur];
+      if (!r) continue;
+
+      const tr = document.createElement("tr");
+
+      const tdCur = document.createElement("td");
+      tdCur.innerHTML = `
+        <div class="curCell">
+          <img class="flagImg" src="${FLAG_IMG[cur] || "https://flagcdn.com/un.svg"}" alt="${cur}">
+          <div class="curMeta">
+            <div class="code">${cur}</div>
+            <div class="pair">UAH</div>
+          </div>
+        </div>
+      `;
+
+      const tdBuy = document.createElement("td");
+      tdBuy.className = "buy";
+      tdBuy.innerHTML = `<span class="num">${fmt(r.buy)}</span>`;
+
+      const tdSell = document.createElement("td");
+      tdSell.className = "sell";
+      tdSell.innerHTML = `<span class="num">${fmt(r.sell)}</span>`;
+
+      tr.appendChild(tdCur);
+      tr.appendChild(tdBuy);
+      tr.appendChild(tdSell);
+      tbody.appendChild(tr);
+    }
+
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,"0");
+    const mm = String(now.getMinutes()).padStart(2,"0");
+    document.getElementById("updatedPill").innerHTML =
+      `<span class="dot" aria-hidden="true"></span> Оновлено: ${hh}:${mm}`;
+
+  }catch(e){
+    console.error(e);
+  }
+}
+
+loadRates();
+setInterval(loadRates, 30000);
+</script>
 </body>
 </html>
