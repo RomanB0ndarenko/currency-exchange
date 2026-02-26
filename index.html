@@ -13,10 +13,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
+    /*
+      Полный код страницы с "безшовным" фоном:
+      - убран body::before / body::after
+      - добавлен единый фиксированный слой .bg (один элемент, без стыков)
+      - поменяй цвета переменных ниже (--bgBase и т.д.) под цвет логотипа для полного "слияния"
+    */
+
     :root{
-      /* Base */
-      --bg:#06160f;
-      --bg2:#071a12;
+      /* Подбери эти значения под цвет логотипа.
+         Примерные оттенки оставлены из предыдущей версии.
+         Совет: pipette ваш logo.jpg -> hex -> вставь в --bgBase */
+      --bgBase: #06160f;   /* основной фон (рекомендуется цвет из логотипа) */
+      --bgDeep: #04110b;   /* чуть темнее */
+      --bgSoft: #0a2218;   /* чуть светлее */
 
       --card: rgba(12, 44, 31, .52);
       --stroke: rgba(255,255,255,.12);
@@ -29,63 +39,56 @@
       --gold:#ffd44a;
 
       --shadow: 0 34px 90px rgba(0,0,0,.55);
-      --shadow2: 0 18px 60px rgba(0,0,0,.55);
-
       --r: 28px;
       --gap: 44px;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html, body { height: 100%; margin: 0; }
 
-    /* ПРЕМИАЛЬНЫЙ ФОН: единый, без обрывов */
+    /* БАЗОВЫЙ body без фона (фон рисуется одним элементом .bg) */
     body{
       margin:0;
       font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: var(--text);
-      overflow-x:hidden;
-
-      /* Слой 1: базовый ровный градиент (очень плавный) */
-      background: linear-gradient(180deg, #081d14 0%, #06160f 60%, #06160f 100%);
-      position: relative;
+      background: transparent;
+      overflow-x: hidden;
     }
 
-    /* Слой 2: мягкое “премиум” свечение без разделения страницы */
-    body::before{
-      content:"";
+    /* ЕДИНЫЙ ФИКСИРОВАННЫЙ ФОН (без швов) */
+    .bg{
       position: fixed;
-      inset:-200px;
-      pointer-events:none;
-      z-index:-1;
-
-      /* Легкие споты + очень слабый “зернистый” эффект через прозрачности */
+      inset: 0;
+      z-index: -1;
+      /* композиция: крупные нежные споты + плавный градиент */
       background:
-        radial-gradient(900px 600px at 50% -5%, rgba(30,227,138,.14), transparent 60%),
-        radial-gradient(900px 600px at 0% 25%, rgba(255,212,74,.09), transparent 55%),
-        radial-gradient(900px 650px at 100% 35%, rgba(30,227,138,.10), transparent 58%),
-        radial-gradient(1100px 800px at 50% 110%, rgba(30,227,138,.08), transparent 60%);
-      filter: blur(0px);
-      opacity: 1;
+        radial-gradient(900px 650px at 70% 25%, rgba(30,227,138,.12), transparent 60%),
+        radial-gradient(950px 700px at 15% 15%, rgba(255,212,74,.06), transparent 58%),
+        radial-gradient(1000px 800px at 50% 110%, rgba(30,227,138,.08), transparent 62%),
+        linear-gradient(180deg, var(--bgSoft) 0%, var(--bgBase) 55%, var(--bgDeep) 100%);
+      /* очень лёгкая текстура (опционально, едва заметно) */
+      /* remove the following two lines if you want zero texture */
+      background-size: cover;
+      will-change: transform;
     }
 
-    /* Слой 3: “винигрет” очень-очень тонкий (визуально премиум, но незаметный) */
-    body::after{
-      content:"";
-      position: fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:-1;
-      background:
-        repeating-linear-gradient(
-          135deg,
-          rgba(255,255,255,.03) 0px,
-          rgba(255,255,255,.03) 1px,
-          transparent 1px,
-          transparent 10px
-        );
-      opacity: .06; /* едва заметно */
-      mix-blend-mode: overlay;
+    /* ОПЦИЯ: тонкая анимация "свееп" — раскомментируй, если хочешь бликов */
+    /*
+    .bg::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0) 65%);
+      transform: translateX(-110%);
+      filter: blur(18px);
+      animation: sweep 9s linear infinite;
+      opacity: .65;
+      pointer-events: none;
     }
+    @keyframes sweep{
+      to { transform: translateX(110%); }
+    }
+    */
 
     .wrap{
       width:100%;
@@ -121,7 +124,7 @@
       position: relative;
     }
 
-    /* Премиальное свечение вокруг логотипа (не ломает фон) */
+    /* мягкое свечение под логотипом — оно на .hero, не на body */
     .hero::before{
       content:"";
       position:absolute;
@@ -129,15 +132,16 @@
       aspect-ratio: 2.25 / 1;
       border-radius: 999px;
       background:
-        radial-gradient(closest-side, rgba(30,227,138,.22), transparent 70%),
-        radial-gradient(closest-side, rgba(255,212,74,.14), transparent 72%);
+        radial-gradient(closest-side, rgba(30,227,138,.18), transparent 60%),
+        radial-gradient(closest-side, rgba(255,212,74,.08), transparent 70%);
       filter: blur(18px);
-      opacity: .85;
+      opacity: .9;
       transform: translateY(12px);
       z-index:0;
+      pointer-events: none;
     }
 
-    /* логотип сам овальный */
+    /* логотип: овальный, без рамки (логотип должен иметь прозрачный фон или фон совпадающий с --bgBase) */
     .logoBig{
       width: min(980px, 78vw);
       height: auto;
@@ -149,7 +153,7 @@
       -webkit-user-drag:none;
       position: relative;
       z-index:1;
-      border: 1px solid rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.08);
     }
 
     .subtitle{
@@ -169,12 +173,6 @@
       grid-template-columns: 1.2fr 1fr 1fr;
       gap: var(--gap);
       align-items:stretch;
-    }
-
-    .mainGrid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: var(--gap);
     }
 
     .cardTitle{
@@ -200,7 +198,6 @@
     }
     .kv strong{color:var(--text); font-weight: 900}
 
-    /* CONTACTS */
     .phoneBig{
       font-size: 30px;
       font-weight: 900;
@@ -229,7 +226,6 @@
       color: var(--text);
     }
     .iconBtn i{font-size: 24px}
-
     .iconBtn:hover{
       transform: translateY(-3px);
       border-color: rgba(30,227,138,.42);
@@ -237,14 +233,11 @@
       background: rgba(0,0,0,.26);
     }
 
-    .iconBtn:active{ transform: translateY(-1px); }
-
     .iconBtn.wa{outline: 2px solid rgba(37,211,102,.30)}
     .iconBtn.viber{outline: 2px solid rgba(115,96,242,.30)}
     .iconBtn.tg{outline: 2px solid rgba(42,171,238,.28)}
     .iconBtn.phone{outline: 2px solid rgba(30,227,138,.24)}
 
-    /* ADV */
     .advHead{
       display:flex;
       align-items:center;
@@ -270,7 +263,6 @@
     .advItem .t{font-weight: 900; color: var(--text);}
     .advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
 
-    /* RATES */
     .ratesCard{ padding:0; }
     .ratesHead{
       display:flex;
@@ -388,15 +380,20 @@
       .buy::before{content:"Купівля: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
       .sell::before{content:"Продаж: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
     }
+
   </style>
 </head>
 
 <body>
+  <!-- единый фон-слой: без швов -->
+  <div class="bg" aria-hidden="true"></div>
+
   <div class="wrap">
     <div class="container">
 
       <!-- HERO -->
       <div class="hero">
+        <!-- логотип: желательно PNG с прозрачным фоном или JPG с тем же цветом фона -->
         <img class="logoBig" src="logo.jpg" alt="Kur$valut">
         <p class="subtitle">Обмін валют</p>
       </div>
@@ -408,7 +405,7 @@
         <div class="card">
           <div class="cardTitle">
             <a target="_blank" rel="noopener"
-               href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
+              href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
               <i class="fa-solid fa-location-dot"></i> Адреса
             </a>
           </div>
