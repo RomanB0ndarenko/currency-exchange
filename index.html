@@ -1,627 +1,339 @@
 <!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kur$valut — Обмін валют Київ</title>
-  <meta name="description" content="Kur$valut — обмін валют у Києві. Актуальні курси купівлі/продажу." />
-  <meta name="theme-color" content="#071a12" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kur$valut — Обмін валют Київ</title>
 
-  <!-- Favicons -->
-  <link rel="icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico">
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#05140e;
+  --bg2:#082217;
+  --card: rgba(15,55,38,.45);
+  --stroke: rgba(255,255,255,.12);
+  --text:#eafff3;
+  --muted:rgba(255,255,255,.65);
+  --gold:#d4af37;
+  --accent:#1ee38a;
+  --shadow:0 40px 90px rgba(0,0,0,.55);
+}
 
-  <style>
-    :root{
-      --bg0:#05140e;
-      --bg1:#071a12;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Manrope,sans-serif;
+  color:var(--text);
+  background:
+  radial-gradient(1200px 900px at 10% 20%, rgba(30,227,138,.18), transparent 60%),
+  radial-gradient(1400px 900px at 90% 10%, rgba(42,168,255,.15), transparent 60%),
+  linear-gradient(180deg,var(--bg2),var(--bg1));
+  min-height:100vh;
+}
 
-      --card: rgba(12, 44, 31, .52);
-      --stroke: rgba(255,255,255,.10);
-      --stroke2: rgba(255,255,255,.16);
+/* FULL WIDTH */
+.container{
+  width:100%;
+  padding:40px 60px;
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+}
 
-      --text:#eafff3;
-      --muted: rgba(234,255,243,.72);
-      --muted2: rgba(234,255,243,.55);
+/* LOGO В УГЛУ */
+.hero{
+  position:absolute;
+  top:30px;
+  left:40px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+}
 
-      --accent:#1ee38a;
-      --accent2:#2aa8ff;
+.hero img{
+  width:180px;
+  height:auto;
+  filter:drop-shadow(0 25px 45px rgba(0,0,0,.6));
+}
 
-      /* золото для "Обмін валют" */
-      --gold:#d8b45a;
+.hero .subtitle{
+  font-size:22px;
+  font-weight:900;
+  color:var(--gold);
+  letter-spacing:.5px;
+}
 
-      --shadow: 0 26px 70px rgba(0,0,0,.45);
-      --r: 24px;
-      --gap: 22px;   /* расстояние между карточками */
-    }
+/* GRID */
+.topGrid{
+  margin-top:200px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:40px;
+}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(1200px 820px at 10% 18%, rgba(30,227,138,.18), transparent 55%),
-        radial-gradient(1200px 720px at 88% 10%, rgba(42,168,255,.14), transparent 55%),
-        radial-gradient(1300px 980px at 55% 96%, rgba(30,227,138,.10), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg0) 72%);
-      overflow-x:hidden;
-    }
+.card{
+  padding:30px;
+  border-radius:28px;
+  background:var(--card);
+  border:1px solid var(--stroke);
+  backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);
+}
 
-    /* ЧТОБЫ НЕ БЫЛО "СПЛЮСНУТО" — делаем широкий контейнер */
-    .wrap{
-      width:100%;
-      min-height:100vh;
-      padding: 34px 40px 44px;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-    }
+.cardTitle{
+  font-weight:900;
+  margin-bottom:18px;
+  font-size:18px;
+  letter-spacing:.4px;
+}
 
-    .container{
-      width: min(1700px, calc(100vw - 80px)); /* почти во всю страницу */
-      display:flex;
-      flex-direction:column;
-      gap: var(--gap);
-    }
+.cardTitle a{
+  color:var(--text);
+  text-decoration:none;
+}
 
-    .card{
-      padding: 18px 18px;
-      border-radius: var(--r);
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      position:relative;
-      overflow:hidden;
-    }
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(560px 300px at 22% 0%, rgba(30,227,138,.14), transparent 62%),
-        radial-gradient(520px 280px at 86% 10%, rgba(42,168,255,.10), transparent 64%);
-      pointer-events:none;
-      opacity:.95;
-    }
-    .card > *{position:relative; z-index:1}
+.cardTitle a:hover{
+  text-decoration:underline;
+}
 
-    /* TOP GRID */
-    .topGrid{
-      display:grid;
-      grid-template-columns: 1.25fr 1fr 1fr; /* бренд шире */
-      gap: var(--gap);
-      align-items:stretch;
-    }
+.kv{
+  display:grid;
+  gap:12px;
+  font-weight:700;
+  color:var(--muted);
+  font-size:16px;
+}
 
-    /* BRAND (вместо текста — большой логотип) */
-    .brandCard{
-      padding: 22px 22px;
-      display:flex;
-      gap: 18px;
-      align-items:center;
-      min-height: 180px;
-    }
-    .heroLogo{
-      width: 160px;
-      height: 160px;
-      object-fit: contain;
-      filter: drop-shadow(0 18px 26px rgba(0,0,0,.55));
-      user-select:none;
-      -webkit-user-drag:none;
-    }
-    .brandText{
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      min-width:0;
-    }
-    .brandText h1{
-      margin:0;
-      font-size: 42px;
-      line-height:1.05;
-      letter-spacing:.2px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .brandText .gold{
-      margin:0;
-      font-weight: 900;
-      letter-spacing:.4px;
-      color: var(--gold); /* золотой */
-      font-size: 18px;
-    }
+.socialRow{
+  margin-top:20px;
+  display:flex;
+  gap:20px;
+}
 
-    /* Titles inside cards */
-    .cardTitle{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 900;
-      font-size: 14.5px;
-      letter-spacing:.2px;
-      margin-bottom: 12px;
-    }
-    .cardTitle i{color: var(--muted)}
+.iconBtn{
+  width:65px;
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:20px;
+  border:1px solid var(--stroke);
+  background:rgba(0,0,0,.2);
+  font-size:24px;
+  color:white;
+  transition:.2s;
+}
+.iconBtn:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent);
+}
 
-    .kv{
-      display:grid;
-      gap:10px;
-      color: var(--muted);
-      font-weight: 750;
-      font-size: 14px;
-      line-height:1.4;
-    }
-    .kv strong{
-      color: var(--text);
-      font-weight: 900;
-    }
+/* MAIN GRID */
+.mainGrid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:50px;
+}
 
-    /* Contacts lines */
-    .contactLine{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding: 12px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.15);
-      font-weight: 850;
-    }
-    .contactLine .left{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 13px;
-    }
+.ratesCard{
+  padding:0;
+}
 
-    /* Icon buttons row */
-    .socialRow{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top: 14px;
-    }
-    .iconBtn{
-      width: 58px;
-      height: 58px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius: 18px;
-      border: 1px solid var(--stroke2);
-      background: rgba(0,0,0,.18);
-      box-shadow: 0 16px 30px rgba(0,0,0,.34);
-      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-      text-decoration:none;
-      color: var(--text);
-    }
-    .iconBtn i{font-size: 22px}
-    .iconBtn:hover{
-      transform: translateY(-2px);
-      border-color: rgba(30,227,138,.38);
-      box-shadow: 0 22px 40px rgba(0,0,0,.44);
-    }
-    .iconBtn.wa{outline: 2px solid rgba(37,211,102,.30)}
-    .iconBtn.viber{outline: 2px solid rgba(115,96,242,.30)}
-    .iconBtn.tg{outline: 2px solid rgba(42,171,238,.30)}
-    .iconBtn.channel{outline: 2px solid rgba(42,168,255,.22)}
-    .iconBtn.phone{outline: 2px solid rgba(30,227,138,.25)}
+.ratesHead{
+  display:flex;
+  justify-content:flex-end;
+  padding:20px 30px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
 
-    /* MAIN GRID (таблица + справа преимущества) */
-    .mainGrid{
-      display:grid;
-      grid-template-columns: 2.15fr 1fr;
-      gap: var(--gap);
-      align-items:start;
-    }
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 18px;
+  padding:20px 30px 30px;
+}
 
-    /* Rates card */
-    .ratesCard{ padding: 0; }
+thead th{
+  color:var(--muted);
+  text-align:left;
+  font-size:14px;
+}
 
-    /* УБРАЛИ "Курси валют" — оставляем только обновлено */
-    .ratesHead{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap: 12px;
-      padding: 16px 18px 12px;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
+tbody tr{
+  background:rgba(0,0,0,.2);
+  border-radius:18px;
+}
 
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding: 9px 13px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.16);
-      color: var(--muted);
-      font-weight: 850;
-      font-size: 13px;
-    }
-    .dot{
-      width: 9px; height: 9px; border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 7px rgba(30,227,138,.12);
-    }
+tbody td{
+  padding:22px 16px;
+  font-weight:900;
+  font-size:20px;
+}
 
-    table{
-      width:100%;
-      border-collapse:separate;
-      border-spacing: 0 14px;
-      padding: 14px 16px 18px;
-    }
-    thead th{
-      text-align:left;
-      color: var(--muted2);
-      font-size: 12.5px;
-      font-weight: 900;
-      padding: 0 12px;
-      letter-spacing:.2px;
-    }
-    tbody tr{
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: 0 16px 30px rgba(0,0,0,.28);
-    }
-    tbody td{
-      padding: 18px 12px;
-      font-weight: 900;
-      font-size: 18px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    tbody tr td:first-child{
-      border-left: 1px solid rgba(255,255,255,.06);
-      border-top-left-radius: 18px;
-      border-bottom-left-radius: 18px;
-      width: 44%;
-    }
-    tbody tr td:last-child{
-      border-right: 1px solid rgba(255,255,255,.06);
-      border-top-right-radius: 18px;
-      border-bottom-right-radius: 18px;
-      width: 28%;
-    }
+.flagImg{
+  width:32px;
+  border-radius:6px;
+  margin-right:14px;
+}
 
-    .curCell{
-      display:flex;
-      align-items:center;
-      gap: 14px;
-    }
-    .flagImg{
-      width: 30px;
-      height: 21px;
-      border-radius: 7px;
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: 0 12px 20px rgba(0,0,0,.25);
-      background: rgba(0,0,0,.15);
-      flex: 0 0 auto;
-    }
-    .curMeta{
-      display:flex;
-      flex-direction:column;
-      line-height:1.1;
-      gap: 3px;
-      min-width: 0;
-    }
-    .curMeta .code{
-      font-size: 18px;
-      letter-spacing:.2px;
-    }
-    .curMeta .pair{
-      font-size: 12px;
-      color: var(--muted2);
-      font-weight: 900;
-      letter-spacing:.3px;
-    }
-    .num{font-variant-numeric: tabular-nums; letter-spacing:.2px;}
+.curCell{
+  display:flex;
+  align-items:center;
+}
 
-    /* Right card: advantages */
-    .bigRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom: 8px;
-    }
-    .bigRow .left{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-size: 15px;
-      font-weight: 900;
-    }
+.footer{
+  text-align:center;
+  opacity:.6;
+  font-weight:700;
+}
 
-    .list{
-      display:grid;
-      gap: 12px;
-      margin-top: 12px;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-    .ok{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .ok i{ color: var(--accent); margin-top: 3px; }
-
-    footer{
-      text-align:center;
-      color: rgba(234,255,243,.55);
-      font-weight: 750;
-      font-size: 12.5px;
-      padding: 6px 0 0;
-    }
-
-    /* Responsive */
-    @media (max-width: 1100px){
-      .wrap{padding: 22px 18px 30px;}
-      .container{width: min(980px, calc(100vw - 36px));}
-      .topGrid{grid-template-columns: 1fr; }
-      .mainGrid{grid-template-columns: 1fr;}
-      .brandCard{min-height: unset;}
-      .heroLogo{width: 140px; height: 140px;}
-      .brandText h1{font-size: 36px;}
-    }
-
-    @media (max-width: 560px){
-      .wrap{padding: 16px 12px 22px;}
-      .heroLogo{width: 110px; height: 110px;}
-      .brandText h1{font-size: 30px;}
-      thead{display:none;}
-      table, tbody, tr, td{display:block; width:100%;}
-      table{padding: 10px 12px 16px; border-spacing: 0; }
-      tbody tr{
-        border-radius: 18px;
-        overflow:hidden;
-        margin-bottom: 12px;
-      }
-      tbody td{
-        border: none;
-        border-bottom: 1px solid rgba(255,255,255,.06);
-        padding: 14px 12px;
-        font-size: 18px;
-      }
-      tbody tr td:last-child{ border-bottom: none; }
-      .buy::before{
-        content:"Купівля: ";
-        color: var(--muted2);
-        font-weight: 900;
-        font-size: 12px;
-        letter-spacing:.3px;
-      }
-      .sell::before{
-        content:"Продаж: ";
-        color: var(--muted2);
-        font-weight: 900;
-        font-size: 12px;
-        letter-spacing:.3px;
-      }
-    }
-  </style>
+/* MOBILE */
+@media(max-width:1200px){
+  .topGrid{grid-template-columns:1fr;}
+  .mainGrid{grid-template-columns:1fr;}
+  .hero{position:static;margin-bottom:40px;}
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="container">
 
-      <!-- TOP -->
-      <div class="topGrid">
+<div class="hero">
+  <img src="logo.jpg" alt="Kur$valut">
+  <div class="subtitle">Обмін валют</div>
+</div>
 
-        <!-- BRAND -->
-        <div class="card brandCard">
-          <img class="heroLogo" src="logo.jpg" alt="Kur$valut">
-          <div class="brandText">
-            <h1>Kur$valut</h1>
-            <p class="gold">Обмін валют</p>
-          </div>
-        </div>
+<div class="container">
 
-        <!-- ADDRESS + SCHEDULE -->
-        <div class="card">
-          <div class="cardTitle"><i class="fa-solid fa-location-dot"></i> Адреса</div>
-          <div class="kv">
-            <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
-          </div>
+  <div class="topGrid">
 
-          <div style="height:14px"></div>
-
-          <div class="cardTitle"><i class="fa-solid fa-clock"></i> Графік роботи</div>
-          <div class="kv">
-            <div><strong>Понеділок – П’ятниця:</strong> 09:00 – 19:00</div>
-            <div><strong>Субота:</strong> 10:00 – 18:00</div>
-            <div><strong>Неділя:</strong> Вихідний</div>
-          </div>
-        </div>
-
-        <!-- CONTACTS -->
-        <div class="card">
-          <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
-
-          <div class="contactLine">
-            <div class="left"><i class="fa-solid fa-phone"></i> Телефон</div>
-            <div>+380 77 070 0745</div>
-          </div>
-
-          <div style="height:12px"></div>
-
-          <div class="contactLine">
-            <div class="left"><i class="fa-brands fa-telegram"></i> Telegram</div>
-            <div>@kursvalutobmin</div>
-          </div>
-
-          <div class="socialRow" aria-label="Швидкі посилання">
-            <a class="iconBtn wa" href="https://wa.me/380770700745" target="_blank" rel="noopener" title="WhatsApp">
-              <i class="fa-brands fa-whatsapp"></i>
-            </a>
-
-            <a class="iconBtn viber" href="viber://chat?number=%2B380770700745" title="Viber">
-              <i class="fa-brands fa-viber"></i>
-            </a>
-
-            <a class="iconBtn tg" href="https://t.me/kursvalutobmin" target="_blank" rel="noopener" title="Telegram">
-              <i class="fa-brands fa-telegram"></i>
-            </a>
-
-            <a class="iconBtn channel" href="https://t.me/kursobmin" target="_blank" rel="noopener" title="Наш канал">
-              <i class="fa-solid fa-bullhorn"></i>
-            </a>
-
-            <a class="iconBtn phone" href="tel:+380770700745" title="Подзвонити">
-              <i class="fa-solid fa-phone"></i>
-            </a>
-          </div>
-
-          <div class="kv" style="margin-top:10px">
-            <div style="color:var(--muted2); font-weight:900; font-size:12.5px;">
-              Viber / WhatsApp — за цим номером
-            </div>
-          </div>
-        </div>
-
+    <div class="card">
+      <div class="cardTitle">
+        <a target="_blank"
+        href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
+        <i class="fa-solid fa-location-dot"></i> Адреса
+        </a>
+      </div>
+      <div class="kv">
+        <div>м. Київ, вул. Велика Васильківська, 45</div>
       </div>
 
-      <!-- MAIN -->
-      <div class="mainGrid">
-
-        <!-- RATES -->
-        <div class="card ratesCard">
-          <div class="ratesHead">
-            <span class="pill" id="updatedPill"><span class="dot" aria-hidden="true"></span> Оновлено: —</span>
-          </div>
-
-          <table aria-label="Курси валют">
-            <thead>
-              <tr>
-                <th>Валюта</th>
-                <th>Купівля</th>
-                <th>Продаж</th>
-              </tr>
-            </thead>
-            <tbody id="ratesBody"></tbody>
-          </table>
-        </div>
-
-        <!-- ADVANTAGES -->
-        <div class="card">
-          <div class="bigRow">
-            <div class="left"><i class="fa-solid fa-star" style="color:var(--accent)"></i> Переваги</div>
-            <span class="pill"><i class="fa-solid fa-bolt" style="color:var(--accent)"></i> Швидко</span>
-          </div>
-
-          <div class="list">
-            <div class="ok"><i class="fa-solid fa-square-check"></i><div>Вигідний курс та швидке обслуговування.</div></div>
-            <div class="ok"><i class="fa-solid fa-square-check"></i><div>Тримаємо один із найкращих курсів обміну у місті.</div></div>
-            <div class="ok"><i class="fa-solid fa-square-check"></i><div>Пишіть у Telegram — відповідаємо швидко.</div></div>
-          </div>
-        </div>
-
+      <div style="margin-top:30px" class="cardTitle">
+        <i class="fa-solid fa-clock"></i> Режим роботи
       </div>
-
-      <footer>© 2026 Kur$valut • Київ</footer>
+      <div class="kv">
+        <div>Пн – Пт: 09:00 – 19:00</div>
+        <div>Сб: 10:00 – 18:00</div>
+        <div>Нд: Вихідний</div>
+      </div>
     </div>
+
+    <div class="card">
+      <div class="cardTitle">
+        <i class="fa-solid fa-phone"></i> Контакти
+      </div>
+
+      <div class="kv">
+        <div><strong>+380 77 070 0745</strong></div>
+        <div>@kursvalutobmin</div>
+      </div>
+
+      <div class="socialRow">
+        <a class="iconBtn" href="https://wa.me/380770700745" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        <a class="iconBtn" href="viber://chat?number=%2B380770700745"><i class="fa-brands fa-viber"></i></a>
+        <a class="iconBtn" href="https://t.me/kursvalutobmin" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+        <a class="iconBtn" href="tel:+380770700745"><i class="fa-solid fa-phone"></i></a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cardTitle">
+        <i class="fa-solid fa-star"></i> Переваги
+      </div>
+      <div class="kv">
+        <div>кращий курс</div>
+        <div>вигідно та швидко</div>
+        <div>індивідуальний підхід</div>
+      </div>
+    </div>
+
   </div>
 
-  <script>
-    const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
+  <div class="mainGrid">
 
-    // флаги через SVG (на ПК и на телефоне одинаково)
-    const FLAG_IMG = {
-      USD: "https://flagcdn.com/us.svg",
-      EUR: "https://flagcdn.com/eu.svg",
-      PLN: "https://flagcdn.com/pl.svg",
-      GBP: "https://flagcdn.com/gb.svg",
-      CHF: "https://flagcdn.com/ch.svg",
-      CAD: "https://flagcdn.com/ca.svg",
-      CZK: "https://flagcdn.com/cz.svg",
-      TRY: "https://flagcdn.com/tr.svg",
-    };
+    <div class="card ratesCard">
+      <div class="ratesHead">Оновлено: <span id="time"></span></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Валюта</th>
+            <th>Купівля</th>
+            <th>Продаж</th>
+          </tr>
+        </thead>
+        <tbody id="ratesBody"></tbody>
+      </table>
+    </div>
 
-    function fmt(n){
-      const num = Number(n);
-      if (!Number.isFinite(num)) return "—";
-      const rounded = Math.round(num * 100) / 100;
-      return (rounded % 1 === 0) ? String(rounded.toFixed(0)) : String(rounded.toFixed(2));
-    }
+  </div>
 
-    async function loadRates(){
-      try{
-        const res = await fetch("rates.json?ts=" + Date.now(), { cache: "no-store" });
-        const data = await res.json();
+  <div class="footer">© 2026 Kur$valut • Київ</div>
 
-        const tbody = document.getElementById("ratesBody");
-        tbody.innerHTML = "";
+</div>
 
-        const keys = ORDER.filter(k => data[k]).concat(
-          Object.keys(data).filter(k => !ORDER.includes(k))
-        );
+<script>
+const ORDER=["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
+const FLAGS={
+USD:"https://flagcdn.com/us.svg",
+EUR:"https://flagcdn.com/eu.svg",
+PLN:"https://flagcdn.com/pl.svg",
+GBP:"https://flagcdn.com/gb.svg",
+CHF:"https://flagcdn.com/ch.svg",
+CAD:"https://flagcdn.com/ca.svg",
+CZK:"https://flagcdn.com/cz.svg",
+TRY:"https://flagcdn.com/tr.svg",
+};
 
-        for (const cur of keys){
-          const r = data[cur];
-          if (!r) continue;
+function fmt(n){
+const num=Number(n);
+if(!Number.isFinite(num))return"—";
+return num.toFixed(2);
+}
 
-          const tr = document.createElement("tr");
+async function loadRates(){
+const res=await fetch("rates.json?"+Date.now());
+const data=await res.json();
+const tbody=document.getElementById("ratesBody");
+tbody.innerHTML="";
+for(const cur of ORDER){
+if(!data[cur])continue;
+const r=data[cur];
+const tr=document.createElement("tr");
+tr.innerHTML=`
+<td>
+<div class="curCell">
+<img class="flagImg" src="${FLAGS[cur]}">
+<strong>${cur}</strong>
+</div>
+</td>
+<td>${fmt(r.buy)}</td>
+<td>${fmt(r.sell)}</td>
+`;
+tbody.appendChild(tr);
+}
+const now=new Date();
+document.getElementById("time").innerText=
+now.getHours().toString().padStart(2,"0")+":"+
+now.getMinutes().toString().padStart(2,"0");
+}
+loadRates();
+setInterval(loadRates,30000);
+</script>
 
-          const tdCur = document.createElement("td");
-          tdCur.innerHTML = `
-            <div class="curCell">
-              <img class="flagImg" src="${FLAG_IMG[cur] || "https://flagcdn.com/un.svg"}" alt="${cur}">
-              <div class="curMeta">
-                <div class="code">${cur}</div>
-                <div class="pair">UAH</div>
-              </div>
-            </div>
-          `;
-
-          const tdBuy = document.createElement("td");
-          tdBuy.className = "buy";
-          tdBuy.innerHTML = `<span class="num">${fmt(r.buy)}</span>`;
-
-          const tdSell = document.createElement("td");
-          tdSell.className = "sell";
-          tdSell.innerHTML = `<span class="num">${fmt(r.sell)}</span>`;
-
-          tr.appendChild(tdCur);
-          tr.appendChild(tdBuy);
-          tr.appendChild(tdSell);
-          tbody.appendChild(tr);
-        }
-
-        const pill = document.getElementById("updatedPill");
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2,"0");
-        const mm = String(now.getMinutes()).padStart(2,"0");
-        pill.innerHTML = `<span class="dot" aria-hidden="true"></span> Оновлено: ${hh}:${mm}`;
-
-      }catch(err){
-        console.error(err);
-      }
-    }
-
-    loadRates();
-    setInterval(loadRates, 30000);
-  </script>
 </body>
 </html>
