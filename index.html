@@ -1,574 +1,209 @@
 <!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kur$valut — Обмін валют Київ</title>
-  <meta name="theme-color" content="#06160f" />
-  <link rel="icon" href="/favicon.ico" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kur$valut — Обмін валют Київ</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <style>
-    /*
-      Полный код страницы с "безшовным" фоном:
-      - убран body::before / body::after
-      - добавлен единый фиксированный слой .bg (один элемент, без стыков)
-      - поменяй цвета переменных ниже (--bgBase и т.д.) под цвет логотипа для полного "слияния"
-    */
+<style>
 
-    :root{
-      /* Подбери эти значения под цвет логотипа.
-         Примерные оттенки оставлены из предыдущей версии.
-         Совет: pipette ваш logo.jpg -> hex -> вставь в --bgBase */
-      --bgBase: #06160f;   /* основной фон (рекомендуется цвет из логотипа) */
-      --bgDeep: #04110b;   /* чуть темнее */
-      --bgSoft: #0a2218;   /* чуть светлее */
+:root{
+  /* Цвет фона взят с края логотипа */
+  --bgDark:#022d1f;
+  --bgMid:#053b28;
 
-      --card: rgba(12, 44, 31, .52);
-      --stroke: rgba(255,255,255,.12);
+  --card: rgba(10,40,28,.55);
+  --stroke: rgba(255,255,255,.08);
 
-      --text:#eafff3;
-      --muted: rgba(234,255,243,.72);
-      --muted2: rgba(234,255,243,.55);
+  --text:#eafff3;
+  --muted: rgba(234,255,243,.7);
+  --muted2: rgba(234,255,243,.5);
 
-      --accent:#1ee38a;
-      --gold:#ffd44a;
+  --accent:#1ee38a;
+  --gold:#ffd44a;
 
-      --shadow: 0 34px 90px rgba(0,0,0,.55);
-      --r: 28px;
-      --gap: 44px;
-    }
+  --shadow: 0 30px 80px rgba(0,0,0,.55);
+  --r:28px;
+  --gap:44px;
+}
 
-    *{box-sizing:border-box}
-    html, body { height: 100%; margin: 0; }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
 
-    /* БАЗОВЫЙ body без фона (фон рисуется одним элементом .bg) */
-    body{
-      margin:0;
-      font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: transparent;
-      overflow-x: hidden;
-    }
+body{
+  font-family: Manrope, sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
 
-    /* ЕДИНЫЙ ФИКСИРОВАННЫЙ ФОН (без швов) */
-    .bg{
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      /* композиция: крупные нежные споты + плавный градиент */
-      background:
-        radial-gradient(900px 650px at 70% 25%, rgba(30,227,138,.12), transparent 60%),
-        radial-gradient(950px 700px at 15% 15%, rgba(255,212,74,.06), transparent 58%),
-        radial-gradient(1000px 800px at 50% 110%, rgba(30,227,138,.08), transparent 62%),
-        linear-gradient(180deg, var(--bgSoft) 0%, var(--bgBase) 55%, var(--bgDeep) 100%);
-      /* очень лёгкая текстура (опционально, едва заметно) */
-      /* remove the following two lines if you want zero texture */
-      background-size: cover;
-      will-change: transform;
-    }
+  /* Фон теперь как у логотипа */
+  background: linear-gradient(180deg,var(--bgMid),var(--bgDark));
+}
 
-    /* ОПЦИЯ: тонкая анимация "свееп" — раскомментируй, если хочешь бликов */
-    /*
-    .bg::after{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0) 65%);
-      transform: translateX(-110%);
-      filter: blur(18px);
-      animation: sweep 9s linear infinite;
-      opacity: .65;
-      pointer-events: none;
-    }
-    @keyframes sweep{
-      to { transform: translateX(110%); }
-    }
-    */
+/* HERO */
+.hero{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  padding-top:40px;
+}
 
-    .wrap{
-      width:100%;
-      min-height:100vh;
-      padding: 34px 52px 52px;
-    }
+/* Убираем рамку */
+.logoBig{
+  width:min(1000px,85vw);
+  border-radius:999px;
+  display:block;
 
-    .container{
-      width: min(1920px, calc(100vw - 104px));
-      margin:0 auto;
-      display:flex;
-      flex-direction:column;
-      gap: var(--gap);
-    }
+  /* мягкое растворение краёв */
+  box-shadow:
+    0 0 120px rgba(0,0,0,.7),
+    0 0 200px rgba(2,45,31,.8);
+}
 
-    .card{
-      padding: 26px 28px;
-      border-radius: var(--r);
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-    }
+/* убрали обводку полностью */
+.logoBig{
+  border:none;
+}
 
-    /* HERO */
-    .hero{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap: 16px;
-      padding: 10px 0 2px;
-      position: relative;
-    }
+.subtitle{
+  font-size:32px;
+  font-weight:900;
+  color:var(--gold);
+  margin:0;
+}
 
-    /* мягкое свечение под логотипом — оно на .hero, не на body */
-    .hero::before{
-      content:"";
-      position:absolute;
-      width: min(980px, 78vw);
-      aspect-ratio: 2.25 / 1;
-      border-radius: 999px;
-      background:
-        radial-gradient(closest-side, rgba(30,227,138,.18), transparent 60%),
-        radial-gradient(closest-side, rgba(255,212,74,.08), transparent 70%);
-      filter: blur(18px);
-      opacity: .9;
-      transform: translateY(12px);
-      z-index:0;
-      pointer-events: none;
-    }
+/* GRID */
+.wrap{
+  padding:40px 60px;
+}
 
-    /* логотип: овальный, без рамки (логотип должен иметь прозрачный фон или фон совпадающий с --bgBase) */
-    .logoBig{
-      width: min(980px, 78vw);
-      height: auto;
-      aspect-ratio: 2.25 / 1;
-      object-fit: cover;
-      border-radius: 999px;
-      box-shadow: 0 40px 120px rgba(0,0,0,.60);
-      user-select:none;
-      -webkit-user-drag:none;
-      position: relative;
-      z-index:1;
-      border: 1px solid rgba(255,255,255,.08);
-    }
+.container{
+  max-width:1600px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:var(--gap);
+}
 
-    .subtitle{
-      margin:0;
-      font-weight: 900;
-      font-size: 30px;
-      letter-spacing:.4px;
-      color: var(--gold);
-      text-align:center;
-      text-shadow: 0 10px 30px rgba(0,0,0,.55);
-      position: relative;
-      z-index:1;
-    }
+.topGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:var(--gap);
+}
 
-    .topGrid{
-      display:grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: var(--gap);
-      align-items:stretch;
-    }
+.card{
+  padding:26px;
+  border-radius:var(--r);
+  background:var(--card);
+  border:1px solid var(--stroke);
+  backdrop-filter:blur(12px);
+  box-shadow:var(--shadow);
+}
 
-    .cardTitle{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 900;
-      font-size: 16px;
-      letter-spacing:.2px;
-      margin-bottom: 14px;
-    }
-    .cardTitle i{color: var(--muted)}
-    .cardTitle a{color: var(--text); text-decoration:none;}
-    .cardTitle a:hover{text-decoration:underline;}
+.cardTitle{
+  font-weight:900;
+  margin-bottom:14px;
+}
 
-    .kv{
-      display:grid;
-      gap:10px;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 15px;
-      line-height:1.45;
-    }
-    .kv strong{color:var(--text); font-weight: 900}
+.kv{
+  display:grid;
+  gap:8px;
+  font-weight:700;
+  color:var(--muted);
+}
 
-    .phoneBig{
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing:.3px;
-      margin: 2px 0 16px;
-    }
+.phoneBig{
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:18px;
+}
 
-    .socialRow{
-      display:flex;
-      gap:16px;
-      flex-wrap:wrap;
-    }
+.socialRow{
+  display:flex;
+  gap:16px;
+}
 
-    .iconBtn{
-      width: 64px;
-      height: 64px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.18);
-      box-shadow: 0 18px 34px rgba(0,0,0,.34);
-      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
-      text-decoration:none;
-      color: var(--text);
-    }
-    .iconBtn i{font-size: 24px}
-    .iconBtn:hover{
-      transform: translateY(-3px);
-      border-color: rgba(30,227,138,.42);
-      box-shadow: 0 26px 46px rgba(0,0,0,.48);
-      background: rgba(0,0,0,.26);
-    }
+.iconBtn{
+  width:60px;
+  height:60px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.15);
+  color:white;
+  transition:.2s;
+}
 
-    .iconBtn.wa{outline: 2px solid rgba(37,211,102,.30)}
-    .iconBtn.viber{outline: 2px solid rgba(115,96,242,.30)}
-    .iconBtn.tg{outline: 2px solid rgba(42,171,238,.28)}
-    .iconBtn.phone{outline: 2px solid rgba(30,227,138,.24)}
+.iconBtn:hover{
+  transform:translateY(-4px);
+  background:rgba(0,0,0,.35);
+}
 
-    .advHead{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 900;
-      font-size: 16px;
-      margin-bottom: 14px;
-    }
-    .advHead i{ color: var(--gold); }
+footer{
+  text-align:center;
+  padding:30px 0;
+  color:var(--muted2);
+}
 
-    .advList{display:grid; gap: 14px; margin-top: 6px;}
-    .advItem{
-      display:flex;
-      gap: 12px;
-      align-items:flex-start;
-      padding: 14px 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.14);
-      box-shadow: 0 10px 26px rgba(0,0,0,.18);
-    }
-    .advItem i{color: var(--accent); margin-top: 2px; font-size: 18px;}
-    .advItem .t{font-weight: 900; color: var(--text);}
-    .advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
+@media(max-width:1100px){
+  .topGrid{grid-template-columns:1fr}
+}
 
-    .ratesCard{ padding:0; }
-    .ratesHead{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      padding: 18px 22px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .pill{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 13px;
-      box-shadow: 0 10px 28px rgba(0,0,0,.20);
-    }
-    .dot{
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 8px rgba(30,227,138,.12);
-    }
-
-    table{
-      width:100%;
-      border-collapse:separate;
-      border-spacing: 0 16px;
-      padding: 16px 20px 22px;
-    }
-    thead th{
-      text-align:left;
-      color: var(--muted2);
-      font-size: 12.5px;
-      font-weight: 900;
-      padding: 0 14px;
-      letter-spacing:.2px;
-    }
-
-    tbody tr{
-      background: rgba(0,0,0,.18);
-      box-shadow: 0 16px 30px rgba(0,0,0,.26);
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    tbody tr:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 24px 44px rgba(0,0,0,.30);
-    }
-
-    tbody td{
-      padding: 20px 14px;
-      font-weight: 900;
-      font-size: 20px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    tbody tr td:first-child{
-      border-left: 1px solid rgba(255,255,255,.06);
-      border-top-left-radius: 18px;
-      border-bottom-left-radius: 18px;
-      width: 44%;
-    }
-    tbody tr td:last-child{
-      border-right: 1px solid rgba(255,255,255,.06);
-      border-top-right-radius: 18px;
-      border-bottom-right-radius: 18px;
-      width: 28%;
-    }
-
-    .curCell{ display:flex; align-items:center; gap:14px; }
-    .flagImg{
-      width: 32px; height: 22px;
-      border-radius: 7px;
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: 0 12px 20px rgba(0,0,0,.25);
-      background: rgba(0,0,0,.15);
-      flex:0 0 auto;
-    }
-    .curMeta{ display:flex; flex-direction:column; gap:3px; line-height:1.1; }
-    .curMeta .code{ font-size: 18px; letter-spacing:.2px; }
-    .curMeta .pair{ font-size: 12px; color: var(--muted2); font-weight: 900; letter-spacing:.3px; }
-    .num{ font-variant-numeric: tabular-nums; letter-spacing:.2px; }
-
-    footer{
-      text-align:center;
-      color: rgba(234,255,243,.55);
-      font-weight: 800;
-      font-size: 12.5px;
-      padding-top: 6px;
-    }
-
-    /* Responsive */
-    @media (max-width: 1200px){
-      .wrap{padding: 22px 16px 28px;}
-      .container{width: min(1100px, calc(100vw - 32px));}
-      .topGrid{grid-template-columns: 1fr;}
-      .logoBig{width: min(860px, 92vw);}
-      .hero::before{width: min(860px, 92vw);}
-    }
-    @media (max-width: 560px){
-      .wrap{padding: 16px 12px 20px;}
-      .logoBig{width: 94vw; aspect-ratio: 2.05 / 1;}
-      .hero::before{width: 94vw; aspect-ratio: 2.05 / 1;}
-      .subtitle{font-size: 22px;}
-      thead{display:none;}
-      table, tbody, tr, td{display:block; width:100%;}
-      table{padding: 10px 12px 16px; border-spacing: 0;}
-      tbody tr{ border-radius: 18px; overflow:hidden; margin-bottom: 12px;}
-      tbody td{ border:none; border-bottom: 1px solid rgba(255,255,255,.06); padding: 14px 12px; font-size: 18px;}
-      tbody tr td:last-child{ border-bottom:none;}
-      .buy::before{content:"Купівля: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
-      .sell::before{content:"Продаж: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
-    }
-
-  </style>
+</style>
 </head>
 
 <body>
-  <!-- единый фон-слой: без швов -->
-  <div class="bg" aria-hidden="true"></div>
 
-  <div class="wrap">
-    <div class="container">
+<div class="hero">
+  <img class="logoBig" src="logo.jpg" alt="Kur$valut">
+  <p class="subtitle">Обмін валют</p>
+</div>
 
-      <!-- HERO -->
-      <div class="hero">
-        <!-- логотип: желательно PNG с прозрачным фоном или JPG с тем же цветом фона -->
-        <img class="logoBig" src="logo.jpg" alt="Kur$valut">
-        <p class="subtitle">Обмін валют</p>
-      </div>
+<div class="wrap">
+<div class="container">
 
-      <!-- TOP GRID -->
-      <div class="topGrid">
+<div class="topGrid">
 
-        <!-- ADDRESS + WORK -->
-        <div class="card">
-          <div class="cardTitle">
-            <a target="_blank" rel="noopener"
-              href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
-              <i class="fa-solid fa-location-dot"></i> Адреса
-            </a>
-          </div>
-          <div class="kv">
-            <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
-          </div>
+<div class="card">
+<div class="cardTitle">Адреса</div>
+<div class="kv">
+<div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
+</div>
+</div>
 
-          <div style="height:18px"></div>
+<div class="card">
+<div class="cardTitle">Контакти</div>
+<div class="phoneBig">+380 77 070 0745</div>
+<div class="socialRow">
+<a class="iconBtn" href="#"><i class="fa-brands fa-telegram"></i></a>
+<a class="iconBtn" href="#"><i class="fa-brands fa-whatsapp"></i></a>
+<a class="iconBtn" href="#"><i class="fa-brands fa-viber"></i></a>
+<a class="iconBtn" href="#"><i class="fa-solid fa-phone"></i></a>
+</div>
+</div>
 
-          <div class="cardTitle">
-            <i class="fa-solid fa-clock"></i> Режим роботи
-          </div>
-          <div class="kv">
-            <div><strong>Понеділок – П’ятниця:</strong> 09:00 – 19:00</div>
-            <div><strong>Субота:</strong> 10:00 – 18:00</div>
-            <div><strong>Неділя:</strong> Вихідний</div>
-          </div>
-        </div>
+<div class="card">
+<div class="cardTitle">Переваги</div>
+<div class="kv">
+<div>Кращий курс</div>
+<div>Вигідно та швидко</div>
+<div>Індивідуальний підхід</div>
+</div>
+</div>
 
-        <!-- CONTACTS -->
-        <div class="card">
-          <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
+</div>
 
-          <div class="phoneBig">+380 77 070 0745</div>
+<footer>© 2026 Kur$valut • Київ</footer>
 
-          <div class="socialRow">
-            <a class="iconBtn tg" href="https://t.me/kursvalutobmin" target="_blank" rel="noopener" title="Telegram (особисті повідомлення)">
-              <i class="fa-brands fa-telegram"></i>
-            </a>
-            <a class="iconBtn wa" href="https://wa.me/380770700745" target="_blank" rel="noopener" title="WhatsApp">
-              <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <a class="iconBtn viber" href="viber://chat?number=%2B380770700745" title="Viber">
-              <i class="fa-brands fa-viber"></i>
-            </a>
-            <a class="iconBtn phone" href="tel:+380770700745" title="Подзвонити">
-              <i class="fa-solid fa-phone"></i>
-            </a>
-          </div>
+</div>
+</div>
 
-          <div class="kv" style="margin-top:12px">
-            <div style="color:var(--muted2); font-weight:900; font-size:12.5px;">
-              Натисніть іконку — відкриється месенджер або дзвінок.
-            </div>
-          </div>
-        </div>
-
-        <!-- ADV -->
-        <div class="card">
-          <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
-          <div class="advList">
-            <div class="advItem">
-              <i class="fa-solid fa-circle-check"></i>
-              <div>
-                <div class="t">Кращий курс</div>
-                <div class="s">Тримаємо вигідні умови обміну.</div>
-              </div>
-            </div>
-            <div class="advItem">
-              <i class="fa-solid fa-circle-check"></i>
-              <div>
-                <div class="t">Вигідно та швидко</div>
-                <div class="s">Швидка відповідь та обслуговування.</div>
-              </div>
-            </div>
-            <div class="advItem">
-              <i class="fa-solid fa-circle-check"></i>
-              <div>
-                <div class="t">Індивідуальний підхід</div>
-                <div class="s">Підбираємо оптимальний варіант під вас.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RATES -->
-      <div class="card ratesCard">
-        <div class="ratesHead">
-          <span class="pill" id="updatedPill"><span class="dot" aria-hidden="true"></span> Оновлено: —</span>
-        </div>
-
-        <table aria-label="Курси валют">
-          <thead>
-            <tr>
-              <th>Валюта</th>
-              <th>Купівля</th>
-              <th>Продаж</th>
-            </tr>
-          </thead>
-          <tbody id="ratesBody"></tbody>
-        </table>
-      </div>
-
-      <footer>© 2026 Kur$valut • Київ</footer>
-    </div>
-  </div>
-
-  <script>
-    const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
-    const FLAG_IMG = {
-      USD: "https://flagcdn.com/us.svg",
-      EUR: "https://flagcdn.com/eu.svg",
-      PLN: "https://flagcdn.com/pl.svg",
-      GBP: "https://flagcdn.com/gb.svg",
-      CHF: "https://flagcdn.com/ch.svg",
-      CAD: "https://flagcdn.com/ca.svg",
-      CZK: "https://flagcdn.com/cz.svg",
-      TRY: "https://flagcdn.com/tr.svg",
-    };
-
-    function fmt(n){
-      const num = Number(n);
-      if (!Number.isFinite(num)) return "—";
-      return (Math.round(num * 100) / 100).toFixed(2).replace(/\.00$/, "");
-    }
-
-    async function loadRates(){
-      try{
-        const res = await fetch("rates.json?ts=" + Date.now(), { cache: "no-store" });
-        const data = await res.json();
-
-        const tbody = document.getElementById("ratesBody");
-        tbody.innerHTML = "";
-
-        const keys = ORDER.filter(k => data[k]).concat(
-          Object.keys(data).filter(k => !ORDER.includes(k))
-        );
-
-        for (const cur of keys){
-          const r = data[cur];
-          if (!r) continue;
-
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>
-              <div class="curCell">
-                <img class="flagImg" src="${FLAG_IMG[cur] || "https://flagcdn.com/un.svg"}" alt="${cur}">
-                <div class="curMeta">
-                  <div class="code">${cur}</div>
-                  <div class="pair">UAH</div>
-                </div>
-              </div>
-            </td>
-            <td class="buy"><span class="num">${fmt(r.buy)}</span></td>
-            <td class="sell"><span class="num">${fmt(r.sell)}</span></td>
-          `;
-          tbody.appendChild(tr);
-        }
-
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2,"0");
-        const mm = String(now.getMinutes()).padStart(2,"0");
-        document.getElementById("updatedPill").innerHTML =
-          `<span class="dot" aria-hidden="true"></span> Оновлено: ${hh}:${mm}`;
-      }catch(e){
-        console.error(e);
-      }
-    }
-
-    loadRates();
-    setInterval(loadRates, 30000);
-  </script>
 </body>
 </html>
