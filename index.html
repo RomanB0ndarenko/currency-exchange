@@ -1,315 +1,394 @@
 <!doctype html>
 <html lang="uk">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Kur$valut — Обмін валют Київ</title>
-<meta name="theme-color" content="#06160f" />
-<link rel="icon" href="/favicon.ico">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kur$valut — Обмін валют Київ</title>
+  <meta name="theme-color" content="#06160f" />
+  <link rel="icon" href="/favicon.ico" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-<style>
-:root{
-  --bg:#06160f;                 /* РОВНЫЙ ФОН */
-  --bg2:#071a12;
+  <style>
+    :root{
+      /* Base */
+      --bg:#06160f;
+      --bg2:#071a12;
 
-  --card: rgba(12, 44, 31, .52);
-  --stroke: rgba(255,255,255,.12);
+      --card: rgba(12, 44, 31, .52);
+      --stroke: rgba(255,255,255,.12);
 
-  --text:#eafff3;
-  --muted: rgba(234,255,243,.72);
-  --muted2: rgba(234,255,243,.55);
+      --text:#eafff3;
+      --muted: rgba(234,255,243,.72);
+      --muted2: rgba(234,255,243,.55);
 
-  --accent:#1ee38a;
-  --gold:#ffd44a;               /* ЯРЧЕ ЖЁЛТЫЙ */
+      --accent:#1ee38a;
+      --gold:#ffd44a;
 
-  --shadow: 0 34px 90px rgba(0,0,0,.55);
+      --shadow: 0 34px 90px rgba(0,0,0,.55);
+      --shadow2: 0 18px 60px rgba(0,0,0,.55);
 
-  --r: 28px;
-  --gap: 44px;
-}
+      --r: 28px;
+      --gap: 44px;
+    }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--text);
+    *{box-sizing:border-box}
+    html,body{height:100%}
 
-  /* ОДИНАКОВЫЙ фон без “половин” */
-  background:
-    radial-gradient(1400px 900px at 50% 15%, rgba(30,227,138,.12), transparent 62%),
-    radial-gradient(1400px 900px at 50% 110%, rgba(30,227,138,.10), transparent 60%),
-    linear-gradient(180deg, var(--bg2), var(--bg));
-  overflow-x:hidden;
-}
+    /* ПРЕМИАЛЬНЫЙ ФОН: единый, без обрывов */
+    body{
+      margin:0;
+      font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      overflow-x:hidden;
 
-.wrap{
-  width:100%;
-  min-height:100vh;
-  padding: 34px 52px 52px;
-}
+      /* Слой 1: базовый ровный градиент (очень плавный) */
+      background: linear-gradient(180deg, #081d14 0%, #06160f 60%, #06160f 100%);
+      position: relative;
+    }
 
-.container{
-  width: min(1920px, calc(100vw - 104px));
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  gap: var(--gap);
-}
+    /* Слой 2: мягкое “премиум” свечение без разделения страницы */
+    body::before{
+      content:"";
+      position: fixed;
+      inset:-200px;
+      pointer-events:none;
+      z-index:-1;
 
-.card{
-  padding: 26px 28px;
-  border-radius: var(--r);
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
-}
+      /* Легкие споты + очень слабый “зернистый” эффект через прозрачности */
+      background:
+        radial-gradient(900px 600px at 50% -5%, rgba(30,227,138,.14), transparent 60%),
+        radial-gradient(900px 600px at 0% 25%, rgba(255,212,74,.09), transparent 55%),
+        radial-gradient(900px 650px at 100% 35%, rgba(30,227,138,.10), transparent 58%),
+        radial-gradient(1100px 800px at 50% 110%, rgba(30,227,138,.08), transparent 60%);
+      filter: blur(0px);
+      opacity: 1;
+    }
 
-/* HERO */
-.hero{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap: 16px;
-  padding: 10px 0 2px;
-}
+    /* Слой 3: “винигрет” очень-очень тонкий (визуально премиум, но незаметный) */
+    body::after{
+      content:"";
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      background:
+        repeating-linear-gradient(
+          135deg,
+          rgba(255,255,255,.03) 0px,
+          rgba(255,255,255,.03) 1px,
+          transparent 1px,
+          transparent 10px
+        );
+      opacity: .06; /* едва заметно */
+      mix-blend-mode: overlay;
+    }
 
-/* ТУТ главное: рамки нет, логотип сам овальный */
-.logoBig{
-  width: min(980px, 78vw);      /* большой */
-  height: auto;
-  aspect-ratio: 2.25 / 1;       /* овальный */
-  object-fit: cover;            /* чтобы прям “овал” */
-  border-radius: 999px;         /* овальная форма */
-  box-shadow: 0 40px 120px rgba(0,0,0,.60);
-  user-select:none;
-  -webkit-user-drag:none;
-}
+    .wrap{
+      width:100%;
+      min-height:100vh;
+      padding: 34px 52px 52px;
+    }
 
-.subtitle{
-  margin:0;
-  font-weight: 900;
-  font-size: 30px;
-  letter-spacing:.4px;
-  color: var(--gold);
-  text-align:center;
-  text-shadow: 0 10px 30px rgba(0,0,0,.55);
-}
+    .container{
+      width: min(1920px, calc(100vw - 104px));
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap: var(--gap);
+    }
 
-.topGrid{
-  display:grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: var(--gap);
-  align-items:stretch;
-}
+    .card{
+      padding: 26px 28px;
+      border-radius: var(--r);
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
 
-.mainGrid{
-  display:grid;
-  grid-template-columns: 1fr;   /* чтобы не было пустой половины */
-  gap: var(--gap);
-}
+    /* HERO */
+    .hero{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap: 16px;
+      padding: 10px 0 2px;
+      position: relative;
+    }
 
-.cardTitle{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight: 900;
-  font-size: 16px;
-  letter-spacing:.2px;
-  margin-bottom: 14px;
-}
-.cardTitle i{color: var(--muted)}
-.cardTitle a{color: var(--text); text-decoration:none;}
-.cardTitle a:hover{text-decoration:underline;}
+    /* Премиальное свечение вокруг логотипа (не ломает фон) */
+    .hero::before{
+      content:"";
+      position:absolute;
+      width: min(980px, 78vw);
+      aspect-ratio: 2.25 / 1;
+      border-radius: 999px;
+      background:
+        radial-gradient(closest-side, rgba(30,227,138,.22), transparent 70%),
+        radial-gradient(closest-side, rgba(255,212,74,.14), transparent 72%);
+      filter: blur(18px);
+      opacity: .85;
+      transform: translateY(12px);
+      z-index:0;
+    }
 
-.kv{
-  display:grid;
-  gap:10px;
-  color: var(--muted);
-  font-weight: 800;
-  font-size: 15px;
-  line-height:1.45;
-}
-.kv strong{color:var(--text); font-weight: 900}
+    /* логотип сам овальный */
+    .logoBig{
+      width: min(980px, 78vw);
+      height: auto;
+      aspect-ratio: 2.25 / 1;
+      object-fit: cover;
+      border-radius: 999px;
+      box-shadow: 0 40px 120px rgba(0,0,0,.60);
+      user-select:none;
+      -webkit-user-drag:none;
+      position: relative;
+      z-index:1;
+      border: 1px solid rgba(255,255,255,.10);
+    }
 
-/* CONTACTS */
-.phoneBig{
-  font-size: 30px;
-  font-weight: 900;
-  letter-spacing:.3px;
-  margin: 2px 0 16px;
-}
+    .subtitle{
+      margin:0;
+      font-weight: 900;
+      font-size: 30px;
+      letter-spacing:.4px;
+      color: var(--gold);
+      text-align:center;
+      text-shadow: 0 10px 30px rgba(0,0,0,.55);
+      position: relative;
+      z-index:1;
+    }
 
-.socialRow{
-  display:flex;
-  gap:16px;
-  flex-wrap:wrap;
-}
+    .topGrid{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: var(--gap);
+      align-items:stretch;
+    }
 
-.iconBtn{
-  width: 64px;
-  height: 64px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius: 22px;
-  border: 1px solid rgba(255,255,255,.16);
-  background: rgba(0,0,0,.18);
-  box-shadow: 0 18px 34px rgba(0,0,0,.34);
-  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-  text-decoration:none;
-  color: var(--text);
-}
-.iconBtn i{font-size: 24px}
-.iconBtn:hover{
-  transform: translateY(-3px);
-  border-color: rgba(30,227,138,.42);
-  box-shadow: 0 26px 46px rgba(0,0,0,.48);
-}
+    .mainGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: var(--gap);
+    }
 
-.iconBtn.wa{outline: 2px solid rgba(37,211,102,.30)}
-.iconBtn.viber{outline: 2px solid rgba(115,96,242,.30)}
-.iconBtn.tg{outline: 2px solid rgba(42,171,238,.28)}
-.iconBtn.phone{outline: 2px solid rgba(30,227,138,.24)}
+    .cardTitle{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing:.2px;
+      margin-bottom: 14px;
+    }
+    .cardTitle i{color: var(--muted)}
+    .cardTitle a{color: var(--text); text-decoration:none;}
+    .cardTitle a:hover{text-decoration:underline;}
 
-/* ADV */
-.advHead{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight: 900;
-  font-size: 16px;
-  margin-bottom: 14px;
-}
-.advHead i{ color: var(--gold); }
+    .kv{
+      display:grid;
+      gap:10px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 15px;
+      line-height:1.45;
+    }
+    .kv strong{color:var(--text); font-weight: 900}
 
-.advList{display:grid; gap: 14px; margin-top: 6px;}
-.advItem{
-  display:flex;
-  gap: 12px;
-  align-items:flex-start;
-  padding: 14px 14px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.14);
-}
-.advItem i{color: var(--accent); margin-top: 2px; font-size: 18px;}
-.advItem .t{font-weight: 900; color: var(--text);}
-.advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
+    /* CONTACTS */
+    .phoneBig{
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing:.3px;
+      margin: 2px 0 16px;
+    }
 
-/* RATES */
-.ratesCard{ padding:0; }
-.ratesHead{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  padding: 18px 22px 14px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
+    .socialRow{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
 
-.pill{
-  display:inline-flex;
-  gap:10px;
-  align-items:center;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.18);
-  color: var(--muted);
-  font-weight: 900;
-  font-size: 13px;
-}
-.dot{
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 8px rgba(30,227,138,.12);
-}
+    .iconBtn{
+      width: 64px;
+      height: 64px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      box-shadow: 0 18px 34px rgba(0,0,0,.34);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+      text-decoration:none;
+      color: var(--text);
+    }
+    .iconBtn i{font-size: 24px}
 
-table{
-  width:100%;
-  border-collapse:separate;
-  border-spacing: 0 16px;
-  padding: 16px 20px 22px;
-}
-thead th{
-  text-align:left;
-  color: var(--muted2);
-  font-size: 12.5px;
-  font-weight: 900;
-  padding: 0 14px;
-  letter-spacing:.2px;
-}
-tbody tr{ background: rgba(0,0,0,.18); box-shadow: 0 16px 30px rgba(0,0,0,.26); }
-tbody td{
-  padding: 20px 14px;
-  font-weight: 900;
-  font-size: 20px;
-  border-top: 1px solid rgba(255,255,255,.06);
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-tbody tr td:first-child{
-  border-left: 1px solid rgba(255,255,255,.06);
-  border-top-left-radius: 18px;
-  border-bottom-left-radius: 18px;
-  width: 44%;
-}
-tbody tr td:last-child{
-  border-right: 1px solid rgba(255,255,255,.06);
-  border-top-right-radius: 18px;
-  border-bottom-right-radius: 18px;
-  width: 28%;
-}
+    .iconBtn:hover{
+      transform: translateY(-3px);
+      border-color: rgba(30,227,138,.42);
+      box-shadow: 0 26px 46px rgba(0,0,0,.48);
+      background: rgba(0,0,0,.26);
+    }
 
-.curCell{ display:flex; align-items:center; gap:14px; }
-.flagImg{
-  width: 32px; height: 22px;
-  border-radius: 7px;
-  border: 1px solid rgba(255,255,255,.16);
-  box-shadow: 0 12px 20px rgba(0,0,0,.25);
-  background: rgba(0,0,0,.15);
-  flex:0 0 auto;
-}
-.curMeta{ display:flex; flex-direction:column; gap:3px; line-height:1.1; }
-.curMeta .code{ font-size: 18px; letter-spacing:.2px; }
-.curMeta .pair{ font-size: 12px; color: var(--muted2); font-weight: 900; letter-spacing:.3px; }
-.num{ font-variant-numeric: tabular-nums; letter-spacing:.2px; }
+    .iconBtn:active{ transform: translateY(-1px); }
 
-footer{
-  text-align:center;
-  color: rgba(234,255,243,.55);
-  font-weight: 800;
-  font-size: 12.5px;
-  padding-top: 6px;
-}
+    .iconBtn.wa{outline: 2px solid rgba(37,211,102,.30)}
+    .iconBtn.viber{outline: 2px solid rgba(115,96,242,.30)}
+    .iconBtn.tg{outline: 2px solid rgba(42,171,238,.28)}
+    .iconBtn.phone{outline: 2px solid rgba(30,227,138,.24)}
 
-/* Responsive */
-@media (max-width: 1200px){
-  .wrap{padding: 22px 16px 28px;}
-  .container{width: min(1100px, calc(100vw - 32px));}
-  .topGrid{grid-template-columns: 1fr;}
-  .logoBig{width: min(860px, 92vw);}
-}
-@media (max-width: 560px){
-  .wrap{padding: 16px 12px 20px;}
-  .logoBig{width: 94vw; aspect-ratio: 2.05 / 1;}
-  .subtitle{font-size: 22px;}
-  thead{display:none;}
-  table, tbody, tr, td{display:block; width:100%;}
-  table{padding: 10px 12px 16px; border-spacing: 0;}
-  tbody tr{ border-radius: 18px; overflow:hidden; margin-bottom: 12px;}
-  tbody td{ border:none; border-bottom: 1px solid rgba(255,255,255,.06); padding: 14px 12px; font-size: 18px;}
-  tbody tr td:last-child{ border-bottom:none;}
-  .buy::before{content:"Купівля: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
-  .sell::before{content:"Продаж: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
-}
-</style>
+    /* ADV */
+    .advHead{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 900;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+    .advHead i{ color: var(--gold); }
+
+    .advList{display:grid; gap: 14px; margin-top: 6px;}
+    .advItem{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 14px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      box-shadow: 0 10px 26px rgba(0,0,0,.18);
+    }
+    .advItem i{color: var(--accent); margin-top: 2px; font-size: 18px;}
+    .advItem .t{font-weight: 900; color: var(--text);}
+    .advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
+
+    /* RATES */
+    .ratesCard{ padding:0; }
+    .ratesHead{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 13px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.20);
+    }
+    .dot{
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 8px rgba(30,227,138,.12);
+    }
+
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing: 0 16px;
+      padding: 16px 20px 22px;
+    }
+    thead th{
+      text-align:left;
+      color: var(--muted2);
+      font-size: 12.5px;
+      font-weight: 900;
+      padding: 0 14px;
+      letter-spacing:.2px;
+    }
+
+    tbody tr{
+      background: rgba(0,0,0,.18);
+      box-shadow: 0 16px 30px rgba(0,0,0,.26);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    tbody tr:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 24px 44px rgba(0,0,0,.30);
+    }
+
+    tbody td{
+      padding: 20px 14px;
+      font-weight: 900;
+      font-size: 20px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    tbody tr td:first-child{
+      border-left: 1px solid rgba(255,255,255,.06);
+      border-top-left-radius: 18px;
+      border-bottom-left-radius: 18px;
+      width: 44%;
+    }
+    tbody tr td:last-child{
+      border-right: 1px solid rgba(255,255,255,.06);
+      border-top-right-radius: 18px;
+      border-bottom-right-radius: 18px;
+      width: 28%;
+    }
+
+    .curCell{ display:flex; align-items:center; gap:14px; }
+    .flagImg{
+      width: 32px; height: 22px;
+      border-radius: 7px;
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 12px 20px rgba(0,0,0,.25);
+      background: rgba(0,0,0,.15);
+      flex:0 0 auto;
+    }
+    .curMeta{ display:flex; flex-direction:column; gap:3px; line-height:1.1; }
+    .curMeta .code{ font-size: 18px; letter-spacing:.2px; }
+    .curMeta .pair{ font-size: 12px; color: var(--muted2); font-weight: 900; letter-spacing:.3px; }
+    .num{ font-variant-numeric: tabular-nums; letter-spacing:.2px; }
+
+    footer{
+      text-align:center;
+      color: rgba(234,255,243,.55);
+      font-weight: 800;
+      font-size: 12.5px;
+      padding-top: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px){
+      .wrap{padding: 22px 16px 28px;}
+      .container{width: min(1100px, calc(100vw - 32px));}
+      .topGrid{grid-template-columns: 1fr;}
+      .logoBig{width: min(860px, 92vw);}
+      .hero::before{width: min(860px, 92vw);}
+    }
+    @media (max-width: 560px){
+      .wrap{padding: 16px 12px 20px;}
+      .logoBig{width: 94vw; aspect-ratio: 2.05 / 1;}
+      .hero::before{width: 94vw; aspect-ratio: 2.05 / 1;}
+      .subtitle{font-size: 22px;}
+      thead{display:none;}
+      table, tbody, tr, td{display:block; width:100%;}
+      table{padding: 10px 12px 16px; border-spacing: 0;}
+      tbody tr{ border-radius: 18px; overflow:hidden; margin-bottom: 12px;}
+      tbody td{ border:none; border-bottom: 1px solid rgba(255,255,255,.06); padding: 14px 12px; font-size: 18px;}
+      tbody tr td:last-child{ border-bottom:none;}
+      .buy::before{content:"Купівля: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
+      .sell::before{content:"Продаж: "; color: var(--muted2); font-weight: 900; font-size: 12px;}
+    }
+  </style>
 </head>
 
 <body>
@@ -318,7 +397,6 @@ footer{
 
       <!-- HERO -->
       <div class="hero">
-        <!-- логотип сам овальный, без рамки -->
         <img class="logoBig" src="logo.jpg" alt="Kur$valut">
         <p class="subtitle">Обмін валют</p>
       </div>
@@ -330,7 +408,7 @@ footer{
         <div class="card">
           <div class="cardTitle">
             <a target="_blank" rel="noopener"
-              href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
+               href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45">
               <i class="fa-solid fa-location-dot"></i> Адреса
             </a>
           </div>
@@ -350,7 +428,7 @@ footer{
           </div>
         </div>
 
-        <!-- CONTACTS (без @) -->
+        <!-- CONTACTS -->
         <div class="card">
           <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
 
@@ -430,71 +508,70 @@ footer{
     </div>
   </div>
 
-<script>
-const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
-const FLAG_IMG = {
-  USD: "https://flagcdn.com/us.svg",
-  EUR: "https://flagcdn.com/eu.svg",
-  PLN: "https://flagcdn.com/pl.svg",
-  GBP: "https://flagcdn.com/gb.svg",
-  CHF: "https://flagcdn.com/ch.svg",
-  CAD: "https://flagcdn.com/ca.svg",
-  CZK: "https://flagcdn.com/cz.svg",
-  TRY: "https://flagcdn.com/tr.svg",
-};
+  <script>
+    const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
+    const FLAG_IMG = {
+      USD: "https://flagcdn.com/us.svg",
+      EUR: "https://flagcdn.com/eu.svg",
+      PLN: "https://flagcdn.com/pl.svg",
+      GBP: "https://flagcdn.com/gb.svg",
+      CHF: "https://flagcdn.com/ch.svg",
+      CAD: "https://flagcdn.com/ca.svg",
+      CZK: "https://flagcdn.com/cz.svg",
+      TRY: "https://flagcdn.com/tr.svg",
+    };
 
-function fmt(n){
-  const num = Number(n);
-  if (!Number.isFinite(num)) return "—";
-  return (Math.round(num * 100) / 100).toFixed(2).replace(/\.00$/, "");
-}
-
-async function loadRates(){
-  try{
-    const res = await fetch("rates.json?ts=" + Date.now(), { cache: "no-store" });
-    const data = await res.json();
-
-    const tbody = document.getElementById("ratesBody");
-    tbody.innerHTML = "";
-
-    const keys = ORDER.filter(k => data[k]).concat(
-      Object.keys(data).filter(k => !ORDER.includes(k))
-    );
-
-    for (const cur of keys){
-      const r = data[cur];
-      if (!r) continue;
-
-      const tr = document.createElement("tr");
-
-      tr.innerHTML = `
-        <td>
-          <div class="curCell">
-            <img class="flagImg" src="${FLAG_IMG[cur] || "https://flagcdn.com/un.svg"}" alt="${cur}">
-            <div class="curMeta">
-              <div class="code">${cur}</div>
-              <div class="pair">UAH</div>
-            </div>
-          </div>
-        </td>
-        <td class="buy"><span class="num">${fmt(r.buy)}</span></td>
-        <td class="sell"><span class="num">${fmt(r.sell)}</span></td>
-      `;
-      tbody.appendChild(tr);
+    function fmt(n){
+      const num = Number(n);
+      if (!Number.isFinite(num)) return "—";
+      return (Math.round(num * 100) / 100).toFixed(2).replace(/\.00$/, "");
     }
 
-    const now = new Date();
-    const hh = String(now.getHours()).padStart(2,"0");
-    const mm = String(now.getMinutes()).padStart(2,"0");
-    document.getElementById("updatedPill").innerHTML =
-      `<span class="dot" aria-hidden="true"></span> Оновлено: ${hh}:${mm}`;
-  }catch(e){
-    console.error(e);
-  }
-}
+    async function loadRates(){
+      try{
+        const res = await fetch("rates.json?ts=" + Date.now(), { cache: "no-store" });
+        const data = await res.json();
 
-loadRates();
-setInterval(loadRates, 30000);
-</script>
+        const tbody = document.getElementById("ratesBody");
+        tbody.innerHTML = "";
+
+        const keys = ORDER.filter(k => data[k]).concat(
+          Object.keys(data).filter(k => !ORDER.includes(k))
+        );
+
+        for (const cur of keys){
+          const r = data[cur];
+          if (!r) continue;
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>
+              <div class="curCell">
+                <img class="flagImg" src="${FLAG_IMG[cur] || "https://flagcdn.com/un.svg"}" alt="${cur}">
+                <div class="curMeta">
+                  <div class="code">${cur}</div>
+                  <div class="pair">UAH</div>
+                </div>
+              </div>
+            </td>
+            <td class="buy"><span class="num">${fmt(r.buy)}</span></td>
+            <td class="sell"><span class="num">${fmt(r.sell)}</span></td>
+          `;
+          tbody.appendChild(tr);
+        }
+
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2,"0");
+        const mm = String(now.getMinutes()).padStart(2,"0");
+        document.getElementById("updatedPill").innerHTML =
+          `<span class="dot" aria-hidden="true"></span> Оновлено: ${hh}:${mm}`;
+      }catch(e){
+        console.error(e);
+      }
+    }
+
+    loadRates();
+    setInterval(loadRates, 30000);
+  </script>
 </body>
 </html>
