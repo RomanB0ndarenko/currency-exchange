@@ -4,13 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kur$valut — Обмін валют Київ</title>
-  <meta name="description" content="Kur$valut — обмін валют у Києві. Актуальні курси купівлі/продажу оновлюються автоматично." />
-  <meta name="theme-color" content="#071b13" />
+  <meta name="description" content="Kur$valut — обмін валют у Києві. Актуальні курси купівлі/продажу." />
+  <meta name="theme-color" content="#061710" />
 
-  <!-- Favicon -->
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="/favicon.png" />
+  <!-- Favicons (у тебя уже лежат в корне репо) -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -25,7 +26,6 @@
       --bg0:#061710;
       --bg1:#071f15;
       --card: rgba(15, 46, 34, .55);
-      --card2: rgba(15, 46, 34, .35);
       --stroke: rgba(255,255,255,.10);
       --stroke2: rgba(255,255,255,.14);
       --text:#e9fff3;
@@ -44,21 +44,44 @@
       font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1000px 700px at 15% 20%, rgba(30,227,138,.18), transparent 55%),
-        radial-gradient(900px 600px at 85% 10%, rgba(42,168,255,.14), transparent 50%),
-        radial-gradient(1000px 800px at 60% 95%, rgba(30,227,138,.10), transparent 55%),
+        radial-gradient(1200px 760px at 10% 18%, rgba(30,227,138,.18), transparent 55%),
+        radial-gradient(1100px 680px at 88% 10%, rgba(42,168,255,.14), transparent 52%),
+        radial-gradient(1200px 880px at 55% 96%, rgba(30,227,138,.10), transparent 58%),
         linear-gradient(180deg, var(--bg1), var(--bg0) 70%);
       overflow-x:hidden;
     }
 
-    .wrap{
-      width: 100%;
-      padding: 22px 18px 34px;
+    /* Логотип в углу — просто картинка */
+    .cornerLogo{
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      width: 110px;
+      height: 110px;
+      z-index: 999;
+      pointer-events: none;
+      user-select:none;
+      -webkit-user-drag:none;
+      filter: drop-shadow(0 18px 28px rgba(0,0,0,.55));
+    }
+    .cornerLogo img{
+      width:100%;
+      height:100%;
+      object-fit: contain;
+      border:none;
+      box-shadow:none;
+      border-radius:0;
+      background:transparent;
     }
 
+    .wrap{
+      width: 100%;
+      padding: 22px 28px 34px;
+    }
     .container{
-      max-width: 1240px;
-      margin: 0 auto;
+      width:100%;
+      max-width:none;  /* ВАЖНО: убрали ограничение ширины */
+      margin:0;        /* ВАЖНО: не центрируем узким контейнером */
     }
 
     .topbar{
@@ -67,6 +90,7 @@
       align-items:stretch;
       justify-content:space-between;
       flex-wrap:wrap;
+      padding-left: 140px; /* чтобы контент не залезал под логотип слева */
     }
 
     .brand{
@@ -78,19 +102,9 @@
       background: var(--card);
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow);
-      min-width: 290px;
-      flex: 1 1 320px;
+      min-width: 300px;
+      flex: 1 1 360px;
       backdrop-filter: blur(12px);
-    }
-
-    .logo{
-      width: 78px;
-      height: 78px;
-      border-radius: 18px;
-      object-fit: cover;
-      border: 1px solid var(--stroke2);
-      box-shadow: 0 14px 28px rgba(0,0,0,.35);
-      background: rgba(0,0,0,.15);
     }
 
     .brandTitle{
@@ -101,7 +115,7 @@
     }
     .brandTitle h1{
       margin:0;
-      font-size: 28px;
+      font-size: 30px;
       letter-spacing: .3px;
       line-height: 1.05;
       white-space:nowrap;
@@ -117,10 +131,10 @@
 
     .gridTop{
       display:grid;
-      grid-template-columns: 1.4fr 1.05fr 1.15fr;
+      grid-template-columns: 1.45fr 1.05fr 1.05fr;
       gap:16px;
-      flex: 2 1 680px;
-      min-width: 340px;
+      flex: 2 1 760px;
+      min-width: 360px;
     }
 
     .card{
@@ -133,13 +147,13 @@
       position:relative;
       overflow:hidden;
     }
-
     .card::before{
       content:"";
       position:absolute;
       inset:-2px;
-      background: radial-gradient(500px 250px at 30% 0%, rgba(30,227,138,.14), transparent 55%),
-                  radial-gradient(450px 220px at 80% 10%, rgba(42,168,255,.10), transparent 60%);
+      background:
+        radial-gradient(520px 260px at 30% 0%, rgba(30,227,138,.14), transparent 56%),
+        radial-gradient(460px 240px at 82% 10%, rgba(42,168,255,.10), transparent 62%);
       pointer-events:none;
       opacity:.9;
     }
@@ -227,19 +241,17 @@
     .iconBtn.tg{outline: 2px solid rgba(42,171,238,.30)}
     .iconBtn.phone{outline: 2px solid rgba(30,227,138,.25)}
     .iconBtn.channel{outline: 2px solid rgba(42,168,255,.22)}
-    .iconBtn small{display:none}
 
     .main{
       display:grid;
-      grid-template-columns: 1.7fr 1fr;
+      grid-template-columns: 2.1fr 1fr; /* шире таблица */
       gap: 16px;
       margin-top: 16px;
       align-items:start;
+      padding-left: 140px; /* тоже не залезаем под логотип */
     }
 
-    .ratesCard{
-      padding: 0;
-    }
+    .ratesCard{ padding: 0; }
 
     .ratesHead{
       display:flex;
@@ -264,7 +276,6 @@
       background: var(--accent);
       box-shadow: 0 0 0 6px rgba(30,227,138,.12);
     }
-    .updated .pill{font-size:12.5px}
 
     table{
       width:100%;
@@ -336,7 +347,6 @@
       letter-spacing:.3px;
     }
 
-    .sell, .buy{ text-align:left; }
     .num{
       font-variant-numeric: tabular-nums;
       letter-spacing:.2px;
@@ -378,19 +388,22 @@
       font-weight: 700;
       font-size: 12.5px;
       padding: 10px 0 0;
+      padding-left: 140px;
     }
 
     /* Responsive */
     @media (max-width: 980px){
+      .topbar{ padding-left: 0; }
+      .main{ grid-template-columns: 1fr; padding-left:0; }
+      footer{ padding-left:0; }
       .gridTop{grid-template-columns: 1fr; }
-      .main{grid-template-columns: 1fr; }
       .brand{flex: 1 1 100%;}
+      .cornerLogo{ position: static; width: 90px; height: 90px; margin: 10px 0 0 10px; }
     }
 
     @media (max-width: 560px){
       .wrap{padding: 14px 12px 24px;}
-      .logo{width: 68px; height: 68px; border-radius: 16px;}
-      .brandTitle h1{font-size: 24px;}
+      .cornerLogo{ position: fixed; width: 72px; height: 72px; top: 10px; left: 10px; }
       thead{display:none;}
       table, tbody, tr, td{display:block; width:100%;}
       table{padding: 6px 10px 14px; border-spacing: 0; }
@@ -405,13 +418,7 @@
         padding: 14px 12px;
         font-size: 18px;
       }
-      tbody tr td:first-child{
-        border-radius: 0;
-      }
-      tbody tr td:last-child{
-        border-radius: 0;
-        border-bottom: none;
-      }
+      tbody tr td:last-child{ border-bottom: none; }
       .buy::before{
         content:"Купівля: ";
         color: var(--muted2);
@@ -431,14 +438,17 @@
 </head>
 
 <body>
+  <!-- Логотип в углу -->
+  <div class="cornerLogo">
+    <img src="logo.jpg" alt="Kur$valut">
+  </div>
+
   <div class="wrap">
     <div class="container">
 
       <!-- TOP -->
       <div class="topbar">
         <div class="brand">
-          <!-- поменяй путь если у тебя другой файл -->
-          <img class="logo" src="logo.jpg" alt="Kur$valut" />
           <div class="brandTitle">
             <h1>Kur$valut</h1>
             <p class="sub">Обмін валют • м. Київ</p>
@@ -481,7 +491,6 @@
               <div>@kursvalutobmin</div>
             </div>
 
-            <!-- ICONS ONLY -->
             <div class="socialRow" aria-label="Швидкі посилання">
               <a class="iconBtn wa" href="https://wa.me/380770700745" target="_blank" rel="noopener" title="WhatsApp">
                 <i class="fa-brands fa-whatsapp"></i>
@@ -511,6 +520,7 @@
             </div>
           </div>
 
+          <!-- Вместо "Сервіс" — оставим аккуратные преимущества -->
           <div class="card sideCard">
             <div class="big">
               <span><i class="fa-solid fa-star" style="color:var(--accent)"></i> Переваги</span>
@@ -549,15 +559,14 @@
           </table>
         </div>
 
-        <!-- right column (only on desktop; on mobile moves down) -->
+        <!-- Справа: короткий блок без "Сервіс" -->
         <div class="card sideCard">
           <div class="big">
-            <span><i class="fa-solid fa-shield-heart" style="color:var(--accent)"></i> Сервіс</span>
-            <span class="pill"><i class="fa-solid fa-location-arrow" style="color:var(--accent2)"></i> Центр</span>
+            <span><i class="fa-solid fa-comments" style="color:var(--accent2)"></i> Швидкі контакти</span>
           </div>
+
           <div class="kv">
-            <div>Працюємо акуратно та швидко.</div>
-            <div>Уточнюйте курс у месенджерах або телефонуйте.</div>
+            <div>Напишіть у месенджери або телефонуйте — відповідаємо швидко.</div>
           </div>
 
           <div style="height:12px"></div>
@@ -587,8 +596,7 @@
     // Порядок валют на сайте
     const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
 
-    // Флаги — как картинки (будут работать и на ПК, и на телефоне)
-    // flagcdn.com отдаёт svg; это норм для статического сайта.
+    // Флаги как картинки (работают и на ПК)
     const FLAG_IMG = {
       USD: "https://flagcdn.com/us.svg",
       EUR: "https://flagcdn.com/eu.svg",
@@ -603,7 +611,6 @@
     function fmt(n){
       const num = Number(n);
       if (!Number.isFinite(num)) return "—";
-      // убираем лишние нули, но сохраняем 2 знака если нужно
       return (Math.round(num * 100) / 100).toFixed(num % 1 === 0 ? 0 : 2);
     }
 
@@ -650,17 +657,7 @@
           tbody.appendChild(tr);
         }
 
-        // Время обновления (берём из last_update_id.txt, если есть)
         const pill = document.getElementById("updatedPill");
-        try{
-          const tRes = await fetch("last_update_id.txt?ts=" + Date.now(), { cache: "no-store" });
-          if (tRes.ok){
-            // можно дополнить временем через отдельный файл, но оставим так:
-            // если хочешь — сделаем last_updated_at.txt в workflow
-          }
-        }catch(e){}
-
-        // Просто показываем текущее время клиента как "обновлено"
         const now = new Date();
         const hh = String(now.getHours()).padStart(2,"0");
         const mm = String(now.getMinutes()).padStart(2,"0");
@@ -672,7 +669,6 @@
     }
 
     loadRates();
-    // автообновление витрины раз в 30 секунд (по желанию)
     setInterval(loadRates, 30000);
   </script>
 </body>
