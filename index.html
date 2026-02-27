@@ -35,7 +35,7 @@
   --shadow2: 0 18px 50px rgba(0,0,0,.38);
 
   --r: 26px;
-  --gap: 32px;
+  --gap: 28px;
 
   --containerPad: 44px;
 }
@@ -50,7 +50,7 @@ body{
   background: transparent;
 }
 
-/* ====== BACKGROUND (зелёный + “облачка” по центру) ====== */
+/* ====== BACKGROUND (зелёный, без “швов”) ====== */
 .bg{
   position: fixed;
   inset: 0;
@@ -62,14 +62,13 @@ body{
     linear-gradient(180deg, var(--bgSoft) 0%, var(--bgBase) 55%, var(--bgDeep) 100%);
 }
 
-/* (УБРАЛИ фон-логотип полностью) */
-
 /* ====== LAYOUT ====== */
 .wrap{
   width:100%;
   min-height:100vh;
   padding: 26px var(--containerPad) 46px;
 }
+
 .container{
   width: min(1600px, calc(100vw - (var(--containerPad) * 2)));
   margin:0 auto;
@@ -78,36 +77,36 @@ body{
   gap: var(--gap);
 }
 
-/* ====== TOP BRAND (логотип слева, курс/контент ниже) ====== */
+/* ====== HERO: ЛОГО СЛЕВА + подпись под ним ====== */
 .hero{
   display:flex;
-  align-items:center;
-  justify-content:flex-start;  /* слева */
-  gap: 18px;
-  padding: 6px 0 0;
+  align-items:flex-start;
+  justify-content:flex-start;
+  padding-top: 6px;
+}
+
+.brand{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap: 10px;
 }
 
 .brandLogo{
-  width: min(520px, 56vw);     /* примерно как раньше по размеру, но без гиганта */
-  max-width: 520px;
+  width: 520px;           /* фикс чтобы “влево” и крупно */
+  max-width: min(520px, 92vw);
   height:auto;
   display:block;
   user-select:none;
   -webkit-user-drag:none;
-  filter: drop-shadow(0 26px 90px rgba(0,0,0,.72));
   border-radius: 18px;
-}
-
-.heroText{
-  display:flex;
-  flex-direction:column;
-  gap: 8px;
+  filter: drop-shadow(0 26px 90px rgba(0,0,0,.72));
 }
 
 .subtitle{
   margin:0;
   font-weight: 900;
-  font-size: 32px;
+  font-size: 30px;
   letter-spacing:.4px;
   color: var(--gold);
   text-align:left;
@@ -124,12 +123,19 @@ body{
   backdrop-filter: blur(12px);
 }
 
-/* GRID — чтобы “облачка/карточки” были по центру и не обрезались */
-.topGrid{
+/* ====== TOP ROW: контакти + переваги по центру ====== */
+.centerRow{
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, minmax(360px, 520px));
+  justify-content:center;
   gap: var(--gap);
-  align-items:stretch;
+}
+
+/* ====== нижний ряд: Адреса слева (по желанию) ====== */
+.addressRow{
+  display:grid;
+  grid-template-columns: minmax(360px, 520px);
+  justify-content:flex-start; /* остается под логотипом слева */
 }
 
 /* Titles */
@@ -148,7 +154,7 @@ body{
 .cardTitle .fa-location-dot,
 .cardTitle .fa-clock{ color: var(--danger); }
 
-/* Address/work text bigger + less empty */
+/* Address/work */
 .kv{
   display:grid;
   gap:8px;
@@ -225,7 +231,7 @@ body{
 .advItem .t{font-weight: 900; color: var(--text);}
 .advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
 
-/* RATES — блок ниже */
+/* RATES — всегда внизу */
 .ratesCard{ padding:0; overflow:hidden; }
 .ratesHead{
   display:flex;
@@ -319,27 +325,30 @@ footer{
   :root{ --containerPad: 18px; --gap: 18px; }
   .container{width: calc(100vw - (var(--containerPad) * 2));}
 
-  .hero{
-    justify-content:center; /* на планшете по центру */
-    text-align:center;
-  }
-  .subtitle{ text-align:center; font-size: 26px; }
   .brandLogo{ width: min(520px, 92vw); }
+  .subtitle{ font-size: 26px; }
+
+  /* центрируем “контакти/переваги” */
+  .centerRow{
+    grid-template-columns: 1fr;
+    justify-content:stretch;
+  }
+
+  .addressRow{
+    justify-content:stretch;
+    grid-template-columns: 1fr;
+  }
 }
 
-/* Mobile rates: ровно и красиво в строчку */
+/* Mobile rates: ровно и красиво */
 @media (max-width: 600px){
   :root{ --containerPad: 12px; --gap: 14px; }
 
   .wrap{ padding: 14px var(--containerPad) 18px; }
 
-  .hero{
-    flex-direction:column;
-    align-items:center;
-    gap: 10px;
-  }
-  .subtitle{ font-size: 22px; text-align:center; }
-
+  .hero{ justify-content:center; }
+  .brand{ align-items:center; }
+  .subtitle{ text-align:center; font-size: 22px; }
   .brandLogo{ width: 92vw; max-width: 520px; border-radius: 16px; }
 
   .card{ padding: 18px 16px; border-radius: 20px; }
@@ -357,11 +366,7 @@ footer{
   .iconBtn i{ font-size: 22px; }
 
   thead{ display:none; }
-
-  table{
-    padding: 10px 12px 16px;
-    border-spacing: 0;
-  }
+  table{ padding: 10px 12px 16px; border-spacing: 0; }
   table, tbody{ display:block; width:100%; }
 
   tbody tr{
@@ -412,48 +417,18 @@ footer{
   <div class="wrap">
     <div class="container">
 
-      <!-- BRAND -->
+      <!-- ЛОГО СЛЕВА + подпись под ним -->
       <div class="hero">
-        <img class="brandLogo" src="logo.jpg" alt="Kur$valut">
-        <div class="heroText">
+        <div class="brand">
+          <img class="brandLogo" src="logo.jpg" alt="Kur$valut">
           <p class="subtitle">Обмін валют</p>
         </div>
       </div>
 
-      <!-- TOP GRID -->
-      <div class="topGrid">
-
-        <!-- ADDRESS + WORK -->
-        <div class="card">
-          <div class="cardTitle">
-            <a target="_blank" rel="noopener"
-              href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45"
-              title="Натисніть, щоб переглянути розташування Kur$valut на карті.">
-              <i class="fa-solid fa-location-dot"></i> Адреса
-            </a>
-          </div>
-
-          <div class="kv">
-            <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
-          </div>
-
-          <div style="height:14px"></div>
-
-          <div class="cardTitle">
-            <i class="fa-solid fa-clock"></i> Режим роботи
-          </div>
-
-          <div class="kv">
-            <div><strong>Понеділок – П’ятниця:</strong> 09:00 – 19:00</div>
-            <div><strong>Субота:</strong> 10:00 – 18:00</div>
-            <div><strong>Неділя:</strong> Вихідний</div>
-          </div>
-        </div>
-
-        <!-- CONTACTS -->
+      <!-- ВЕРХ ПО ЦЕНТРУ: Контакти + Переваги -->
+      <div class="centerRow">
         <div class="card">
           <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
-
           <div class="phoneBig">+380 77 070 0745</div>
 
           <div class="socialRow">
@@ -472,7 +447,6 @@ footer{
           </div>
         </div>
 
-        <!-- ADV -->
         <div class="card">
           <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
           <div class="advList">
@@ -499,10 +473,38 @@ footer{
             </div>
           </div>
         </div>
-
       </div>
 
-      <!-- RATES (вниз курс валют) -->
+      <!-- АДРЕСА СЛЕВА (под логотипом/внизу после центра) -->
+      <div class="addressRow">
+        <div class="card">
+          <div class="cardTitle">
+            <a target="_blank" rel="noopener"
+              href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45"
+              title="Натисніть, щоб переглянути розташування Kur$valut на карті.">
+              <i class="fa-solid fa-location-dot"></i> Адреса
+            </a>
+          </div>
+
+          <div class="kv">
+            <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="cardTitle">
+            <i class="fa-solid fa-clock"></i> Режим роботи
+          </div>
+
+          <div class="kv">
+            <div><strong>Понеділок – П’ятниця:</strong> 09:00 – 19:00</div>
+            <div><strong>Субота:</strong> 10:00 – 18:00</div>
+            <div><strong>Неділя:</strong> Вихідний</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ВНИЗУ: КУРСЫ -->
       <div class="card ratesCard">
         <div class="ratesHead">
           <span class="pill" id="updatedPill"><span class="dot" aria-hidden="true"></span> Оновлено: —</span>
