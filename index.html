@@ -18,72 +18,92 @@
   --bgDeep:#04110b;
   --bgSoft:#0a2218;
 
-  --card: rgba(12, 44, 31, .52);
-  --stroke: rgba(255,255,255,.12);
+  --card: rgba(10, 28, 20, .46);
+  --card2: rgba(10, 28, 20, .34);
+  --stroke: rgba(255,255,255,.11);
+  --stroke2: rgba(255,255,255,.07);
 
   --text:#eafff3;
-  --muted: rgba(234,255,243,.72);
+  --muted: rgba(234,255,243,.74);
   --muted2: rgba(234,255,243,.55);
 
   --accent:#1ee38a;
   --gold:#ffd44a;
-  --danger:#ff4d4d; /* красный для иконок */
+  --danger:#ff4d4d;
 
-  --shadow: 0 34px 90px rgba(0,0,0,.55);
+  --shadow: 0 28px 90px rgba(0,0,0,.60);
+  --shadow2: 0 18px 50px rgba(0,0,0,.38);
 
-  --r: 28px;
-  --gap: 44px;
+  --r: 26px;
+  --gap: 32px;
+
+  --containerPad: 44px;
 }
 
 *{box-sizing:border-box}
-html, body { height: 100%; margin: 0; }
-
+html,body{height:100%}
 body{
   margin:0;
   font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
+  overflow-x:hidden;
   background: transparent;
-  overflow-x: hidden;
 }
 
-/* ЕДИНЫЙ ФИКСИРОВАННЫЙ ФОН (без швов) */
+/* ====== BACKGROUND LAYERS (дорого + без швов) ====== */
 .bg{
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -3;
   background:
-    radial-gradient(900px 650px at 70% 25%, rgba(30,227,138,.12), transparent 60%),
-    radial-gradient(950px 700px at 15% 15%, rgba(255,212,74,.06), transparent 58%),
-    radial-gradient(1000px 800px at 50% 110%, rgba(30,227,138,.08), transparent 62%),
+    radial-gradient(1200px 800px at 70% 18%, rgba(30,227,138,.12), transparent 60%),
+    radial-gradient(1000px 800px at 15% 12%, rgba(255,212,74,.06), transparent 62%),
+    radial-gradient(1200px 900px at 50% 110%, rgba(30,227,138,.09), transparent 62%),
     linear-gradient(180deg, var(--bgSoft) 0%, var(--bgBase) 55%, var(--bgDeep) 100%);
-  background-size: cover;
-  will-change: transform;
 }
 
+/* Водяной знак логотипом на весь экран (работает даже с jpg) */
+.logoBg{
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events:none;
+  background:
+    /* маскируем прямоугольные края логотипа через виньетку */
+    radial-gradient(80% 75% at 50% 42%, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.82) 78%, rgba(0,0,0,.92) 100%),
+    /* сам логотип */
+    url("logo.jpg") center 18% / min(980px, 90vw) no-repeat;
+  opacity: .18;
+  filter: blur(.35px) saturate(1.2) contrast(1.05);
+  mix-blend-mode: screen; /* делает свечение “дороже” */
+}
+
+/* Мягкая тень по краям экрана (чтобы всё выглядело собранно) */
+.vignette{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 50% 20%, rgba(0,0,0,0) 0%, rgba(0,0,0,.36) 60%, rgba(0,0,0,.65) 100%),
+    radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0) 0%, rgba(0,0,0,.44) 62%, rgba(0,0,0,.75) 100%);
+}
+
+/* ====== LAYOUT ====== */
 .wrap{
   width:100%;
   min-height:100vh;
-  padding: 34px 52px 52px;
+  padding: 26px var(--containerPad) 46px;
 }
-
 .container{
-  width: min(1920px, calc(100vw - 104px));
+  width: min(1600px, calc(100vw - (var(--containerPad) * 2)));
   margin:0 auto;
   display:flex;
   flex-direction:column;
   gap: var(--gap);
 }
 
-.card{
-  padding: 26px 28px;
-  border-radius: var(--r);
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
-}
-
-/* ===== HEADER (вместо овального hero) ===== */
+/* ====== TOP BRAND ====== */
 .hero{
   display:flex;
   flex-direction:column;
@@ -93,86 +113,96 @@ body{
   padding: 6px 0 0;
 }
 
-.logoTop{
-  width: min(320px, 78vw);
-  height: auto;
+.brandLogo{
+  width: min(640px, 92vw);
+  height:auto;
   display:block;
   user-select:none;
   -webkit-user-drag:none;
-  filter: drop-shadow(0 18px 40px rgba(0,0,0,.55));
+  filter: drop-shadow(0 26px 90px rgba(0,0,0,.72));
+  border-radius: 18px;
 }
 
 .subtitle{
   margin:0;
   font-weight: 900;
-  font-size: 28px;
-  letter-spacing:.3px;
+  font-size: 32px;
+  letter-spacing:.4px;
   color: var(--gold);
   text-align:center;
-  text-shadow: 0 10px 26px rgba(0,0,0,.55);
+  text-shadow: 0 14px 34px rgba(0,0,0,.60);
 }
 
+/* ====== CARDS ====== */
+.card{
+  padding: 22px 22px;
+  border-radius: var(--r);
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+/* GRID */
 .topGrid{
   display:grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns: 1.15fr 1fr 1fr;
   gap: var(--gap);
   align-items:stretch;
 }
 
+/* Titles */
 .cardTitle{
   display:flex;
   align-items:center;
   gap:10px;
   font-weight: 900;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing:.2px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 .cardTitle i{color: var(--muted)}
 .cardTitle a{color: var(--text); text-decoration:none;}
 .cardTitle a:hover{text-decoration:underline;}
-
-/* ✅ красные иконки только тут */
 .cardTitle .fa-location-dot,
-.cardTitle .fa-clock{
-  color: var(--danger);
-}
+.cardTitle .fa-clock{ color: var(--danger); }
 
+/* Address/work text bigger + less empty */
 .kv{
   display:grid;
-  gap:10px;
+  gap:8px;
   color: var(--muted);
   font-weight: 800;
-  font-size: 15px;
-  line-height:1.45;
+  font-size: 17px;
+  line-height:1.5;
 }
-.kv strong{color:var(--text); font-weight: 900}
+.kv strong{color:var(--text); font-weight: 900;}
 
 /* CONTACTS */
 .phoneBig{
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 900;
   letter-spacing:.3px;
-  margin: 2px 0 16px;
+  margin: 0 0 16px;
   word-break: break-word;
 }
 
 .socialRow{
   display:flex;
-  gap:16px;
+  gap:14px;
   flex-wrap:wrap;
 }
 
 .iconBtn{
-  width: 64px;
-  height: 64px;
+  width: 62px;
+  height: 62px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius: 22px;
+  border-radius: 18px;
   border: 1px solid rgba(255,255,255,.16);
-  background: rgba(0,0,0,.18);
-  box-shadow: 0 18px 34px rgba(0,0,0,.34);
+  background: rgba(0,0,0,.20);
+  box-shadow: var(--shadow2);
   transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
   text-decoration:none;
   color: var(--text);
@@ -181,14 +211,13 @@ body{
 .iconBtn:hover{
   transform: translateY(-3px);
   border-color: rgba(30,227,138,.42);
-  box-shadow: 0 26px 46px rgba(0,0,0,.48);
-  background: rgba(0,0,0,.26);
+  box-shadow: 0 26px 60px rgba(0,0,0,.52);
+  background: rgba(0,0,0,.28);
 }
-
-.iconBtn.wa{outline: 2px solid rgba(37,211,102,.30)}
-.iconBtn.viber{outline: 2px solid rgba(115,96,242,.30)}
-.iconBtn.tg{outline: 2px solid rgba(42,171,238,.28)}
-.iconBtn.phone{outline: 2px solid rgba(30,227,138,.24)}
+.iconBtn.wa{outline: 2px solid rgba(37,211,102,.26)}
+.iconBtn.viber{outline: 2px solid rgba(115,96,242,.26)}
+.iconBtn.tg{outline: 2px solid rgba(42,171,238,.24)}
+.iconBtn.phone{outline: 2px solid rgba(30,227,138,.20)}
 
 /* ADV */
 .advHead{
@@ -196,32 +225,32 @@ body{
   align-items:center;
   gap:10px;
   font-weight: 900;
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 14px;
 }
 .advHead i{ color: var(--gold); }
 
-.advList{display:grid; gap: 14px; margin-top: 6px;}
+.advList{display:grid; gap: 12px; margin-top: 6px;}
 .advItem{
   display:flex;
   gap: 12px;
   align-items:flex-start;
   padding: 14px 14px;
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.14);
+  border: 1px solid var(--stroke2);
+  background: rgba(0,0,0,.18);
 }
 .advItem i{color: var(--accent); margin-top: 2px; font-size: 18px;}
 .advItem .t{font-weight: 900; color: var(--text);}
 .advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
 
 /* RATES */
-.ratesCard{ padding:0; }
+.ratesCard{ padding:0; overflow:hidden; }
 .ratesHead{
   display:flex;
   align-items:center;
   justify-content:flex-end;
-  padding: 18px 22px 14px;
+  padding: 16px 18px 14px;
   border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
@@ -246,8 +275,8 @@ body{
 table{
   width:100%;
   border-collapse:separate;
-  border-spacing: 0 16px;
-  padding: 16px 20px 22px;
+  border-spacing: 0 14px;
+  padding: 14px 16px 18px;
 }
 thead th{
   text-align:left;
@@ -258,9 +287,12 @@ thead th{
   letter-spacing:.2px;
 }
 
-tbody tr{ background: rgba(0,0,0,.18); box-shadow: 0 16px 30px rgba(0,0,0,.26); }
+tbody tr{
+  background: rgba(0,0,0,.18);
+  box-shadow: 0 16px 30px rgba(0,0,0,.26);
+}
 tbody td{
-  padding: 20px 14px;
+  padding: 18px 14px;
   font-weight: 900;
   font-size: 20px;
   border-top: 1px solid rgba(255,255,255,.06);
@@ -303,25 +335,28 @@ footer{
 
 /* ===== Responsive ===== */
 @media (max-width: 1200px){
-  .wrap{padding: 22px 16px 28px;}
-  .container{width: min(1100px, calc(100vw - 32px));}
+  :root{ --containerPad: 18px; --gap: 18px; }
+  .container{width: calc(100vw - (var(--containerPad) * 2));}
   .topGrid{grid-template-columns: 1fr;}
-  .logoTop{width: min(300px, 86vw);}
+  .brandLogo{width: min(520px, 92vw);}
+  .subtitle{font-size: 26px;}
 }
 
+/* Mobile rates: ровно и красиво в строчку */
 @media (max-width: 600px){
-  :root{ --gap: 16px; }
+  :root{ --containerPad: 12px; --gap: 14px; }
 
-  .wrap{ padding: 14px 12px 18px; }
-  .container{ width: calc(100vw - 24px); gap: var(--gap); }
+  .wrap{ padding: 14px var(--containerPad) 18px; }
 
-  .logoTop{ width: min(280px, 88vw); }
+  .brandLogo{ width: 92vw; max-width: 520px; border-radius: 16px; }
   .subtitle{ font-size: 22px; }
 
   .card{ padding: 18px 16px; border-radius: 20px; }
+  .cardTitle{ font-size: 17px; margin-bottom: 10px; }
+  .kv{ font-size: 16px; gap: 7px; }
+
   .phoneBig{ font-size: 24px; margin-bottom: 12px; }
 
-  /* Соц кнопки 2х2 */
   .socialRow{
     display:grid;
     grid-template-columns: repeat(2, 1fr);
@@ -330,27 +365,20 @@ footer{
   .iconBtn{ width: 100%; height: 54px; border-radius: 16px; }
   .iconBtn i{ font-size: 22px; }
 
-  /* ===== КУРСЫ РОВНО ===== */
   thead{ display:none; }
 
   table{
     padding: 10px 12px 16px;
     border-spacing: 0;
   }
-
-  table, tbody{
-    display:block;
-    width:100%;
-  }
+  table, tbody{ display:block; width:100%; }
 
   tbody tr{
     display:grid;
     grid-template-columns: 1fr 1fr;
-    background: rgba(0,0,0,.18);
     border-radius: 18px;
     overflow:hidden;
     margin-bottom: 12px;
-    box-shadow: 0 16px 30px rgba(0,0,0,.26);
   }
 
   tbody td{
@@ -383,22 +411,33 @@ footer{
   }
   .buy::before{ content:"Купівля"; }
   .sell::before{ content:"Продаж"; }
+
+  /* watermark чуть меньше на мобиле */
+  .logoBg{
+    background:
+      radial-gradient(90% 80% at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.82) 78%, rgba(0,0,0,.92) 100%),
+      url("logo.jpg") center 10% / 92vw no-repeat;
+    opacity: .16;
+  }
 }
 </style>
 </head>
 
 <body>
   <div class="bg" aria-hidden="true"></div>
+  <div class="logoBg" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
 
   <div class="wrap">
     <div class="container">
 
-      <!-- HEADER -->
+      <!-- BRAND -->
       <div class="hero">
-        <img class="logoTop" src="logo.jpg" alt="Kur$valut">
+        <img class="brandLogo" src="logo.jpg" alt="Kur$valut">
         <p class="subtitle">Обмін валют</p>
       </div>
 
+      <!-- TOP GRID -->
       <div class="topGrid">
 
         <!-- ADDRESS + WORK -->
@@ -415,7 +454,7 @@ footer{
             <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
           </div>
 
-          <div style="height:18px"></div>
+          <div style="height:14px"></div>
 
           <div class="cardTitle">
             <i class="fa-solid fa-clock"></i> Режим роботи
@@ -426,8 +465,6 @@ footer{
             <div><strong>Субота:</strong> 10:00 – 18:00</div>
             <div><strong>Неділя:</strong> Вихідний</div>
           </div>
-
-          <!-- ✅ подсказку убрали (как просил) -->
         </div>
 
         <!-- CONTACTS -->
@@ -437,7 +474,7 @@ footer{
           <div class="phoneBig">+380 77 070 0745</div>
 
           <div class="socialRow">
-            <a class="iconBtn tg" href="https://t.me/kursvalutobmin" target="_blank" rel="noopener" title="Telegram (особисті повідомлення)">
+            <a class="iconBtn tg" href="https://t.me/kursvalutobmin" target="_blank" rel="noopener" title="Telegram">
               <i class="fa-brands fa-telegram"></i>
             </a>
             <a class="iconBtn wa" href="https://wa.me/380770700745" target="_blank" rel="noopener" title="WhatsApp">
@@ -450,8 +487,6 @@ footer{
               <i class="fa-solid fa-phone"></i>
             </a>
           </div>
-
-          <!-- ✅ подсказку убрали (как просил) -->
         </div>
 
         <!-- ADV -->
@@ -522,8 +557,7 @@ const FLAG_IMG = {
 function fmt(n){
   const num = Number(n);
   if (!Number.isFinite(num)) return "—";
-  // ✅ всегда 2 знака после запятой
-  return num.toFixed(2);
+  return num.toFixed(2); // ✅ всегда 2 знака, даже 43.00
 }
 
 async function loadRates(){
