@@ -50,33 +50,19 @@ body{
   background: transparent;
 }
 
-/* ====== BACKGROUND (зелёный, без швов) ====== */
+/* ====== BACKGROUND (зелёный + “облачка” по центру) ====== */
 .bg{
   position: fixed;
   inset: 0;
   z-index: -3;
   background:
-    radial-gradient(1200px 800px at 70% 18%, rgba(30,227,138,.12), transparent 60%),
-    radial-gradient(1000px 800px at 15% 12%, rgba(255,212,74,.06), transparent 62%),
-    radial-gradient(1200px 900px at 50% 110%, rgba(30,227,138,.09), transparent 62%),
+    radial-gradient(1200px 820px at 50% 14%, rgba(30,227,138,.13), transparent 60%),
+    radial-gradient(1050px 820px at 50% 20%, rgba(255,212,74,.06), transparent 64%),
+    radial-gradient(1200px 900px at 50% 112%, rgba(30,227,138,.10), transparent 62%),
     linear-gradient(180deg, var(--bgSoft) 0%, var(--bgBase) 55%, var(--bgDeep) 100%);
 }
 
-/* ====== LOGO GLOW IN BACKGROUND (PNG прозрачный) ====== */
-.logoGlow{
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events:none;
-
-  /* PNG логотип по центру + мягкое свечение */
-  background:
-    radial-gradient(900px 700px at 50% 22%, rgba(30,227,138,.18), transparent 62%),
-    url("logo.png") center 18% / min(860px, 88vw) no-repeat;
-
-  opacity: .18;
-  filter: drop-shadow(0 0 80px rgba(30,227,138,.35)) saturate(1.15);
-}
+/* (УБРАЛИ фон-логотип полностью) */
 
 /* ====== LAYOUT ====== */
 .wrap{
@@ -92,18 +78,18 @@ body{
   gap: var(--gap);
 }
 
-/* ====== TOP BRAND ====== */
+/* ====== TOP BRAND (логотип слева, курс/контент ниже) ====== */
 .hero{
   display:flex;
-  flex-direction:column;
   align-items:center;
-  justify-content:center;
-  gap: 10px;
+  justify-content:flex-start;  /* слева */
+  gap: 18px;
   padding: 6px 0 0;
 }
 
 .brandLogo{
-  width: min(640px, 92vw);
+  width: min(520px, 56vw);     /* примерно как раньше по размеру, но без гиганта */
+  max-width: 520px;
   height:auto;
   display:block;
   user-select:none;
@@ -112,13 +98,19 @@ body{
   border-radius: 18px;
 }
 
+.heroText{
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+}
+
 .subtitle{
   margin:0;
   font-weight: 900;
   font-size: 32px;
   letter-spacing:.4px;
   color: var(--gold);
-  text-align:center;
+  text-align:left;
   text-shadow: 0 14px 34px rgba(0,0,0,.60);
 }
 
@@ -132,10 +124,10 @@ body{
   backdrop-filter: blur(12px);
 }
 
-/* GRID */
+/* GRID — чтобы “облачка/карточки” были по центру и не обрезались */
 .topGrid{
   display:grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--gap);
   align-items:stretch;
 }
@@ -233,7 +225,7 @@ body{
 .advItem .t{font-weight: 900; color: var(--text);}
 .advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
 
-/* RATES */
+/* RATES — блок ниже */
 .ratesCard{ padding:0; overflow:hidden; }
 .ratesHead{
   display:flex;
@@ -326,9 +318,13 @@ footer{
 @media (max-width: 1200px){
   :root{ --containerPad: 18px; --gap: 18px; }
   .container{width: calc(100vw - (var(--containerPad) * 2));}
-  .topGrid{grid-template-columns: 1fr;}
-  .brandLogo{width: min(520px, 92vw);}
-  .subtitle{font-size: 26px;}
+
+  .hero{
+    justify-content:center; /* на планшете по центру */
+    text-align:center;
+  }
+  .subtitle{ text-align:center; font-size: 26px; }
+  .brandLogo{ width: min(520px, 92vw); }
 }
 
 /* Mobile rates: ровно и красиво в строчку */
@@ -337,8 +333,14 @@ footer{
 
   .wrap{ padding: 14px var(--containerPad) 18px; }
 
+  .hero{
+    flex-direction:column;
+    align-items:center;
+    gap: 10px;
+  }
+  .subtitle{ font-size: 22px; text-align:center; }
+
   .brandLogo{ width: 92vw; max-width: 520px; border-radius: 16px; }
-  .subtitle{ font-size: 22px; }
 
   .card{ padding: 18px 16px; border-radius: 20px; }
   .cardTitle{ font-size: 17px; margin-bottom: 10px; }
@@ -400,29 +402,22 @@ footer{
   }
   .buy::before{ content:"Купівля"; }
   .sell::before{ content:"Продаж"; }
-
-  /* На мобиле фон-логотип меньше */
-  .logoGlow{
-    background:
-      radial-gradient(800px 600px at 50% 18%, rgba(30,227,138,.16), transparent 62%),
-      url("logo.png") center 12% / 92vw no-repeat;
-    opacity: .16;
-  }
 }
 </style>
 </head>
 
 <body>
   <div class="bg" aria-hidden="true"></div>
-  <div class="logoGlow" aria-hidden="true"></div>
 
   <div class="wrap">
     <div class="container">
 
       <!-- BRAND -->
       <div class="hero">
-        <img class="brandLogo" src="logo.png" alt="Kur$valut">
-        <p class="subtitle">Обмін валют</p>
+        <img class="brandLogo" src="logo.jpg" alt="Kur$valut">
+        <div class="heroText">
+          <p class="subtitle">Обмін валют</p>
+        </div>
       </div>
 
       <!-- TOP GRID -->
@@ -507,7 +502,7 @@ footer{
 
       </div>
 
-      <!-- RATES -->
+      <!-- RATES (вниз курс валют) -->
       <div class="card ratesCard">
         <div class="ratesHead">
           <span class="pill" id="updatedPill"><span class="dot" aria-hidden="true"></span> Оновлено: —</span>
@@ -545,7 +540,7 @@ const FLAG_IMG = {
 function fmt(n){
   const num = Number(n);
   if (!Number.isFinite(num)) return "—";
-  return num.toFixed(2); // всегда 2 знака (43.00)
+  return num.toFixed(2);
 }
 
 async function loadRates(){
