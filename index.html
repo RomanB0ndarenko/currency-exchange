@@ -196,29 +196,52 @@ body{
 .iconBtn.tg{outline: 2px solid rgba(42,171,238,.24)}
 .iconBtn.phone{outline: 2px solid rgba(30,227,138,.20)}
 
-/* ADV */
+/* ADV (больше и "длиннее" вниз) */
 .advHead{
   display:flex;
   align-items:center;
   gap:10px;
   font-weight: 900;
-  font-size: 18px;
-  margin-bottom: 14px;
+  font-size: 20px;          /* увеличили */
+  margin-bottom: 16px;
 }
 .advHead i{ color: var(--gold); }
-.advList{display:grid; gap: 12px; margin-top: 6px;}
+
+.advList{
+  display:grid;
+  gap: 14px;
+  margin-top: 6px;
+}
+
 .advItem{
   display:flex;
-  gap: 12px;
+  gap: 14px;
   align-items:flex-start;
-  padding: 14px 14px;
+  padding: 18px 16px;       /* выше карточки */
   border-radius: 18px;
   border: 1px solid var(--stroke2);
   background: rgba(0,0,0,.18);
+  min-height: 92px;         /* делает блок визуально длиннее */
 }
-.advItem i{color: var(--accent); margin-top: 2px; font-size: 18px;}
-.advItem .t{font-weight: 900; color: var(--text);}
-.advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
+
+.advItem i{
+  color: var(--accent);
+  margin-top: 3px;
+  font-size: 20px;          /* чуть крупнее */
+}
+
+.advItem .t{
+  font-weight: 900;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.advItem .s{
+  color: var(--muted);
+  font-weight: 800;
+  margin-top: 4px;
+  font-size: 14.5px;
+}
 
 /* RATES — внизу на всю ширину */
 .ratesCard{ padding:0; overflow:hidden; }
