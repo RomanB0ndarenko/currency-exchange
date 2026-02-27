@@ -4,119 +4,157 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Kur$valut — Обмін валют Київ</title>
+<meta name="theme-color" content="#06160f" />
+<link rel="icon" href="/favicon.ico">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
 :root{
-  --bg1:#06160f;
-  --bg2:#04110b;
-  --bg3:#0a2218;
+  --bgBase:#06160f;
+  --bgDeep:#04110b;
+  --bgSoft:#0a2218;
 
-  --card: rgba(12,44,31,.60);
+  --card: rgba(12, 44, 31, .52);
   --stroke: rgba(255,255,255,.12);
 
   --text:#eafff3;
-  --muted:rgba(234,255,243,.75);
-  --muted2:rgba(234,255,243,.55);
+  --muted: rgba(234,255,243,.72);
+  --muted2: rgba(234,255,243,.55);
 
   --accent:#1ee38a;
   --gold:#ffd44a;
-  --danger:#ff4d4d;
+  --danger:#ff4d4d; /* красный для иконок */
 
-  --r:26px;
+  --shadow: 0 34px 90px rgba(0,0,0,.55);
+
+  --r: 28px;
+  --gap: 44px;
 }
 
 *{box-sizing:border-box}
+html, body { height: 100%; margin: 0; }
+
 body{
   margin:0;
-  font-family:Manrope,sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(1000px 700px at 70% 20%, rgba(30,227,138,.15), transparent 60%),
-    radial-gradient(800px 600px at 20% 10%, rgba(255,212,74,.07), transparent 60%),
-    linear-gradient(180deg,var(--bg3),var(--bg1),var(--bg2));
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: transparent;
+  overflow-x: hidden;
 }
 
-/* ===== WRAP ===== */
+/* ЕДИНЫЙ ФИКСИРОВАННЫЙ ФОН (без швов) */
+.bg{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(900px 650px at 70% 25%, rgba(30,227,138,.12), transparent 60%),
+    radial-gradient(950px 700px at 15% 15%, rgba(255,212,74,.06), transparent 58%),
+    radial-gradient(1000px 800px at 50% 110%, rgba(30,227,138,.08), transparent 62%),
+    linear-gradient(180deg, var(--bgSoft) 0%, var(--bgBase) 55%, var(--bgDeep) 100%);
+  background-size: cover;
+  will-change: transform;
+}
+
 .wrap{
   width:100%;
-  padding:30px 40px 50px;
+  min-height:100vh;
+  padding: 34px 52px 52px;
 }
 
-/* ===== HERO ===== */
-.hero{
-  text-align:center;
-  margin-bottom:40px;
-}
-
-.logoTop{
-  width:min(1000px,95vw);
-  max-width:1000px;
-  height:auto;
-  display:block;
-  margin:0 auto 12px;
-  filter:drop-shadow(0 25px 60px rgba(0,0,0,.6));
-}
-
-.subtitle{
-  font-size:34px;
-  font-weight:900;
-  color:var(--gold);
-  margin:0;
-  letter-spacing:.5px;
-}
-
-/* ===== GRID ===== */
-.topGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:28px;
-  margin-bottom:40px;
+.container{
+  width: min(1920px, calc(100vw - 104px));
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap: var(--gap);
 }
 
 .card{
-  background:var(--card);
-  border:1px solid var(--stroke);
-  border-radius:var(--r);
-  padding:24px;
-  backdrop-filter:blur(10px);
+  padding: 26px 28px;
+  border-radius: var(--r);
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+/* ===== HEADER (вместо овального hero) ===== */
+.hero{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 6px 0 0;
+}
+
+.logoTop{
+  width: min(320px, 78vw);
+  height: auto;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+  filter: drop-shadow(0 18px 40px rgba(0,0,0,.55));
+}
+
+.subtitle{
+  margin:0;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing:.3px;
+  color: var(--gold);
+  text-align:center;
+  text-shadow: 0 10px 26px rgba(0,0,0,.55);
+}
+
+.topGrid{
+  display:grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: var(--gap);
+  align-items:stretch;
 }
 
 .cardTitle{
-  font-size:18px;
-  font-weight:900;
-  margin-bottom:12px;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing:.2px;
+  margin-bottom: 14px;
 }
+.cardTitle i{color: var(--muted)}
+.cardTitle a{color: var(--text); text-decoration:none;}
+.cardTitle a:hover{text-decoration:underline;}
 
+/* ✅ красные иконки только тут */
 .cardTitle .fa-location-dot,
 .cardTitle .fa-clock{
-  color:var(--danger);
+  color: var(--danger);
 }
 
 .kv{
-  font-size:17px;
-  line-height:1.5;
-  color:var(--muted);
   display:grid;
-  gap:6px;
+  gap:10px;
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 15px;
+  line-height:1.45;
 }
+.kv strong{color:var(--text); font-weight: 900}
 
-.kv strong{
-  color:var(--text);
-  font-weight:900;
-}
-
-/* CONTACT */
+/* CONTACTS */
 .phoneBig{
-  font-size:30px;
-  font-weight:900;
-  margin-bottom:18px;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing:.3px;
+  margin: 2px 0 16px;
+  word-break: break-word;
 }
 
 .socialRow{
@@ -126,189 +164,413 @@ body{
 }
 
 .iconBtn{
-  width:60px;
-  height:60px;
-  border-radius:18px;
+  width: 64px;
+  height: 64px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:rgba(0,0,0,.25);
-  border:1px solid rgba(255,255,255,.15);
-  color:white;
-  font-size:22px;
-  transition:.2s;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.18);
+  box-shadow: 0 18px 34px rgba(0,0,0,.34);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+  text-decoration:none;
+  color: var(--text);
 }
+.iconBtn i{font-size: 24px}
 .iconBtn:hover{
-  transform:translateY(-3px);
-  border-color:var(--accent);
+  transform: translateY(-3px);
+  border-color: rgba(30,227,138,.42);
+  box-shadow: 0 26px 46px rgba(0,0,0,.48);
+  background: rgba(0,0,0,.26);
 }
+
+.iconBtn.wa{outline: 2px solid rgba(37,211,102,.30)}
+.iconBtn.viber{outline: 2px solid rgba(115,96,242,.30)}
+.iconBtn.tg{outline: 2px solid rgba(42,171,238,.28)}
+.iconBtn.phone{outline: 2px solid rgba(30,227,138,.24)}
 
 /* ADV */
 .advHead{
-  font-size:18px;
-  font-weight:900;
-  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 14px;
 }
+.advHead i{ color: var(--gold); }
 
+.advList{display:grid; gap: 14px; margin-top: 6px;}
 .advItem{
-  background:rgba(0,0,0,.25);
-  padding:14px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);
-  margin-bottom:12px;
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+  padding: 14px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.14);
 }
-.advItem .t{
-  font-weight:900;
-}
-.advItem .s{
-  color:var(--muted);
-  font-size:15px;
-}
+.advItem i{color: var(--accent); margin-top: 2px; font-size: 18px;}
+.advItem .t{font-weight: 900; color: var(--text);}
+.advItem .s{color: var(--muted); font-weight: 800; margin-top: 2px; font-size: 14px;}
 
 /* RATES */
-.ratesCard{
-  background:var(--card);
-  border:1px solid var(--stroke);
-  border-radius:var(--r);
-  padding:20px;
+.ratesCard{ padding:0; }
+.ratesHead{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.pill{
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  color: var(--muted);
+  font-weight: 900;
+  font-size: 13px;
+}
+.dot{
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 8px rgba(30,227,138,.12);
 }
 
 table{
   width:100%;
-  border-collapse:collapse;
+  border-collapse:separate;
+  border-spacing: 0 16px;
+  padding: 16px 20px 22px;
 }
-
 thead th{
   text-align:left;
-  color:var(--muted2);
-  padding:12px 10px;
-  font-size:14px;
+  color: var(--muted2);
+  font-size: 12.5px;
+  font-weight: 900;
+  padding: 0 14px;
+  letter-spacing:.2px;
 }
 
+tbody tr{ background: rgba(0,0,0,.18); box-shadow: 0 16px 30px rgba(0,0,0,.26); }
 tbody td{
-  padding:18px 10px;
-  font-size:20px;
-  font-weight:900;
-  border-top:1px solid rgba(255,255,255,.06);
+  padding: 20px 14px;
+  font-weight: 900;
+  font-size: 20px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
+tbody tr td:first-child{
+  border-left: 1px solid rgba(255,255,255,.06);
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+  width: 44%;
+}
+tbody tr td:last-child{
+  border-right: 1px solid rgba(255,255,255,.06);
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  width: 28%;
+}
+
+.curCell{ display:flex; align-items:center; gap:14px; }
+.flagImg{
+  width: 32px; height: 22px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 12px 20px rgba(0,0,0,.25);
+  background: rgba(0,0,0,.15);
+  flex:0 0 auto;
+}
+.curMeta{ display:flex; flex-direction:column; gap:3px; line-height:1.1; }
+.curMeta .code{ font-size: 18px; letter-spacing:.2px; }
+.curMeta .pair{ font-size: 12px; color: var(--muted2); font-weight: 900; letter-spacing:.3px; }
+.num{ font-variant-numeric: tabular-nums; letter-spacing:.2px; }
 
 footer{
   text-align:center;
-  margin-top:30px;
-  color:var(--muted2);
-  font-size:13px;
+  color: rgba(234,255,243,.55);
+  font-weight: 800;
+  font-size: 12.5px;
+  padding-top: 6px;
 }
 
-/* ===== MOBILE ===== */
-@media(max-width:1000px){
-  .topGrid{grid-template-columns:1fr}
-  .logoTop{width:92vw}
-  .subtitle{font-size:26px}
+/* ===== Responsive ===== */
+@media (max-width: 1200px){
+  .wrap{padding: 22px 16px 28px;}
+  .container{width: min(1100px, calc(100vw - 32px));}
+  .topGrid{grid-template-columns: 1fr;}
+  .logoTop{width: min(300px, 86vw);}
+}
+
+@media (max-width: 600px){
+  :root{ --gap: 16px; }
+
+  .wrap{ padding: 14px 12px 18px; }
+  .container{ width: calc(100vw - 24px); gap: var(--gap); }
+
+  .logoTop{ width: min(280px, 88vw); }
+  .subtitle{ font-size: 22px; }
+
+  .card{ padding: 18px 16px; border-radius: 20px; }
+  .phoneBig{ font-size: 24px; margin-bottom: 12px; }
+
+  /* Соц кнопки 2х2 */
+  .socialRow{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .iconBtn{ width: 100%; height: 54px; border-radius: 16px; }
+  .iconBtn i{ font-size: 22px; }
+
+  /* ===== КУРСЫ РОВНО ===== */
+  thead{ display:none; }
+
+  table{
+    padding: 10px 12px 16px;
+    border-spacing: 0;
+  }
+
+  table, tbody{
+    display:block;
+    width:100%;
+  }
+
+  tbody tr{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    background: rgba(0,0,0,.18);
+    border-radius: 18px;
+    overflow:hidden;
+    margin-bottom: 12px;
+    box-shadow: 0 16px 30px rgba(0,0,0,.26);
+  }
+
+  tbody td{
+    border: none !important;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  tbody tr td:first-child{
+    grid-column: 1 / -1;
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    width: auto !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 0 !important;
+  }
+
+  tbody tr td.buy{ grid-column: 1; text-align:left; }
+  tbody tr td.sell{ grid-column: 2; text-align:right; }
+
+  .buy::before,
+  .sell::before{
+    display:block;
+    font-size:12px;
+    font-weight:900;
+    color: var(--muted2);
+    margin-bottom:4px;
+  }
+  .buy::before{ content:"Купівля"; }
+  .sell::before{ content:"Продаж"; }
 }
 </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="bg" aria-hidden="true"></div>
 
-<div class="hero">
-  <img src="logo.jpg" class="logoTop">
-  <p class="subtitle">Обмін валют</p>
-</div>
+  <div class="wrap">
+    <div class="container">
 
-<div class="topGrid">
+      <!-- HEADER -->
+      <div class="hero">
+        <img class="logoTop" src="logo.jpg" alt="Kur$valut">
+        <p class="subtitle">Обмін валют</p>
+      </div>
 
-  <div class="card">
-    <div class="cardTitle">
-      <i class="fa-solid fa-location-dot"></i> Адреса
-    </div>
-    <div class="kv">
-      <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
-    </div>
+      <div class="topGrid">
 
-    <div style="height:14px"></div>
+        <!-- ADDRESS + WORK -->
+        <div class="card">
+          <div class="cardTitle">
+            <a target="_blank" rel="noopener"
+              href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45"
+              title="Натисніть, щоб переглянути розташування Kur$valut на карті.">
+              <i class="fa-solid fa-location-dot"></i> Адреса
+            </a>
+          </div>
 
-    <div class="cardTitle">
-      <i class="fa-solid fa-clock"></i> Режим роботи
-    </div>
-    <div class="kv">
-      <div><strong>Понеділок – П’ятниця:</strong> 09:00 – 19:00</div>
-      <div><strong>Субота:</strong> 10:00 – 18:00</div>
-      <div><strong>Неділя:</strong> Вихідний</div>
+          <div class="kv">
+            <div><strong>м. Київ, вул. Велика Васильківська, 45</strong></div>
+          </div>
+
+          <div style="height:18px"></div>
+
+          <div class="cardTitle">
+            <i class="fa-solid fa-clock"></i> Режим роботи
+          </div>
+
+          <div class="kv">
+            <div><strong>Понеділок – П’ятниця:</strong> 09:00 – 19:00</div>
+            <div><strong>Субота:</strong> 10:00 – 18:00</div>
+            <div><strong>Неділя:</strong> Вихідний</div>
+          </div>
+
+          <!-- ✅ подсказку убрали (как просил) -->
+        </div>
+
+        <!-- CONTACTS -->
+        <div class="card">
+          <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
+
+          <div class="phoneBig">+380 77 070 0745</div>
+
+          <div class="socialRow">
+            <a class="iconBtn tg" href="https://t.me/kursvalutobmin" target="_blank" rel="noopener" title="Telegram (особисті повідомлення)">
+              <i class="fa-brands fa-telegram"></i>
+            </a>
+            <a class="iconBtn wa" href="https://wa.me/380770700745" target="_blank" rel="noopener" title="WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a class="iconBtn viber" href="viber://chat?number=%2B380770700745" title="Viber">
+              <i class="fa-brands fa-viber"></i>
+            </a>
+            <a class="iconBtn phone" href="tel:+380770700745" title="Подзвонити">
+              <i class="fa-solid fa-phone"></i>
+            </a>
+          </div>
+
+          <!-- ✅ подсказку убрали (как просил) -->
+        </div>
+
+        <!-- ADV -->
+        <div class="card">
+          <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
+          <div class="advList">
+            <div class="advItem">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <div class="t">Кращий курс</div>
+                <div class="s">Тримаємо вигідні умови обміну</div>
+              </div>
+            </div>
+            <div class="advItem">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <div class="t">Вигідно та швидко</div>
+                <div class="s">Швидка відповідь та обслуговування</div>
+              </div>
+            </div>
+            <div class="advItem">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <div class="t">Індивідуальний підхід</div>
+                <div class="s">Підбираємо оптимальний варіант під вас</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RATES -->
+      <div class="card ratesCard">
+        <div class="ratesHead">
+          <span class="pill" id="updatedPill"><span class="dot" aria-hidden="true"></span> Оновлено: —</span>
+        </div>
+
+        <table aria-label="Курси валют">
+          <thead>
+            <tr>
+              <th>Валюта</th>
+              <th>Купівля</th>
+              <th>Продаж</th>
+            </tr>
+          </thead>
+          <tbody id="ratesBody"></tbody>
+        </table>
+      </div>
+
+      <footer>© 2026 Kur$valut • Київ</footer>
     </div>
   </div>
-
-  <div class="card">
-    <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
-    <div class="phoneBig">+380 77 070 0745</div>
-    <div class="socialRow">
-      <a class="iconBtn" href="#"><i class="fa-brands fa-telegram"></i></a>
-      <a class="iconBtn" href="#"><i class="fa-brands fa-whatsapp"></i></a>
-      <a class="iconBtn" href="#"><i class="fa-brands fa-viber"></i></a>
-      <a class="iconBtn" href="#"><i class="fa-solid fa-phone"></i></a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="advHead">⭐ Переваги</div>
-    <div class="advItem">
-      <div class="t">Кращий курс</div>
-      <div class="s">Тримаємо вигідні умови обміну</div>
-    </div>
-    <div class="advItem">
-      <div class="t">Вигідно та швидко</div>
-      <div class="s">Швидка відповідь та обслуговування</div>
-    </div>
-    <div class="advItem">
-      <div class="t">Індивідуальний підхід</div>
-      <div class="s">Підбираємо оптимальний варіант під вас</div>
-    </div>
-  </div>
-
-</div>
-
-<div class="ratesCard">
-  <table>
-    <thead>
-      <tr>
-        <th>Валюта</th>
-        <th>Купівля</th>
-        <th>Продаж</th>
-      </tr>
-    </thead>
-    <tbody id="ratesBody"></tbody>
-  </table>
-</div>
-
-<footer>© 2026 Kur$valut • Київ</footer>
-
-</div>
 
 <script>
+const ORDER = ["USD","EUR","PLN","GBP","CHF","CAD","CZK","TRY"];
+const FLAG_IMG = {
+  USD: "https://flagcdn.com/us.svg",
+  EUR: "https://flagcdn.com/eu.svg",
+  PLN: "https://flagcdn.com/pl.svg",
+  GBP: "https://flagcdn.com/gb.svg",
+  CHF: "https://flagcdn.com/ch.svg",
+  CAD: "https://flagcdn.com/ca.svg",
+  CZK: "https://flagcdn.com/cz.svg",
+  TRY: "https://flagcdn.com/tr.svg",
+};
+
 function fmt(n){
   const num = Number(n);
   if (!Number.isFinite(num)) return "—";
+  // ✅ всегда 2 знака после запятой
   return num.toFixed(2);
 }
 
-const rates = {
-  USD:{buy:42.95,sell:43.25},
-  EUR:{buy:50.95,sell:51.40},
-  PLN:{buy:12.10,sell:12.25}
-};
+async function loadRates(){
+  try{
+    const res = await fetch("rates.json?ts=" + Date.now(), { cache: "no-store" });
+    const data = await res.json();
 
-const tbody = document.getElementById("ratesBody");
+    const tbody = document.getElementById("ratesBody");
+    tbody.innerHTML = "";
 
-for(const cur in rates){
-  const tr=document.createElement("tr");
-  tr.innerHTML=`
-    <td>${cur}</td>
-    <td>${fmt(rates[cur].buy)}</td>
-    <td>${fmt(rates[cur].sell)}</td>
-  `;
-  tbody.appendChild(tr);
+    const keys = ORDER.filter(k => data[k]).concat(
+      Object.keys(data).filter(k => !ORDER.includes(k))
+    );
+
+    for (const cur of keys){
+      const r = data[cur];
+      if (!r) continue;
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>
+          <div class="curCell">
+            <img class="flagImg" src="${FLAG_IMG[cur] || "https://flagcdn.com/un.svg"}" alt="${cur}">
+            <div class="curMeta">
+              <div class="code">${cur}</div>
+              <div class="pair">UAH</div>
+            </div>
+          </div>
+        </td>
+        <td class="buy"><span class="num">${fmt(r.buy)}</span></td>
+        <td class="sell"><span class="num">${fmt(r.sell)}</span></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,"0");
+    const mm = String(now.getMinutes()).padStart(2,"0");
+    document.getElementById("updatedPill").innerHTML =
+      `<span class="dot" aria-hidden="true"></span> Оновлено: ${hh}:${mm}`;
+  }catch(e){
+    console.error(e);
+  }
 }
-</script>
 
+loadRates();
+setInterval(loadRates, 30000);
+</script>
 </body>
 </html>
