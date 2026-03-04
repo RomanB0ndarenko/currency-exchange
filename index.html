@@ -37,8 +37,8 @@
   --r: 26px;
   --gap: 22px;
 
-  --pad: 34px;           /* общий отступ от краёв */
-  --maxw: 1920px;        /* фулл-хд контейнер */
+  --pad: 34px;
+  --maxw: 1920px;
 }
 
 *{box-sizing:border-box}
@@ -87,10 +87,10 @@ body{
   backdrop-filter: blur(12px);
 }
 
-/* TOP GRID: слева логотип+адрес, справа контакти+переваги */
+/* TOP GRID: слева логотип, справа адреса+контакти по центру */
 .topLayout{
   display:grid;
-  grid-template-columns: 560px 1fr; /* слева фикс под логотип */
+  grid-template-columns: 560px 1fr;
   gap: var(--gap);
   align-items: start;
 }
@@ -102,9 +102,7 @@ body{
   gap: var(--gap);
 }
 
-.brandCard{
-  padding: 18px;
-}
+.brandCard{ padding: 18px; }
 .brandLogo{
   width: 100%;
   height:auto;
@@ -123,11 +121,20 @@ body{
   text-shadow: 0 14px 34px rgba(0,0,0,.60);
 }
 
-/* RIGHT COLUMN */
+/* RIGHT COLUMN (центрируем блоки) */
 .rightCol{
   display:flex;
   flex-direction:column;
   gap: var(--gap);
+}
+.centerCard{
+  text-align:center;
+}
+.centerCard .cardTitle{
+  justify-content:center;
+}
+.centerCard .socialRow{
+  justify-content:center;
 }
 
 /* Titles */
@@ -196,38 +203,39 @@ body{
 .iconBtn.tg{outline: 2px solid rgba(42,171,238,.24)}
 .iconBtn.phone{outline: 2px solid rgba(30,227,138,.20)}
 
-/* ADV (больше и "длиннее" вниз) */
+/* ПЕРЕВАГИ — теперь полный блок на всю ширину */
+.advCard{ padding: 18px; }
 .advHead{
   display:flex;
   align-items:center;
   gap:10px;
   font-weight: 900;
-  font-size: 20px;          /* увеличили */
-  margin-bottom: 16px;
+  font-size: 20px;
+  margin-bottom: 14px;
 }
 .advHead i{ color: var(--gold); }
 
-.advList{
+.advRow{
   display:grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  margin-top: 6px;
 }
 
 .advItem{
   display:flex;
   gap: 14px;
   align-items:flex-start;
-  padding: 18px 16px;       /* выше карточки */
+  padding: 18px 16px;
   border-radius: 18px;
   border: 1px solid var(--stroke2);
   background: rgba(0,0,0,.18);
-  min-height: 92px;         /* делает блок визуально длиннее */
+  min-height: 96px;
 }
 
 .advItem i{
   color: var(--accent);
   margin-top: 3px;
-  font-size: 20px;          /* чуть крупнее */
+  font-size: 20px;
 }
 
 .advItem .t{
@@ -243,7 +251,7 @@ body{
   font-size: 14.5px;
 }
 
-/* RATES — внизу на всю ширину */
+/* RATES */
 .ratesCard{ padding:0; overflow:hidden; }
 .ratesHead{
   display:flex;
@@ -340,10 +348,10 @@ footer{
 
 @media (max-width: 1100px){
   .topLayout{ grid-template-columns: 1fr; }
-  .leftCol, .rightCol{ width:100%; }
   .brandCard{ padding: 16px; }
   .subtitle{ text-align:center; }
   .brandLogo{ border-radius: 16px; }
+  .advRow{ grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px){
@@ -366,7 +374,7 @@ footer{
   .iconBtn{ width: 100%; height: 54px; border-radius: 16px; }
   .iconBtn i{ font-size: 22px; }
 
-  /* мобильные курсы — ровно 2 колонки */
+  /* курсы — мобилка 2 колонки */
   thead{ display:none; }
   table{ padding: 10px 12px 16px; border-spacing: 0; }
   table, tbody{ display:block; width:100%; }
@@ -419,16 +427,17 @@ footer{
   <div class="wrap">
     <div class="container">
 
-      <!-- ВЕРХ: слева логотип, справа контакти+переваги -->
+      <!-- ВЕРХ: слева логотип, справа адреса + сразу ниже контакты (по центру) -->
       <div class="topLayout">
         <div class="leftCol">
           <div class="card brandCard">
-            <!-- РЕКОМЕНДАЦИЯ: лучше заменить на logo.png с прозрачным фоном -->
             <img class="brandLogo" src="logo.jpg" alt="Kur$valut">
             <p class="subtitle">Обмін валют</p>
           </div>
+        </div>
 
-          <div class="card">
+        <div class="rightCol">
+          <div class="card centerCard">
             <div class="cardTitle">
               <a target="_blank" rel="noopener"
                  href="https://www.google.com/maps/search/?api=1&query=Київ+Велика+Васильківська+45"
@@ -453,10 +462,8 @@ footer{
               <div><strong>Неділя:</strong> Вихідний</div>
             </div>
           </div>
-        </div>
 
-        <div class="rightCol">
-          <div class="card">
+          <div class="card centerCard">
             <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
             <div class="phoneBig">+380 77 070 0745</div>
 
@@ -475,31 +482,34 @@ footer{
               </a>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="card">
-            <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
-            <div class="advList">
-              <div class="advItem">
-                <i class="fa-solid fa-circle-check"></i>
-                <div>
-                  <div class="t">Кращий курс</div>
-                  <div class="s">Тримаємо вигідні умови обміну</div>
-                </div>
-              </div>
-              <div class="advItem">
-                <i class="fa-solid fa-circle-check"></i>
-                <div>
-                  <div class="t">Вигідно та швидко</div>
-                  <div class="s">Швидка відповідь та обслуговування</div>
-                </div>
-              </div>
-              <div class="advItem">
-                <i class="fa-solid fa-circle-check"></i>
-                <div>
-                  <div class="t">Індивідуальний підхід</div>
-                  <div class="s">Підбираємо оптимальний варіант під вас</div>
-                </div>
-              </div>
+      <!-- ПЕРЕВАГИ — вниз, на всю ширину как курсы -->
+      <div class="card advCard">
+        <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
+        <div class="advRow">
+          <div class="advItem">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+              <div class="t">Кращий курс</div>
+              <div class="s">Тримаємо вигідні умови обміну</div>
+            </div>
+          </div>
+
+          <div class="advItem">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+              <div class="t">Вигідно та швидко</div>
+              <div class="s">Швидка відповідь та обслуговування</div>
+            </div>
+          </div>
+
+          <div class="advItem">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+              <div class="t">Індивідуальний підхід</div>
+              <div class="s">Підбираємо оптимальний варіант під вас</div>
             </div>
           </div>
         </div>
@@ -543,7 +553,7 @@ const FLAG_IMG = {
 function fmt(n){
   const num = Number(n);
   if (!Number.isFinite(num)) return "—";
-  return num.toFixed(2); // всегда 2 знака (43.00)
+  return num.toFixed(2);
 }
 
 async function loadRates(){
