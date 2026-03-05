@@ -126,7 +126,16 @@ body{
   display:flex;
   flex-direction:column;
   gap: var(--gap);
+
+  /* === ДОБАВЛЕНО: делаем "узкий блок" по центру === */
+  align-items: center;
 }
+
+/* === ДОБАВЛЕНО: ограничиваем ширину карточек справа === */
+.rightCol > .card{
+  width: min(760px, 100%);
+}
+
 .centerCard{
   text-align:center;
 }
@@ -352,6 +361,10 @@ footer{
   .subtitle{ text-align:center; }
   .brandLogo{ border-radius: 16px; }
   .advRow{ grid-template-columns: 1fr; }
+
+  /* === ДОБАВЛЕНО: на мобилке снова на всю ширину === */
+  .rightCol{ align-items: stretch; }
+  .rightCol > .card{ width: 100%; }
 }
 
 @media (max-width: 600px){
