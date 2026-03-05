@@ -87,7 +87,7 @@ body{
   backdrop-filter: blur(12px);
 }
 
-/* TOP GRID: слева логотип, справа адреса+контакти по центру */
+/* TOP GRID: слева логотип, справа блоки */
 .topLayout{
   display:grid;
   grid-template-columns: 560px 1fr;
@@ -121,19 +121,15 @@ body{
   text-shadow: 0 14px 34px rgba(0,0,0,.60);
 }
 
-/* RIGHT COLUMN (центрируем блоки) */
+/* RIGHT COLUMN: узкий центрированный блок */
 .rightCol{
   display:flex;
   flex-direction:column;
   gap: var(--gap);
-
-  /* === ДОБАВЛЕНО: делаем "узкий блок" по центру === */
-  align-items: center;
+  align-items: center;            /* центрируем */
 }
-
-/* === ДОБАВЛЕНО: ограничиваем ширину карточек справа === */
 .rightCol > .card{
-  width: min(760px, 100%);
+  width: min(760px, 100%);        /* узкая ширина, чтобы было аккуратно */
 }
 
 .centerCard{
@@ -212,7 +208,70 @@ body{
 .iconBtn.tg{outline: 2px solid rgba(42,171,238,.24)}
 .iconBtn.phone{outline: 2px solid rgba(30,227,138,.20)}
 
-/* ПЕРЕВАГИ — теперь полный блок на всю ширину */
+/* ====== ДОБАВЛЕНО: заполнение пустоты справа ====== */
+.fillGrid{
+  width: min(760px, 100%);
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+.fillCard{
+  padding: 18px;
+}
+.miniTitle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.calcRow{
+  display:flex;
+  gap:10px;
+  margin-top: 10px;
+}
+.inp, .sel{
+  width:100%;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  color: var(--text);
+  outline:none;
+  font-weight: 800;
+}
+.calcOut{
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.16);
+  color: var(--muted);
+  font-weight: 900;
+  text-align:center;
+}
+.mapBox{
+  width:100%;
+  height: 180px;
+  border-radius: 16px;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.18);
+}
+.mapBox iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  filter: saturate(1.05) contrast(1.05);
+}
+/* на узких экранах блоки в колонку */
+@media (max-width: 900px){
+  .fillGrid{ grid-template-columns: 1fr; }
+  .mapBox{ height: 220px; }
+}
+
+/* ПЕРЕВАГИ — полный блок на всю ширину */
 .advCard{ padding: 18px; }
 .advHead{
   display:flex;
@@ -229,7 +288,6 @@ body{
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
-
 .advItem{
   display:flex;
   gap: 14px;
@@ -240,19 +298,16 @@ body{
   background: rgba(0,0,0,.18);
   min-height: 96px;
 }
-
 .advItem i{
   color: var(--accent);
   margin-top: 3px;
   font-size: 20px;
 }
-
 .advItem .t{
   font-weight: 900;
   color: var(--text);
   font-size: 16px;
 }
-
 .advItem .s{
   color: var(--muted);
   font-weight: 800;
@@ -362,9 +417,10 @@ footer{
   .brandLogo{ border-radius: 16px; }
   .advRow{ grid-template-columns: 1fr; }
 
-  /* === ДОБАВЛЕНО: на мобилке снова на всю ширину === */
+  /* на мобилке снова на всю ширину */
   .rightCol{ align-items: stretch; }
   .rightCol > .card{ width: 100%; }
+  .fillGrid{ width: 100%; }
 }
 
 @media (max-width: 600px){
@@ -440,7 +496,7 @@ footer{
   <div class="wrap">
     <div class="container">
 
-      <!-- ВЕРХ: слева логотип, справа адреса + сразу ниже контакты (по центру) -->
+      <!-- ВЕРХ: слева логотип, справа адреса + контакты + заполнение -->
       <div class="topLayout">
         <div class="leftCol">
           <div class="card brandCard">
@@ -494,6 +550,61 @@ footer{
                 <i class="fa-solid fa-phone"></i>
               </a>
             </div>
+          </div>
+
+          <!-- ДОБАВЛЕНО: заполнение пустоты -->
+          <div class="fillGrid">
+
+            <!-- Калькулятор -->
+            <div class="card fillCard centerCard">
+              <div class="miniTitle">
+                <i class="fa-solid fa-calculator" style="color:var(--gold)"></i> Калькулятор
+              </div>
+
+              <div class="calcRow">
+                <input id="calcAmount" class="inp" type="number" inputmode="decimal" placeholder="Сума" value="100">
+                <select id="calcCur" class="sel">
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                  <option value="PLN">PLN</option>
+                  <option value="GBP">GBP</option>
+                  <option value="CHF">CHF</option>
+                  <option value="CAD">CAD</option>
+                  <option value="CZK">CZK</option>
+                  <option value="TRY">TRY</option>
+                </select>
+              </div>
+
+              <div class="calcRow">
+                <select id="calcType" class="sel">
+                  <option value="buy">Купівля (ви продаєте валюту)</option>
+                  <option value="sell">Продаж (ви купуєте валюту)</option>
+                </select>
+              </div>
+
+              <div id="calcOut" class="calcOut">≈ — UAH</div>
+            </div>
+
+            <!-- Мапа -->
+            <div class="card fillCard centerCard">
+              <div class="miniTitle">
+                <i class="fa-solid fa-map-location-dot" style="color:var(--accent)"></i> Мапа
+              </div>
+
+              <div class="mapBox">
+                <iframe
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Київ%20Велика%20Васильківська%2045&output=embed">
+                </iframe>
+              </div>
+
+              <div style="height:10px"></div>
+              <div style="color:var(--muted);font-weight:900;">
+                Велика Васильківська, 45
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -569,10 +680,35 @@ function fmt(n){
   return num.toFixed(2);
 }
 
+/* ===== КАЛЬКУЛЯТОР ===== */
+function recalc(){
+  const out = document.getElementById("calcOut");
+  const amount = Number(document.getElementById("calcAmount")?.value || 0);
+  const cur = document.getElementById("calcCur")?.value;
+  const type = document.getElementById("calcType")?.value;
+
+  if (!window.__rates || !window.__rates[cur] || !Number.isFinite(Number(window.__rates[cur][type]))) {
+    if (out) out.textContent = "≈ — UAH";
+    return;
+  }
+
+  const rate = Number(window.__rates[cur][type]);
+  const uah = amount * rate;
+  if (out) out.textContent = `≈ ${uah.toFixed(2)} UAH`;
+}
+
+["calcAmount","calcCur","calcType"].forEach(id=>{
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("input", recalc);
+});
+
 async function loadRates(){
   try{
     const res = await fetch("rates.json?ts=" + Date.now(), { cache: "no-store" });
     const data = await res.json();
+
+    /* отдаём курсы калькулятору */
+    window.__rates = data;
 
     const tbody = document.getElementById("ratesBody");
     tbody.innerHTML = "";
@@ -607,6 +743,10 @@ async function loadRates(){
     const mm = String(now.getMinutes()).padStart(2,"0");
     document.getElementById("updatedPill").innerHTML =
       `<span class="dot" aria-hidden="true"></span> Оновлено: ${hh}:${mm}`;
+
+    /* пересчёт после обновления курса */
+    recalc();
+
   }catch(e){
     console.error(e);
   }
