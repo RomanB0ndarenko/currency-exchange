@@ -87,12 +87,12 @@ body{
   backdrop-filter: blur(12px);
 }
 
-/* TOP GRID */
+/* TOP GRID — ПРОПОРЦИОНАЛЬНО */
 .topLayout{
   display:grid;
-  grid-template-columns: 800px 1fr;
-  gap: var(--gap);
-  align-items: start;
+  grid-template-columns: 680px 1fr; /* пропорционально */
+  gap: 26px;                        /* больше воздуха */
+  align-items: stretch;             /* колонки ровные по высоте */
 }
 
 /* LEFT COLUMN */
@@ -102,18 +102,23 @@ body{
   gap: var(--gap);
 }
 
-.brandCard{ padding: 18px; }
+.brandCard{
+  padding: 18px;
+  text-align:center;                /* центр и логотип и подпись */
+}
+
+/* ЛОГО — РОВНЫЙ И НЕ РАЗДУВАЕТ СТРАНИЦУ */
 .brandLogo{
   width: 100%;
-  height:auto;
+  height: 420px;                    /* фикс высота */
+  object-fit: contain;              /* не обрезает */
   display:block;
   border-radius: 20px;
-  padding: 18px;
-  text-align: center;
   user-select:none;
   -webkit-user-drag:none;
   filter: drop-shadow(0 26px 90px rgba(0,0,0,.72));
 }
+
 .subtitle{
   margin: 14px 0 4px;
   font-weight: 900;
@@ -121,24 +126,32 @@ body{
   letter-spacing:.35px;
   color: var(--gold);
   text-shadow: 0 14px 34px rgba(0,0,0,.60);
-
-  text-align: center;   /* ← ВОТ ЭТО */
-}
+  text-align: center;
 }
 
-/* RIGHT COLUMN — ВО ВСЮ ДЛИНУ (ширину колонки) */
+/* RIGHT COLUMN — ВО ВСЮ ДЛИНУ + БОЛЬШЕ ПРОМЕЖУТКА */
 .rightCol{
   display:flex;
   flex-direction:column;
-  gap: 26px;   /* было меньше */
+  gap: 26px;                /* расстояние между Адреса и Контакти */
   align-items: stretch;
 }
+
+/* чуть красивее внутренние отступы справа */
+.rightCol .card{
+  padding: 26px 26px;
 }
 
 /* Центрируем только контент */
 .centerCard{ text-align:center; }
 .centerCard .cardTitle{ justify-content:center; }
 .centerCard .socialRow{ justify-content:center; }
+
+/* чтобы текст адреса/режима был аккуратный и не на всю ширину */
+.centerCard .kv{
+  max-width: 620px;
+  margin: 0 auto;
+}
 
 /* Titles */
 .cardTitle{
@@ -172,7 +185,7 @@ body{
   font-size: 34px;
   font-weight: 900;
   letter-spacing:.3px;
-  margin: 0 0 16px;
+  margin: 6px 0 18px;   /* чуть красивее */
   word-break: break-word;
 }
 .socialRow{
@@ -285,7 +298,7 @@ tbody tr td:last-child{
 .curMeta .pair{ font-size: 12px; color: var(--muted2); font-weight: 900; letter-spacing:.3px; }
 .num{ font-variant-numeric: tabular-nums; letter-spacing:.2px; }
 
-/* ПЕРЕВАГИ — будут в самом низу */
+/* ПЕРЕВАГИ — самый низ */
 .advCard{ padding: 18px; }
 .advHead{
   display:flex;
@@ -340,16 +353,17 @@ footer{
 /* ===== Responsive ===== */
 @media (max-width: 1280px){
   :root{ --pad: 18px; --gap: 18px; }
-  .topLayout{ grid-template-columns: 520px 1fr; }
+  .topLayout{ grid-template-columns: 560px 1fr; }
   .subtitle{ font-size: 26px; }
   .phoneBig{ font-size: 28px; }
+  .brandLogo{ height: 380px; }
 }
 
 @media (max-width: 1100px){
   .topLayout{ grid-template-columns: 1fr; }
   .brandCard{ padding: 16px; }
   .subtitle{ text-align:center; }
-  .brandLogo{ border-radius: 16px; }
+  .brandLogo{ border-radius: 16px; height:auto; } /* важно */
   .advRow{ grid-template-columns: 1fr; }
 }
 
@@ -436,7 +450,6 @@ footer{
         </div>
 
         <div class="rightCol">
-          <!-- Адреса / Режим роботи — по центру, но карточка во всю ширину колонки -->
           <div class="card centerCard">
             <div class="cardTitle">
               <a target="_blank" rel="noopener"
@@ -463,7 +476,6 @@ footer{
             </div>
           </div>
 
-          <!-- Контакти — по центру, но карточка во всю ширину колонки -->
           <div class="card centerCard">
             <div class="cardTitle"><i class="fa-solid fa-phone"></i> Контакти</div>
             <div class="phoneBig">+380 77 070 0745</div>
@@ -504,7 +516,7 @@ footer{
         </table>
       </div>
 
-      <!-- ПЕРЕВАГИ — САМЫЙ НИЗ (ПОД КУРСАМИ) -->
+      <!-- ПЕРЕВАГИ — САМЫЙ НИЗ -->
       <div class="card advCard">
         <div class="advHead"><i class="fa-solid fa-star"></i> Переваги</div>
         <div class="advRow">
